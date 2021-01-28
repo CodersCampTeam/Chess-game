@@ -4,9 +4,9 @@
   "description": "**UWAGA! Zaczynając pracę nad projektem — nie róbcie forka.\r Jedna osoba z zespołu (np. Mentor) powinna użyć przycisku `Use this template` i dodać innych członków zespołu jako Collaborators do tego repozytorium.\r Mentorzy mogą dowolnie zmieniać zakres projektu lub zdecydować się na zupełnie inny temat.**",
   "main": "dist/bundle.js",
   "scripts": {
-    "start": "webpack serve --open",
-    "build": "webpack",
-    "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"styles/**/*.scss\" \"test/**/*.js\"",
+    "start": "webpack serve --open --config webpack.development.config.js",
+    "build": "webpack --config webpack.production.config.js",
+    "format": "prettier --write \"src/**/*.ts\" \"styles/**/*.scss\" \"test/**/*.js\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage"

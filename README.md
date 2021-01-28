@@ -35,21 +35,45 @@ When you click merge and squash button you will get a window with all commit mes
 #### Renaming last commit / commiting minor changes
 Generally it is discouraded to commit with --force, but if you made a typo or want to push really small fix like syntactic sugar you can type:
 ```
-git commit --amend
+$ git commit --amend
 ```
 Change our commit msg if you want or no, and save it. Then type:
 ```
-git push --force
+$ git push --force
 ```
 
-#### Other tips
+#### Other git related tips
 * One task shall do one thing. Avoid creating combo commits.
 * Fetch *main* branch regulary. It will help you to avoid conflicts.
 
 ``` 
-> git checkout main
-> git fetch 
+$ git checkout main
+$ git fetch 
 ```
+
+#### Visual Studio Code settings.json
+Open your settings.json (CTRL+SHIFT+P and type "preferences: open settings (JSON)") and paste following configuration
+
+```
+"editor.formatOnSave": true,
+"editor.formatOnPaste": true,
+
+"editor.codeActionsOnSave": {
+   "source.fixAll.eslint": true
+},
+
+"[typescript]": {
+   "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"[scss]": {
+   "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"[javascript]": {
+   "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+```
+
+---
 
 
 **UWAGA! Zaczynając pracę nad projektem — nie róbcie forka.

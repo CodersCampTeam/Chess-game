@@ -1,7 +1,7 @@
 {
   "name": "chess-game",
   "version": "1.0.0",
-  "description": "**UWAGA! Zaczynając pracę nad projektem — nie róbcie forka.\r Jedna osoba z zespołu (np. Mentor) powinna użyć przycisku `Use this template` i dodać innych członków zespołu jako Collaborators do tego repozytorium.\r Mentorzy mogą dowolnie zmieniać zakres projektu lub zdecydować się na zupełnie inny temat.**",
+  "description": "",
   "main": "dist/bundle.js",
   "scripts": {
     "start": "webpack serve --open --config webpack.development.config.js",

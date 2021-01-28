@@ -71,6 +71,9 @@ Open your settings.json (CTRL+SHIFT+P and type "preferences: open settings (JSON
 "[javascript]": {
    "editor.defaultFormatter": "esbenp.prettier-vscode"
 },
+"[html]": {
+   "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
 ```
 
 ---

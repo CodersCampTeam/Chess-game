@@ -1,3 +1,57 @@
+### Tips for development
+#### Branch naming convention
+Use task number to prefix your branch name
+eg.
+```
+1-readme-git-tips
+```
+
+#### Creating final commit message
+
+If you have a task "Update readme.md with workflow tips #20", then the #20 is the number of the task.
+* Single line shall be max 80 chars long.
+* Add additional info about changes if they are not know only by reading commit name. Add new line between first line and extra info list.
+* Add issue number to commit msg. This will create hyperlink.
+
+Eg. commit: 
+```
+[#20] Update readme.md with workflow tips
+
+    * Renamed file text.txt into newName.txt
+```
+#### Merging your *feature branch* to *main*
+
+* If you have > 1 commits on your branch use "squash commits" method to merge into *main*. Commit message shall be as described in section above. 
+
+When you click merge and squash button you will get a window with all commit messages.
+**REMOVE ASTERISK** and pick the message you want to preserve.
+```
+// Example squash commit window
+* [#16] Star Wars logo
+
+* [#16] Fixed imports after review 1
+```
+
+#### Renaming last commit / commiting minor changes
+Generally it is discouraded to commit with --force, but if you made a typo or want to push really small fix like syntactic sugar you can type:
+```
+git commit --amend
+```
+Change our commit msg if you want or no, and save it. Then type:
+```
+git push --force
+```
+
+#### Other tips
+* One task shall do one thing. Avoid creating combo commits.
+* Fetch *main* branch regulary. It will help you to avoid conflicts.
+
+``` 
+> git checkout main
+> git fetch 
+```
+
+
 **UWAGA! Zaczynając pracę nad projektem — nie róbcie forka.
 Jedna osoba z zespołu (np. Mentor) powinna użyć przycisku `Use this template` i dodać innych członków zespołu jako Collaborators do tego repozytorium.
 Mentorzy mogą dowolnie zmieniać zakres projektu lub zdecydować się na zupełnie inny temat.**

@@ -1,0 +1,21 @@
+$base-black: #000000;
+$base-dark-blue: #14213d;
+$base-light-orange: #ffb703;
+$base-orange: #fca311;
+$base-light-gray: #e5e5e5;
+$base-white: #ffffff;
+$border-radius: 15px;
+$box-shadow-color: $base-orange;
+$box-shadow-simple: 0px 4px 4px rgba(0, 0, 0, 0.25);
+$box-shadow-property: var($box-shadow-simple), 4px 4px 40px $base-orange, inset 4px 5px 4px rgba(0, 0, 0, 0.5);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+h1 {
+    color: $base-light-orange;
+}

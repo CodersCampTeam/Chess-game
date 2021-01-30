@@ -19,3 +19,10 @@ $box-shadow-property: var($box-shadow-simple), 4px 4px 40px $base-orange, inset 
 h1 {
     color: $base-light-orange;
 }
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

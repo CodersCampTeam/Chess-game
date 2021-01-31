@@ -1,4 +1,3 @@
-import { rootCertificates } from 'tls';
 import { Square } from '../models/Square';
 import { GameEngine } from '../services/game-logic/GameEngine';
 import { BoardView } from '../views/BoardView';

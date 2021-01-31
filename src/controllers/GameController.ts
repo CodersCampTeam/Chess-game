@@ -1,5 +1,5 @@
 import { GameEngine } from '../services/game-logic/GameEngine';
-import { BoardView } from '../views/Board';
+import { BoardView } from '../views/BoardView';
 
 class GameController {
     boardView: BoardView;
@@ -12,7 +12,7 @@ class GameController {
     }
 
     displayBoard(): void {
-        this.boardView.render();
+        this.boardView.render(this.gameEngine.getGameState());
     }
 }
 

@@ -12,6 +12,7 @@ class Board extends Array {
             this[i] = new Array(size);
         }
         this.setup();
+        console.log(this);
     }
 
     public setup(): void {

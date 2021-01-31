@@ -8,6 +8,10 @@ class GameEngine {
 
         console.log(this);
     }
+
+    getGameState(): Board {
+        return this.board;
+    }
 }
 
 export { GameEngine };

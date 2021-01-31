@@ -9,4 +9,4 @@ class Move {
     isSpecial: boolean;
 }
 
-export { Square };
+export { Square, Move };

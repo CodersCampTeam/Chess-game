@@ -1,4 +1,4 @@
-import { Square } from '../../../models/Square';
+import { Move, Square } from '../../../models/Square';
 
 abstract class Piece {
     position: Square;
@@ -7,7 +7,7 @@ abstract class Piece {
         this.position = startingPosition;
     }
 
-    abstract getPossibleMoves(): void;
+    abstract getPossibleMoves(): Move[];
 }
 
 interface PieceConstructor {

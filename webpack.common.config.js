@@ -35,5 +35,5 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
-    plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin()]
+    plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: './src/index.html', scriptLoading: 'defer' })]
 };

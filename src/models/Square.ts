@@ -1,6 +1,5 @@
 class Square {
-    x!: number;
-    y!: number;
+    constructor(public row: number, public column: number) {}
 }
 
 export { Square };

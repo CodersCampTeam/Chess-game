@@ -1,6 +1,6 @@
 class Square {
-    x: number;
-    y: number;
+    x!: number;
+    y!: number;
 }
 
 export { Square };

@@ -1,35 +1,45 @@
+import { Square } from '../models/Square';
 import { Board } from '../services/game-logic/Board';
 import { Helpers } from '../utils/Helpers';
-import { PieceMapper } from '../utils/PieceMapper';
+import { SquareView } from './SquareView';
 
 class BoardView {
-    render(state: Board): void {
+    squareViews: SquareView[];
+
+    constructor(private handleBoardClick: (square: Square) => void) {
+        this.squareViews = this.createSquares();
         const board = document.createElement(`div`);
         board.id = 'board';
-        board.innerHTML = this.getSquares();
-        document.querySelector('#app').appendChild(board);
+        this.squareViews.forEach(({ element }) => board.appendChild(element));
 
+        document.querySelector('#app')?.appendChild(board);
+    }
+
+    render(state: Board): void {
         this.placePieces(state);
     }
 
-    placePieces(state: Board): void {
-        Helpers.useNestedForLoop((x, y) => {
-            const piece = state.getPiece({ x, y });
-            if (piece) {
-                const square = document.querySelector(`[data-row='${x}'][data-column='${y}']`);
-                const wrapper = document.createElement('span');
-                wrapper.classList.add(piece.side);
-                wrapper.innerHTML = PieceMapper.getIcon(piece.name);
-                square.appendChild(wrapper);
-            }
+    selectSquares(squares: Square[]): void {
+        squares.forEach(({ x, y }) =>
+            this.squareViews.filter(({ row, column }) => row === x && column === y).forEach((square) => square.select())
+        );
+    }
+
+    deselectSquares(): void {
+        this.squareViews.forEach((square) => square.deselect());
+    }
+
+    private placePieces(state: Board): void {
+        this.squareViews.forEach((square) => {
+            const piece = state.getPiece({ x: square.row, y: square.column });
+            square.update(piece);
         });
     }
 
-    private getSquares() {
-        let squares = '';
+    private createSquares() {
+        const squares: SquareView[] = [];
         Helpers.useNestedForLoop((i, j) => {
-            const color = i % 2 === j % 2 ? 'light' : 'dark';
-            squares += `<div data-row="${i}" data-column="${j}" class="square ${color}"></div>`;
+            squares.push(new SquareView(i, j, this.handleBoardClick));
         });
         return squares;
     }

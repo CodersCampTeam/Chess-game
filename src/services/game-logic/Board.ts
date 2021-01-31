@@ -4,7 +4,7 @@ import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Piece';
 
 class Board {
-    private state: Array<Array<Piece>>;
+    private state: Array<Array<Piece | null>>;
 
     constructor() {
         const size = 8;
@@ -16,8 +16,14 @@ class Board {
         this.setup();
     }
 
-    public getPiece({ x, y }: Square): Piece {
+    public getPiece({ x, y }: Square): Piece | null {
         return this.state[x][y];
+    }
+
+    public movePiece(location: Square, destination: Square): void {
+        this.state[location.x][location.y]?.move(destination);
+        this.state[destination.x][destination.y] = this.state[location.x][location.y];
+        this.state[location.x][location.y] = null;
     }
 
     private setup(): void {

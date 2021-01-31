@@ -3,7 +3,7 @@ import { Square } from '../../../models/Square';
 
 abstract class Piece {
     position: Square;
-    name: PieceNames;
+    name!: PieceNames;
     side: Sides;
 
     constructor(startingPosition: Square, side: Sides) {
@@ -11,7 +11,11 @@ abstract class Piece {
         this.side = side;
     }
 
-    abstract getPossibleMoves(): void;
+    move(destination: Square): void {
+        this.position = destination;
+    }
+
+    abstract getPossibleMoves(): Square[];
 }
 
 export { Piece };

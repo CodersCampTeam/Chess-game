@@ -6,6 +6,7 @@
     "preserveConstEnums": true,
     "removeComments": true,
     "target": "es5",
+    "strict": true,
     "allowJs": true,
     "sourceMap": true,
   },

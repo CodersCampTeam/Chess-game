@@ -1,4 +1,5 @@
 import { Square } from '../models/Square';
+import { ColorsEnum } from '../services/game-logic/ColorsEnum';
 import { Piece } from '../services/game-logic/pieces/Piece';
 import { PieceMapper } from '../utils/PieceMapper';
 
@@ -15,7 +16,7 @@ class SquareView {
         this.element.dataset.column = String(column);
 
         this.element.addEventListener('click', () => {
-            handleBoardClick({ x: this.row, y: this.column });
+            handleBoardClick({ row: this.row, column: this.column });
         });
     }
 
@@ -30,7 +31,8 @@ class SquareView {
 
     addPiece(piece: Piece): void {
         const wrapper = document.createElement('span');
-        wrapper.classList.add(piece.side);
+        const color = ColorsEnum[piece.color].toLowerCase();
+        wrapper.classList.add(color);
         wrapper.innerHTML = PieceMapper.getIcon(piece.name);
         this.element.appendChild(wrapper);
     }

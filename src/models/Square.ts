@@ -1,6 +1,11 @@
 class Square {
-    x!: number;
-    y!: number;
+    row: number;
+    column: number;
+
+    constructor(row: number, column: number) {
+        this.row = row;
+        this.column = column;
+    }
 }
 
 export { Square };

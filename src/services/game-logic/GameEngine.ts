@@ -1,3 +1,4 @@
+import { Move } from '../../models/Move';
 import { Square } from '../../models/Square';
 import { Board } from './Board';
 
@@ -8,7 +9,7 @@ class GameEngine {
         this.board = new Board();
     }
 
-    getLegalMoves = (square: Square): Square[] => {
+    getLegalMoves = (square: Square): Move[] => {
         const piece = this.board.getPiece(square);
         return piece?.getPossibleMoves() ?? [];
     };

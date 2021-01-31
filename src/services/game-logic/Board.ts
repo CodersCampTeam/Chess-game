@@ -1,38 +1,57 @@
 import { Sides } from '../../enums';
 import { Square } from '../../models/Square';
+import { ColorsEnum } from './ColorsEnum';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Piece';
 
 class Board {
+    public static BOARD_SIZE: number = 8;
+
     private state: Array<Array<Piece | null>>;
 
     constructor() {
-        const size = 8;
-        this.state = new Array(size);
-        for (let i = 0; i < this.state.length; i++) {
-            this.state[i] = new Array(size);
+        this.state = new Array(Board.BOARD_SIZE);
+        for (let row = 0; row < Board.BOARD_SIZE; ++row) {
+            this.state[row] = new Array(Board.BOARD_SIZE);
         }
 
         this.setup();
     }
 
-    public getPiece({ x, y }: Square): Piece | null {
-        return this.state[x][y];
+    public getPiece({ row, column }: Square): Piece | null {
+        return this.state[row][column];
     }
 
     public movePiece(location: Square, destination: Square): void {
-        this.state[location.x][location.y]?.move(destination);
-        this.state[destination.x][destination.y] = this.state[location.x][location.y];
-        this.state[location.x][location.y] = null;
+        this.state[location.row][location.column]?.move(destination);
+        this.state[destination.row][destination.column] = this.state[location.row][location.column];
+        this.state[location.row][location.column] = null;
     }
 
     private setup(): void {
-        this.addPiece(new Pawn({ x: 6, y: 0 }, Sides.WHITE));
-        this.addPiece(new Pawn({ x: 6, y: 1 }, Sides.WHITE));
+        this.setupPawns();
     }
 
     private addPiece(piece: Piece) {
-        this.state[piece.position.x][piece.position.y] = piece;
+        this.state[piece.position.row][piece.position.column] = piece;
+    }
+
+    /** @method
+     * @name setupPawns
+     * @description Setups both white and black Pawn pieces on Board
+     * @returns void
+     */
+    private setupPawns(): void {
+        // Assume that white plays on bottom
+        [
+            { row: 1, color: ColorsEnum.Black },
+            { row: 6, color: ColorsEnum.White }
+        ].forEach((obj) => {
+            for (let column = 0; column < Board.BOARD_SIZE; ++column) {
+                let pawn = new Pawn({ column: column, row: obj.row }, obj.color);
+                this.addPiece(pawn);
+            }
+        });
     }
 }
 

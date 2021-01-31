@@ -20,9 +20,13 @@ class BoardView {
 
     placePieces(state: Board): void {
         forEach((i, j) => {
-            const square = document.querySelector(`[data-row='${i}'][data-column='${j}']`);
-            if (state[i][j]) {
-                square.innerHTML = PieceMapper.getIcon(state[i][j].name);
+            const piece = state[i][j];
+            if (piece) {
+                const square = document.querySelector(`[data-row='${i}'][data-column='${j}']`);
+                const wrapper = document.createElement('span');
+                wrapper.classList.add(piece.side);
+                wrapper.innerHTML = PieceMapper.getIcon(piece.name);
+                square.appendChild(wrapper);
             }
         });
     }

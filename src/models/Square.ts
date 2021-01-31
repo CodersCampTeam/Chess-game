@@ -3,10 +3,4 @@ class Square {
     y: number;
 }
 
-class Move {
-    from: Square;
-    to: Square;
-    isSpecial: boolean;
-}
-
 export { Square };

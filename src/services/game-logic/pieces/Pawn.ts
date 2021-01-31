@@ -1,6 +1,5 @@
-import { PieceNames } from '../../../enums/PieceNames';
-import { Square } from '../../../models/Square';
-import { Piece } from './piece';
+import { PieceNames } from '../../../enums';
+import { Piece } from './Piece';
 
 class Pawn extends Piece {
     name = PieceNames.PAWN;

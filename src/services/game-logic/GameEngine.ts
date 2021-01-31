@@ -5,8 +5,6 @@ class GameEngine {
 
     constructor() {
         this.board = new Board();
-
-        console.log(this);
     }
 
     getGameState(): Board {

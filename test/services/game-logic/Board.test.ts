@@ -1,12 +1,12 @@
 import { Board } from '../../../src/services/game-logic/Board';
-import { ColorsEnum } from '../../../src/services/game-logic/ColorsEnum';
+import { Colors } from '../../../src/enums/Colors';
 import { Pawn } from '../../../src/services/game-logic/pieces/Pawn';
 
 describe('Testing Board.setup()', () => {
     describe.each([
-        [ColorsEnum.Black, 6],
-        [ColorsEnum.White, 1]
-    ])('Pawn shall return 1 possible move', (color: ColorsEnum, row: number) => {
+        [Colors.Black, 6],
+        [Colors.White, 1]
+    ])('Pawn shall return 1 possible move', (color: Colors, row: number) => {
         test(`${color} Pawn shall be initialized at row ${row}, column`, () => {
             // Setup
             const board: Board = new Board();

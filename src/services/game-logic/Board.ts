@@ -1,6 +1,5 @@
-import { Sides } from '../../enums';
 import { Square } from '../../models/Square';
-import { ColorsEnum } from './ColorsEnum';
+import { Colors } from '../../enums/Colors';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Piece';
 
@@ -44,8 +43,8 @@ class Board {
     private setupPawns(): void {
         // Assume that white plays on bottom
         [
-            { row: 1, color: ColorsEnum.Black },
-            { row: 6, color: ColorsEnum.White }
+            { row: 1, color: Colors.Black },
+            { row: 6, color: Colors.White }
         ].forEach((obj) => {
             for (let column = 0; column < Board.BOARD_SIZE; ++column) {
                 let pawn = new Pawn({ column: column, row: obj.row }, obj.color);

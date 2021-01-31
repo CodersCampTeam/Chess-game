@@ -14,7 +14,6 @@ class Board {
         }
 
         this.setup();
-        console.log(this);
     }
 
     public getPiece({ x, y }: Square): Piece | null {

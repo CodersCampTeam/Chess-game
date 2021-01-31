@@ -19,9 +19,7 @@ class GameController {
 
         if (this.activeSquare) {
             const legalMoves = this.gameEngine.getLegalMoves(this.activeSquare);
-            const isLegalMove = legalMoves.some(
-                (move) => square?.row === move.to.row && square?.column === move.to.column
-            );
+            const isLegalMove = legalMoves.some((move) => square?.row === move.row && square?.column === move.column);
 
             if (isLegalMove) {
                 this.gameEngine.board.movePiece(this.activeSquare, square);

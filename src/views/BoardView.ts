@@ -1,5 +1,4 @@
 import { Square } from '../models/Square';
-import { Move } from '../models/Move';
 import { Board } from '../services/game-logic/Board';
 import { Helpers } from '../utils/Helpers';
 import { SquareView } from './SquareView';
@@ -20,10 +19,10 @@ class BoardView {
         this.placePieces(state);
     }
 
-    selectSquares(squares: Move[]): void {
+    selectSquares(squares: Square[]): void {
         squares.forEach((square) =>
             this.squareViews
-                .filter(({ row, column }) => row === square.to.row && column === square.to.column)
+                .filter(({ row, column }) => row === square.row && column === square.column)
                 .forEach((square) => square.select())
         );
     }

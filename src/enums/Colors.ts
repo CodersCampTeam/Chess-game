@@ -1,12 +1,10 @@
 /**
  * Enum of chess piece colors.
- * @readonly
- * @enum {number}
  */
-enum ColorsEnum {
+enum Colors {
     Invalid = 0,
     White,
     Black
 }
 
-export { ColorsEnum };
+export { Colors };

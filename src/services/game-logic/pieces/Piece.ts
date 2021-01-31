@@ -1,14 +1,13 @@
-import { PieceNames, Sides } from '../../../enums';
-import { Move } from '../../../models/Move';
+import { PieceNames } from '../../../enums';
 import { Square } from '../../../models/Square';
-import { ColorsEnum } from '../ColorsEnum';
+import { Colors } from '../../../enums/Colors';
 
 abstract class Piece {
     position: Square;
     name!: PieceNames;
-    color: ColorsEnum;
+    color: Colors;
 
-    constructor(startingPosition: Square, color: ColorsEnum) {
+    constructor(startingPosition: Square, color: Colors) {
         this.position = startingPosition;
         this.color = color;
     }
@@ -17,7 +16,7 @@ abstract class Piece {
         this.position = destination;
     }
 
-    abstract getPossibleMoves(): Move[];
+    abstract getPossibleMoves(): Square[];
 }
 
 export { Piece };

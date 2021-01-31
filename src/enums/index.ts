@@ -1,2 +1,2 @@
 export * from './PieceNames';
-export * from './Sides';
+export * from './Colors';

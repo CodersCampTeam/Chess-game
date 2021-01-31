@@ -19,3 +19,5 @@ abstract class Piece {
 
     abstract getPossibleMoves(): Move[];
 }
+
+export { Piece };

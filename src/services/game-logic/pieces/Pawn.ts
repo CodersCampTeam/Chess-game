@@ -1,5 +1,5 @@
 import { PieceNames } from '../../../enums';
-import { Piece } from './Piece';
+import { Piece } from '../pieces/Piece';
 import { ColorsEnum } from '../ColorsEnum';
 import { Move } from '../../../models/Move';
 

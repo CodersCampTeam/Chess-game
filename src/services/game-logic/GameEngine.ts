@@ -6,10 +6,6 @@ class GameEngine {
     constructor() {
         this.board = new Board();
     }
-
-    getGameState(): Board {
-        return this.board;
-    }
 }
 
 export { GameEngine };

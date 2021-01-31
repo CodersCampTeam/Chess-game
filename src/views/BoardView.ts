@@ -1,28 +1,22 @@
 import { Board } from '../services/game-logic/Board';
+import { Helpers } from '../utils/Helpers';
 import { PieceMapper } from '../utils/PieceMapper';
 
-const forEach = (callBack: (i: number, j: number) => void, size = 8) => {
-    for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
-            callBack(i, j);
-        }
-    }
-};
-
 class BoardView {
-    render(state?: Board): void {
+    render(state: Board): void {
         const board = document.createElement(`div`);
         board.id = 'board';
         board.innerHTML = this.getSquares();
         document.querySelector('#app').appendChild(board);
+
         this.placePieces(state);
     }
 
     placePieces(state: Board): void {
-        forEach((i, j) => {
-            const piece = state[i][j];
+        Helpers.useNestedForLoop((x, y) => {
+            const piece = state.getPiece({ x, y });
             if (piece) {
-                const square = document.querySelector(`[data-row='${i}'][data-column='${j}']`);
+                const square = document.querySelector(`[data-row='${x}'][data-column='${y}']`);
                 const wrapper = document.createElement('span');
                 wrapper.classList.add(piece.side);
                 wrapper.innerHTML = PieceMapper.getIcon(piece.name);
@@ -33,7 +27,7 @@ class BoardView {
 
     private getSquares() {
         let squares = '';
-        forEach((i, j) => {
+        Helpers.useNestedForLoop((i, j) => {
             const color = i % 2 === j % 2 ? 'light' : 'dark';
             squares += `<div data-row="${i}" data-column="${j}" class="square ${color}"></div>`;
         });

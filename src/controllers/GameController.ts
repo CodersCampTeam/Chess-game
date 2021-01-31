@@ -12,7 +12,7 @@ class GameController {
     }
 
     displayBoard(): void {
-        this.boardView.render(this.gameEngine.getGameState());
+        this.boardView.render(this.gameEngine.board);
     }
 }
 

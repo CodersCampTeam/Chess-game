@@ -14,8 +14,4 @@ abstract class Piece {
     abstract getPossibleMoves(): void;
 }
 
-interface PieceConstructor {
-    new (startingPosition: Square, side: Sides): Piece;
-}
-
-export { Piece, PieceConstructor };
+export { Piece };

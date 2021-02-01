@@ -2,6 +2,7 @@ import { Square } from '../../models/Square';
 import { Colors } from '../../enums/Colors';
 import { Bishop } from './pieces/Bishop';
 import { Pawn } from './pieces/Pawn';
+import { Rook } from './pieces/Rook';
 import { Piece } from './pieces/Piece';
 
 class Board {
@@ -30,6 +31,7 @@ class Board {
 
     private setup(): void {
         this.setupPawns();
+        this.setupRooks();
         this.addPiece(new Bishop({ row: 7, column: 2 }, Colors.White));
         this.addPiece(new Bishop({ row: 7, column: 5 }, Colors.White));
         this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.Black));
@@ -56,6 +58,13 @@ class Board {
                 this.addPiece(pawn);
             }
         });
+    }
+
+    private setupRooks(): void {
+        this.addPiece(new Rook({ column: 0, row: 0 }, Colors.Black));
+        this.addPiece(new Rook({ column: 7, row: 0 }, Colors.Black));
+        this.addPiece(new Rook({ column: 0, row: 7 }, Colors.White));
+        this.addPiece(new Rook({ column: 7, row: 7 }, Colors.White));
     }
 }
 

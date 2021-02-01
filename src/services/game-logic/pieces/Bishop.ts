@@ -9,13 +9,13 @@ class Bishop extends Piece {
         for (let i = 0; i <= 7; i++) {
             for (let j = 0; j <= 7; j++) {
                 if (
-                    Math.abs(this.position.x - i) === Math.abs(this.position.y - j) &&
-                    this.position.x !== i &&
-                    this.position.y !== j
+                    Math.abs(this.position.row - i) === Math.abs(this.position.column - j) &&
+                    this.position.row !== i &&
+                    this.position.column !== j
                 ) {
                     positions.push({
-                        x: i,
-                        y: j
+                        row: i,
+                        column: j
                     });
                 }
             }

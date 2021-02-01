@@ -1,31 +1,39 @@
 import { Square } from '../../../../src/models/Square';
 import { Bishop } from '../../../../src/services/game-logic/pieces/Bishop';
-import { Sides } from '../../../../src/enums';
+import { Colors } from '../../../../src/enums';
 
 describe('should correct display possible moves for bishop', () => {
-    const field: Square = new Square();
-    field.x = 0;
-    field.y = 0;
-    test('Correct moves in corners', () => {
-        const bishop: Bishop = new Bishop(field, Sides.BLACK);
-        expect(bishop.getPossibleMoves().length).toEqual(7);
-    });
-    test('Correct moves from point', () => {
-        field.x = 5;
-        field.y = 4;
-        const bishop: Bishop = new Bishop(field, Sides.BLACK);
+    let field: Square = new Square(0, 0);
+    test('Correct moves from corner', () => {
+        const bishop: Bishop = new Bishop(field, Colors.Black);
         const correctMoves = [
-            { x: 1, y: 0 },
-            { x: 2, y: 1 },
-            { x: 2, y: 7 },
-            { x: 3, y: 2 },
-            { x: 3, y: 6 },
-            { x: 4, y: 3 },
-            { x: 4, y: 5 },
-            { x: 6, y: 3 },
-            { x: 6, y: 5 },
-            { x: 7, y: 2 },
-            { x: 7, y: 6 }
+            { row: 1, column: 1 },
+            { row: 2, column: 2 },
+            { row: 3, column: 3 },
+            { row: 4, column: 4 },
+            { row: 5, column: 5 },
+            { row: 6, column: 6 },
+            { row: 7, column: 7 }
+        ];
+        expect(JSON.stringify(bishop.getPossibleMoves())).toEqual(JSON.stringify(correctMoves));
+    });
+    test('Correct moves from center point', () => {
+        field = new Square(4, 4);
+        const bishop: Bishop = new Bishop(field, Colors.Black);
+        const correctMoves = [
+            { row: 0, column: 0 },
+            { row: 1, column: 1 },
+            { row: 1, column: 7 },
+            { row: 2, column: 2 },
+            { row: 2, column: 6 },
+            { row: 3, column: 3 },
+            { row: 3, column: 5 },
+            { row: 5, column: 3 },
+            { row: 5, column: 5 },
+            { row: 6, column: 2 },
+            { row: 6, column: 6 },
+            { row: 7, column: 1 },
+            { row: 7, column: 7 }
         ];
         expect(JSON.stringify(bishop.getPossibleMoves())).toEqual(JSON.stringify(correctMoves));
     });

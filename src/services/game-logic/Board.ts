@@ -4,6 +4,7 @@ import { Bishop } from './pieces/Bishop';
 import { Pawn } from './pieces/Pawn';
 import { Rook } from './pieces/Rook';
 import { Piece } from './pieces/Piece';
+import { Knight } from './pieces/Knight';
 
 class Board {
     public static BOARD_SIZE = 8;
@@ -36,17 +37,13 @@ class Board {
         this.addPiece(new Bishop({ row: 7, column: 5 }, Colors.White));
         this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.Black));
         this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.Black));
+        this.setupKnights();
     }
 
     private addPiece(piece: Piece) {
         this.state[piece.position.row][piece.position.column] = piece;
     }
 
-    /** @method
-     * @name setupPawns
-     * @description Setups both white and black Pawn pieces on Board
-     * @returns void
-     */
     private setupPawns(): void {
         // Assume that white plays on bottom
         [
@@ -65,6 +62,13 @@ class Board {
         this.addPiece(new Rook({ column: 7, row: 0 }, Colors.Black));
         this.addPiece(new Rook({ column: 0, row: 7 }, Colors.White));
         this.addPiece(new Rook({ column: 7, row: 7 }, Colors.White));
+    }
+
+    private setupKnights(): void {
+        this.addPiece(new Knight({ column: 1, row: 0 }, Colors.Black));
+        this.addPiece(new Knight({ column: 6, row: 0 }, Colors.Black));
+        this.addPiece(new Knight({ column: 1, row: 7 }, Colors.White));
+        this.addPiece(new Knight({ column: 6, row: 7 }, Colors.White));
     }
 }
 

@@ -1,6 +1,6 @@
 import { PieceNames } from '../../../enums';
 import { Square } from '../../../models/Square';
-import { Piece } from './piece';
+import { Piece } from './Piece';
 
 class Bishop extends Piece {
     name = PieceNames.BISHOP;

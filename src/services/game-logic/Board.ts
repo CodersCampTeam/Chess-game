@@ -2,6 +2,7 @@ import { Square } from '../../models/Square';
 import { Colors } from '../../enums/Colors';
 import { Pawn } from './pieces/Pawn';
 import { Piece } from './pieces/Piece';
+import { Queen } from './pieces/Queen';
 
 class Board {
     public static BOARD_SIZE: number = 8;
@@ -29,6 +30,7 @@ class Board {
 
     private setup(): void {
         this.setupPawns();
+        this.setupQueens();
     }
 
     private addPiece(piece: Piece) {
@@ -51,6 +53,11 @@ class Board {
                 this.addPiece(pawn);
             }
         });
+    }
+
+    private setupQueens(): void {
+        this.addPiece(new Queen({ row: 7, column: 3 }, Colors.White));
+        this.addPiece(new Queen({ row: 0, column: 3 }, Colors.Black));
     }
 }
 

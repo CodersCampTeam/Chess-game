@@ -66,9 +66,9 @@ class Board {
 
     private setupKnights(): void {
         this.addPiece(new Knight({ column: 1, row: 0 }, Colors.Black));
-        this.addPiece(new Knight({ column: 5, row: 0 }, Colors.Black));
+        this.addPiece(new Knight({ column: 6, row: 0 }, Colors.Black));
         this.addPiece(new Knight({ column: 1, row: 7 }, Colors.White));
-        this.addPiece(new Knight({ column: 5, row: 7 }, Colors.White));
+        this.addPiece(new Knight({ column: 6, row: 7 }, Colors.White));
     }
 }
 

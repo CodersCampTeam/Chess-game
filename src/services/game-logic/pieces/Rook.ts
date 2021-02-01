@@ -5,8 +5,8 @@ import { Square } from '../../../models/Square';
 class Rook extends Piece {
     name = PieceNames.ROOK;
 
-    getPossibleMoves(): Square[] {
-        let possibleMoves: Array<Square> = [];
+    getPossibleMoves() {
+        let possibleMoves: Square[] = [];
 
         for (let i = 0; i < 8; i++) {
             if (this.position.column !== i) possibleMoves.push(new Square(this.position.row, i));

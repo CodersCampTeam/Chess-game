@@ -33,8 +33,8 @@ describe('Testing Pawn.getPossibleMoves()', () => {
     ])('Pawn shall return 1 possible move', (color: Colors, row: number, column: number, rowExpected: number) => {
         test(`${Colors[color]} Pawn moves from row ${row}, column ${column}`, () => {
             // Setup
-            const staringSquare: Square = new Square(row, column);
-            const pawn: Pawn = new Pawn(staringSquare, color);
+            const startingSquare: Square = new Square(row, column);
+            const pawn: Pawn = new Pawn(startingSquare, color);
 
             // Move pawn 1 square forward
             let possibleMoves: Array<Square> = pawn.getPossibleMoves();

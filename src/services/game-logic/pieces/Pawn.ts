@@ -4,10 +4,11 @@ import { Colors } from '../../../enums/Colors';
 import { Square } from '../../../models/Square';
 
 /**
- * This class implements Pawn behavoiur in chess
+ * This class implements Pawn behavoiur in chess.
  */
 class Pawn extends Piece {
     name = PieceNames.PAWN;
+    hasMoved = false;
 
     /**
      * Returs possible moves of Pawn.
@@ -19,9 +20,9 @@ class Pawn extends Piece {
         // Assume that white plays on bottom
         // row = 0, column = 0 means left upper corner
         const moveDirection = this.color === Colors.White ? -1 : 1;
-        let move = this.prepareMove(moveDirection);
+        const move = this.prepareMove(moveDirection);
 
-        if (!this.hasMoved()) {
+        if (!this.hasMoved) {
             specialMove = this.prepareMove(moveDirection * 2);
         }
 
@@ -32,7 +33,15 @@ class Pawn extends Piece {
     }
 
     /**
-     * Prepares target Square or returns null in case if move would be outside board
+     * Moves Pawn and sets hasMoved flag/
+     */
+    move(destination: Square): void {
+        super.move(destination);
+        this.hasMoved = true;
+    }
+
+    /**
+     * Prepares target Square or returns null in case if move would be outside board.
      */
     private prepareMove(step: number): Square | null {
         const move = new Square(this.position.row + step, this.position.column);
@@ -42,16 +51,6 @@ class Pawn extends Piece {
             return null;
         }
         return move;
-    }
-
-    /**
-     * Returns true if Pawn remains in first row. Otherwise false
-     */
-    private hasMoved(): boolean {
-        return (
-            (this.color === Colors.White && this.position.row !== 6) ||
-            (this.color === Colors.Black && this.position.row !== 1)
-        );
     }
 }
 

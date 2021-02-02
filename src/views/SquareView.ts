@@ -21,12 +21,8 @@ class SquareView {
     }
 
     update(piece: Piece | null): void {
-        if (piece && !this.element.innerHTML) {
-            this.addPiece(piece);
-        }
-        if (!piece) {
-            this.clearSquare();
-        }
+        this.clearSquare();
+        if (piece) this.addPiece(piece);
     }
 
     addPiece(piece: Piece): void {

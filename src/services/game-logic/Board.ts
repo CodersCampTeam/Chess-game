@@ -67,8 +67,8 @@ class Board {
 
 
     private setupKing(): void {
-        this.addPiece(new King({ row: 0, column: 4 }, Colors.Black));
-        this.addPiece(new King({ row: 7, column: 4 }, Colors.White));
+        this.addPiece(new King({ row: 0, column: 4 }, Colors.BLACK));
+        this.addPiece(new King({ row: 7, column: 4 }, Colors.WHITE));
 
 
     private setupQueens(): void {

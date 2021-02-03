@@ -69,8 +69,8 @@ class Board {
     private setupKing(): void {
         this.addPiece(new King({ row: 0, column: 4 }, Colors.BLACK));
         this.addPiece(new King({ row: 7, column: 4 }, Colors.WHITE));
-
-
+    }
+    
     private setupQueens(): void {
         this.addPiece(new Queen({ row: 7, column: 3 }, Colors.WHITE));
         this.addPiece(new Queen({ row: 0, column: 3 }, Colors.BLACK));

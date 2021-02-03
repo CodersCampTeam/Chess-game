@@ -95,7 +95,7 @@ describe('Queen', () => {
         [2, 2, getExpectedPossibleMovesForMiddlePosition],
         [1, 3, getExpectedPossibleMovesForRandomPosition]
     ])('should generate all possible moves for the piece', (startX, startY, expectedPossibleMoves) => {
-        const queen = new Queen(new Square(startX, startY), Colors.Black);
+        const queen = new Queen(new Square(startX, startY), Colors.BLACK);
         expect(queen.getPossibleMoves()).toEqual(expect.arrayContaining(expectedPossibleMoves()));
         expect(expectedPossibleMoves()).toEqual(expect.arrayContaining(queen.getPossibleMoves()));
     });

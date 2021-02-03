@@ -19,7 +19,7 @@ class Pawn extends Piece {
 
         // Assume that white plays on bottom
         // row = 0, column = 0 means left upper corner
-        const moveDirection = this.color === Colors.White ? -1 : 1;
+        const moveDirection = this.color === Colors.WHITE ? -1 : 1;
         const move = this.prepareMove(moveDirection);
 
         if (!this.hasMoved) {
@@ -39,7 +39,7 @@ class Pawn extends Piece {
         const move = new Square(this.position.row + step, this.position.column);
 
         // Check if out of boundaries
-        if ((this.color === Colors.White && move.row === -1) || (this.color === Colors.Black && move.row === 8)) {
+        if ((this.color === Colors.WHITE && move.row === -1) || (this.color === Colors.BLACK && move.row === 8)) {
             return null;
         }
         return move;

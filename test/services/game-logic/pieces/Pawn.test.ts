@@ -4,8 +4,8 @@ import { Colors } from '../../../../src/enums/Colors';
 
 describe('Testing Pawn.getPossibleMoves()', () => {
     describe.each([
-        [Colors.Black, 1, 1, 2, 3],
-        [Colors.White, 6, 1, 5, 4]
+        [Colors.BLACK, 1, 1, 2, 3],
+        [Colors.WHITE, 6, 1, 5, 4]
     ])(
         'Pawn shall return 1 possible move',
         (color: Colors, row: number, column: number, rowExpected1: number, rowExpected2: number) => {
@@ -28,8 +28,8 @@ describe('Testing Pawn.getPossibleMoves()', () => {
         }
     );
     describe.each([
-        [Colors.Black, 2, 1, 4],
-        [Colors.White, 5, 1, 3]
+        [Colors.BLACK, 2, 1, 4],
+        [Colors.WHITE, 5, 1, 3]
     ])('Pawn shall return 1 possible move', (color: Colors, row: number, column: number, rowExpected: number) => {
         test(`${Colors[color]} Pawn moves from row ${row}, column ${column}`, () => {
             // Setup
@@ -51,13 +51,13 @@ describe('Testing Pawn.getPossibleMoves()', () => {
         });
     });
     describe.each([
-        [Colors.Black, 7, 1],
-        [Colors.White, 0, 0]
+        [Colors.BLACK, 7, 1],
+        [Colors.WHITE, 0, 0]
     ])('Pawn shall return 0 possible moves', (color: Colors, row: number, column: number) => {
         test(`${Colors[color]} Pawn moves from row ${row}, column ${column}`, () => {
             // Setup
-            const staringSquare: Square = new Square(row, column);
-            const pawn: Pawn = new Pawn(staringSquare, color);
+            const startingSquare: Square = new Square(row, column);
+            const pawn: Pawn = new Pawn(startingSquare, color);
             pawn.hasMoved = true;
 
             const possibleMoves: Array<Square> = pawn.getPossibleMoves();

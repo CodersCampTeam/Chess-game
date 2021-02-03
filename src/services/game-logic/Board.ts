@@ -34,10 +34,10 @@ class Board {
     private setup(): void {
         this.setupPawns();
         this.setupRooks();
-        this.addPiece(new Bishop({ row: 7, column: 2 }, Colors.White));
-        this.addPiece(new Bishop({ row: 7, column: 5 }, Colors.White));
-        this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.Black));
-        this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.Black));
+        this.addPiece(new Bishop({ row: 7, column: 2 }, Colors.WHITE));
+        this.addPiece(new Bishop({ row: 7, column: 5 }, Colors.WHITE));
+        this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.BLACK));
+        this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.BLACK));
         this.setupKnights();
         this.setupQueens();
     }
@@ -49,8 +49,8 @@ class Board {
     private setupPawns(): void {
         // Assume that white plays on bottom
         [
-            { row: 1, color: Colors.Black },
-            { row: 6, color: Colors.White }
+            { row: 1, color: Colors.BLACK },
+            { row: 6, color: Colors.WHITE }
         ].forEach((obj) => {
             for (let column = 0; column < Board.BOARD_SIZE; ++column) {
                 const pawn = new Pawn({ column: column, row: obj.row }, obj.color);
@@ -60,22 +60,22 @@ class Board {
     }
 
     private setupQueens(): void {
-        this.addPiece(new Queen({ row: 7, column: 3 }, Colors.White));
-        this.addPiece(new Queen({ row: 0, column: 3 }, Colors.Black));
+        this.addPiece(new Queen({ row: 7, column: 3 }, Colors.WHITE));
+        this.addPiece(new Queen({ row: 0, column: 3 }, Colors.BLACK));
     }
 
     private setupRooks(): void {
-        this.addPiece(new Rook({ column: 0, row: 0 }, Colors.Black));
-        this.addPiece(new Rook({ column: 7, row: 0 }, Colors.Black));
-        this.addPiece(new Rook({ column: 0, row: 7 }, Colors.White));
-        this.addPiece(new Rook({ column: 7, row: 7 }, Colors.White));
+        this.addPiece(new Rook({ column: 0, row: 0 }, Colors.BLACK));
+        this.addPiece(new Rook({ column: 7, row: 0 }, Colors.BLACK));
+        this.addPiece(new Rook({ column: 0, row: 7 }, Colors.WHITE));
+        this.addPiece(new Rook({ column: 7, row: 7 }, Colors.WHITE));
     }
 
     private setupKnights(): void {
-        this.addPiece(new Knight({ column: 1, row: 0 }, Colors.Black));
-        this.addPiece(new Knight({ column: 6, row: 0 }, Colors.Black));
-        this.addPiece(new Knight({ column: 1, row: 7 }, Colors.White));
-        this.addPiece(new Knight({ column: 6, row: 7 }, Colors.White));
+        this.addPiece(new Knight({ column: 1, row: 0 }, Colors.BLACK));
+        this.addPiece(new Knight({ column: 6, row: 0 }, Colors.BLACK));
+        this.addPiece(new Knight({ column: 1, row: 7 }, Colors.WHITE));
+        this.addPiece(new Knight({ column: 6, row: 7 }, Colors.WHITE));
     }
 }
 

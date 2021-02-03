@@ -3,16 +3,10 @@ import { Piece } from '../pieces/Piece';
 import { Colors } from '../../../enums/Colors';
 import { Square } from '../../../models/Square';
 
-/**
- * This class implements Pawn behavoiur in chess.
- */
 class Pawn extends Piece {
     name = PieceNames.PAWN;
     hasMoved = false;
 
-    /**
-     * Returs possible moves of Pawn.
-     */
     getPossibleMoves(): Square[] {
         const moves: Square[] = [];
         let specialMove: Square | null = null;
@@ -32,9 +26,6 @@ class Pawn extends Piece {
         return moves;
     }
 
-    /**
-     * Return squares where capturing may be made
-     */
     getCapturingSquares(): Square[] {
         const moves: Square[] = [];
 
@@ -50,9 +41,6 @@ class Pawn extends Piece {
         return moves;
     }
 
-    /**
-     * Prepares target Square or returns null in case if move would be outside board.
-     */
     private prepareMove(rowStep: number, colStep: number = 0): Square | null {
         const move = new Square(this.position.row + rowStep, this.position.column + colStep);
 
@@ -63,9 +51,6 @@ class Pawn extends Piece {
         return move;
     }
 
-    /**
-     * Checks boundaries, returns true if out of board.
-     */
     private isOutOfBoundaries(move: Square): boolean {
         return move.row > 7 || move.column > 7 || move.row < 0 || move.column < 0;
     }

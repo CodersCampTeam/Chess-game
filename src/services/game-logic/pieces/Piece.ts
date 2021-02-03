@@ -6,6 +6,7 @@ abstract class Piece {
     position: Square;
     name!: PieceNames;
     color: Colors;
+    hasMoved = false;
 
     constructor(startingPosition: Square, color: Colors) {
         this.position = startingPosition;
@@ -14,6 +15,7 @@ abstract class Piece {
 
     move(destination: Square): void {
         this.position = destination;
+        this.hasMoved = true;
     }
 
     abstract getPossibleMoves(): Square[];

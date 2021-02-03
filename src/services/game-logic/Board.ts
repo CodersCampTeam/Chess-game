@@ -5,6 +5,7 @@ import { Pawn } from './pieces/Pawn';
 import { Rook } from './pieces/Rook';
 import { Piece } from './pieces/Piece';
 import { Knight } from './pieces/Knight';
+import { Queen } from './pieces/Queen';
 
 class Board {
     public static BOARD_SIZE = 8;
@@ -38,6 +39,7 @@ class Board {
         this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.Black));
         this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.Black));
         this.setupKnights();
+        this.setupQueens();
     }
 
     private addPiece(piece: Piece) {
@@ -55,6 +57,11 @@ class Board {
                 this.addPiece(pawn);
             }
         });
+    }
+
+    private setupQueens(): void {
+        this.addPiece(new Queen({ row: 7, column: 3 }, Colors.White));
+        this.addPiece(new Queen({ row: 0, column: 3 }, Colors.Black));
     }
 
     private setupRooks(): void {

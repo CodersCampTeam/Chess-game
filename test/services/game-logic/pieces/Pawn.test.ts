@@ -63,7 +63,6 @@ describe('Testing Pawn.getPossibleMoves()', () => {
             const possibleMoves: Array<Square> = pawn.getPossibleMoves();
 
             // Test
-            console.log(possibleMoves);
             expect(possibleMoves.length).toBe(0);
         });
     });

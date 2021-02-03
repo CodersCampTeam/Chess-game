@@ -33,16 +33,41 @@ class Pawn extends Piece {
     }
 
     /**
+     * Return squares where capturing may be made
+     */
+    getCapturingSquares(): Square[] {
+        const moves: Square[] = [];
+
+        // Assume that white plays on bottom
+        // row = 0, column = 0 means left upper corner
+        const moveDirection = this.color === Colors.WHITE ? -1 : 1;
+        const capture1 = this.prepareMove(moveDirection, -1);
+        const capture2 = this.prepareMove(moveDirection, 1);
+
+        if (capture1) moves.push(capture1);
+        if (capture2) moves.push(capture2);
+
+        return moves;
+    }
+
+    /**
      * Prepares target Square or returns null in case if move would be outside board.
      */
-    private prepareMove(step: number): Square | null {
-        const move = new Square(this.position.row + step, this.position.column);
+    private prepareMove(rowStep: number, colStep: number = 0): Square | null {
+        const move = new Square(this.position.row + rowStep, this.position.column + colStep);
 
         // Check if out of boundaries
-        if ((this.color === Colors.WHITE && move.row === -1) || (this.color === Colors.BLACK && move.row === 8)) {
+        if (this.isOutOfBoundaries(move)) {
             return null;
         }
         return move;
+    }
+
+    /**
+     * Checks boundaries, returns true if out of board.
+     */
+    private isOutOfBoundaries(move: Square): boolean {
+        return move.row > 7 || move.column > 7 || move.row < 0 || move.column < 0;
     }
 }
 

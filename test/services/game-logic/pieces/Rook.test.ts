@@ -4,10 +4,10 @@ import { Colors } from '../../../../src/enums/Colors';
 
 describe('Testing Rook.getPossibleMoves()', () => {
     describe.each([
-        [3, 3, Colors.White],
-        [0, 0, Colors.White],
-        [0, 7, Colors.Black],
-        [3, 3, Colors.Black]
+        [3, 3, Colors.WHITE],
+        [0, 0, Colors.WHITE],
+        [0, 7, Colors.BLACK],
+        [3, 3, Colors.BLACK]
     ])(
         'Rook shall be able to move to each square in its row/column except for the occupied square',
         (row: number, column: number, color: Colors) => {

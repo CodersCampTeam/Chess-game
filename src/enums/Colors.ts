@@ -2,8 +2,8 @@
  * Enum of chess piece colors.
  */
 enum Colors {
-    White = 'White',
-    Black = 'Black'
+    WHITE = 'White',
+    BLACK = 'Black'
 }
 
 export { Colors };

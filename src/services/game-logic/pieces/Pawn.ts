@@ -17,12 +17,12 @@ class Pawn extends Piece {
 
         // Assume that white plays on bottom
         // row = 0, column = 0 means left upper corner
-        if (this.color === Colors.White) {
+        if (this.color === Colors.WHITE) {
             move.column = this.position.column;
             move.row = this.position.row - 1;
 
             return move.row !== -1 ? [move] : [];
-        } else if (this.color === Colors.Black) {
+        } else if (this.color === Colors.BLACK) {
             move.column = this.position.column;
             move.row = this.position.row + 1;
 

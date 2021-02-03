@@ -19,7 +19,7 @@ test.each([
         ]
     ],
     [
-        Colors.Black,
+        Colors.BLACK,
         3,
         6,
         [

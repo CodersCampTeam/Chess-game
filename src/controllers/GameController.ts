@@ -8,13 +8,13 @@ class GameController {
     boardView: BoardView;
     gameEngine: GameEngine;
     activeSquare: Square | null;
-    currentPlayer: Colors.Black | Colors.White;
+    currentPlayer: Colors;
 
     constructor() {
         this.activeSquare = null;
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
-        this.currentPlayer = Colors.White;
+        this.currentPlayer = Colors.WHITE;
         this.updateBoard();
     }
 
@@ -40,11 +40,11 @@ class GameController {
     };
 
     private isCurrentPlayer(selectedPiece: Piece | null): boolean {
-        return !!selectedPiece && this.currentPlayer === selectedPiece.color;
+        return this.currentPlayer === selectedPiece?.color;
     }
 
     private changePlayer(): void {
-        this.currentPlayer = this.currentPlayer === Colors.White ? Colors.Black : Colors.White;
+        this.currentPlayer = this.currentPlayer === Colors.WHITE ? Colors.BLACK : Colors.WHITE;
     }
 
     updateBoard(): void {

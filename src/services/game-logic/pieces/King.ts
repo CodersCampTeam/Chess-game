@@ -6,20 +6,12 @@ class King extends Piece {
 	name = PieceNames.KING;
 
 	getPossibleMoves(): Square[] {
-		const positions: Array<number[]> = [
-			[ -1, -1 ],
-			[ 0, -1 ],
-			[ 1, 1 ],
-			[ -1, 0 ],
-			[ 1, 0 ],
-			[ 0, 1 ],
-			[ -1, 1 ],
-			[ 1, -1 ]
-		];
+		const positions = [ [ -1, -1 ], [ 0, -1 ], [ 1, 1 ], [ -1, 0 ], [ 1, 0 ], [ 0, 1 ], [ -1, 1 ], [ 1, -1 ] ];
+		const [ row, column ] = positions;
 
-		const possibleMoves: Square[] = positions.map((position) => ({
-			row: this.position.row + position[0],
-			column: this.position.column + position[1]
+		const possibleMoves = positions.map(([ row, column ]) => ({
+			row: this.position.row + row,
+			column: this.position.column + column
 		}));
 
 		return possibleMoves;

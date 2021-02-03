@@ -5,7 +5,7 @@ import { Colors } from '../../../../src/enums';
 describe('should correct display possible moves for bishop', () => {
     let field: Square = new Square(0, 0);
     test('Correct moves from corner', () => {
-        const bishop: Bishop = new Bishop(field, Colors.Black);
+        const bishop: Bishop = new Bishop(field, Colors.BLACK);
         const correctMoves = [
             { row: 1, column: 1 },
             { row: 2, column: 2 },
@@ -19,7 +19,7 @@ describe('should correct display possible moves for bishop', () => {
     });
     test('Correct moves from center point', () => {
         field = new Square(4, 4);
-        const bishop: Bishop = new Bishop(field, Colors.Black);
+        const bishop: Bishop = new Bishop(field, Colors.BLACK);
         const correctMoves = [
             { row: 0, column: 0 },
             { row: 1, column: 1 },

@@ -1,11 +1,14 @@
 import { Square } from '../../models/Square';
 import { Colors } from '../../enums/Colors';
+import { Bishop } from './pieces/Bishop';
 import { Pawn } from './pieces/Pawn';
+import { Rook } from './pieces/Rook';
 import { Piece } from './pieces/Piece';
+import { Knight } from './pieces/Knight';
 import { Queen } from './pieces/Queen';
 
 class Board {
-    public static BOARD_SIZE: number = 8;
+    public static BOARD_SIZE = 8;
 
     private state: Array<Array<Piece | null>>;
 
@@ -30,6 +33,12 @@ class Board {
 
     private setup(): void {
         this.setupPawns();
+        this.setupRooks();
+        this.addPiece(new Bishop({ row: 7, column: 2 }, Colors.White));
+        this.addPiece(new Bishop({ row: 7, column: 5 }, Colors.White));
+        this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.Black));
+        this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.Black));
+        this.setupKnights();
         this.setupQueens();
     }
 
@@ -37,11 +46,6 @@ class Board {
         this.state[piece.position.row][piece.position.column] = piece;
     }
 
-    /** @method
-     * @name setupPawns
-     * @description Setups both white and black Pawn pieces on Board
-     * @returns void
-     */
     private setupPawns(): void {
         // Assume that white plays on bottom
         [
@@ -49,7 +53,7 @@ class Board {
             { row: 6, color: Colors.White }
         ].forEach((obj) => {
             for (let column = 0; column < Board.BOARD_SIZE; ++column) {
-                let pawn = new Pawn({ column: column, row: obj.row }, obj.color);
+                const pawn = new Pawn({ column: column, row: obj.row }, obj.color);
                 this.addPiece(pawn);
             }
         });
@@ -58,6 +62,20 @@ class Board {
     private setupQueens(): void {
         this.addPiece(new Queen({ row: 7, column: 3 }, Colors.White));
         this.addPiece(new Queen({ row: 0, column: 3 }, Colors.Black));
+    }
+
+    private setupRooks(): void {
+        this.addPiece(new Rook({ column: 0, row: 0 }, Colors.Black));
+        this.addPiece(new Rook({ column: 7, row: 0 }, Colors.Black));
+        this.addPiece(new Rook({ column: 0, row: 7 }, Colors.White));
+        this.addPiece(new Rook({ column: 7, row: 7 }, Colors.White));
+    }
+
+    private setupKnights(): void {
+        this.addPiece(new Knight({ column: 1, row: 0 }, Colors.Black));
+        this.addPiece(new Knight({ column: 6, row: 0 }, Colors.Black));
+        this.addPiece(new Knight({ column: 1, row: 7 }, Colors.White));
+        this.addPiece(new Knight({ column: 6, row: 7 }, Colors.White));
     }
 }
 

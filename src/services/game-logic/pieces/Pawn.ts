@@ -33,14 +33,6 @@ class Pawn extends Piece {
     }
 
     /**
-     * Moves Pawn and sets hasMoved flag/
-     */
-    move(destination: Square): void {
-        super.move(destination);
-        this.hasMoved = true;
-    }
-
-    /**
      * Prepares target Square or returns null in case if move would be outside board.
      */
     private prepareMove(step: number): Square | null {

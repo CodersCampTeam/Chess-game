@@ -2,12 +2,13 @@ import { PieceNames } from '../../../enums';
 import { Piece } from '../pieces/Piece';
 import { Colors } from '../../../enums/Colors';
 import { Square } from '../../../models/Square';
+import { Board } from '../Board';
 
 class Pawn extends Piece {
     name = PieceNames.PAWN;
     hasMoved = false;
 
-    getPossibleMoves(): Square[] {
+    getPossibleMoves(board: Board): Square[] {
         const moves: Square[] = [];
         let specialMove: Square | null = null;
 
@@ -22,6 +23,9 @@ class Pawn extends Piece {
 
         if (move) moves.push(move);
         if (specialMove) moves.push(specialMove);
+
+        this.removeMoveIfEnemy(board, moves);
+        this.setPawnCaptures(board, moves);
 
         return moves;
     }
@@ -53,6 +57,31 @@ class Pawn extends Piece {
 
     private isOutOfBoundaries(move: Square): boolean {
         return move.row > 7 || move.column > 7 || move.row < 0 || move.column < 0;
+    }
+
+    /**
+     * Removes move from array if on target square stands the enemy
+     */
+    private removeMoveIfEnemy(board: Board, pieceMoves: Square[]): void {
+        if (
+            pieceMoves.length > 0 &&
+            board.getPiece(pieceMoves[0]) &&
+            !board.isOccupiedBySameColorPiece(pieceMoves[0], this)
+        ) {
+            pieceMoves.pop();
+        }
+    }
+
+    private setPawnCaptures(board: Board, pieceMoves: Square[]): void {
+        let capturingSquares = this.getCapturingSquares();
+
+        capturingSquares = capturingSquares.filter((c) => {
+            return !board.isOccupiedBySameColorPiece(c, this) && board.getPiece(c);
+        });
+
+        capturingSquares.forEach((m) => {
+            pieceMoves.push(m);
+        });
     }
 }
 

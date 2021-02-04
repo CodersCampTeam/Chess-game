@@ -32,6 +32,10 @@ class Board {
         this.state[location.row][location.column] = null;
     }
 
+    public isOccupiedBySameColorPiece = (square: Square, piece: Piece | null): Boolean => {
+        return this.getPiece(square)?.color === piece?.color;
+    };
+
     private setup(): void {
         this.setupPawns();
         this.setupKing();

@@ -1,7 +1,6 @@
 import { PieceNames } from '../../../enums';
 import { Square } from '../../../models/Square';
 import { Colors } from '../../../enums/Colors';
-import { Board } from '../Board';
 
 abstract class Piece {
     position: Square;
@@ -19,7 +18,7 @@ abstract class Piece {
         this.hasMoved = true;
     }
 
-    abstract getPossibleMoves(board: Board): Square[];
+    abstract getPossibleMoves(): Square[];
 }
 
 export { Piece };

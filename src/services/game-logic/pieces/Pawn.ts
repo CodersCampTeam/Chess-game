@@ -2,13 +2,12 @@ import { PieceNames } from '../../../enums';
 import { Piece } from '../pieces/Piece';
 import { Colors } from '../../../enums/Colors';
 import { Square } from '../../../models/Square';
-import { Board } from '../Board';
 
 class Pawn extends Piece {
     name = PieceNames.PAWN;
     hasMoved = false;
 
-    getPossibleMoves(board: Board): Square[] {
+    getPossibleMoves(): Square[] {
         const moves: Square[] = [];
         let specialMove: Square | null = null;
 
@@ -24,15 +23,12 @@ class Pawn extends Piece {
         if (move) moves.push(move);
         if (specialMove) moves.push(specialMove);
 
-        this.removeMoveIfEnemy(board, moves);
-        this.setPawnCaptures(board, moves);
+        this.setCapturingSquares(moves);
 
         return moves;
     }
 
-    getCapturingSquares(): Square[] {
-        const moves: Square[] = [];
-
+    setCapturingSquares(moves: Square[]): void {
         // Assume that white plays on bottom
         // row = 0, column = 0 means left upper corner
         const moveDirection = this.color === Colors.WHITE ? -1 : 1;
@@ -41,8 +37,6 @@ class Pawn extends Piece {
 
         if (capture1) moves.push(capture1);
         if (capture2) moves.push(capture2);
-
-        return moves;
     }
 
     private prepareMove(rowStep: number, colStep: number = 0): Square | null {
@@ -57,29 +51,6 @@ class Pawn extends Piece {
 
     private isOutOfBoundaries(move: Square): boolean {
         return move.row > 7 || move.column > 7 || move.row < 0 || move.column < 0;
-    }
-
-    /**
-     * Removes move from array if on target square stands the enemy
-     */
-    private removeMoveIfEnemy(board: Board, pieceMoves: Square[]): void {
-        pieceMoves.forEach((move) => {
-            if (board.getPiece(move) && !board.isOccupiedBySameColorPiece(move, this)) {
-                pieceMoves.pop();
-            }
-        });
-    }
-
-    private setPawnCaptures(board: Board, pieceMoves: Square[]): void {
-        let capturingSquares = this.getCapturingSquares();
-
-        capturingSquares = capturingSquares.filter((c) => {
-            return !board.isOccupiedBySameColorPiece(c, this) && board.getPiece(c);
-        });
-
-        capturingSquares.forEach((m) => {
-            pieceMoves.push(m);
-        });
     }
 }
 

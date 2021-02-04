@@ -2,7 +2,7 @@ import { Square } from '../../../src/models/Square';
 import { GameEngine } from '../../../src/services/game-logic/GameEngine';
 
 describe('Testing GameEngine.getLegalMoves() while playing Pawn', () => {
-    test(`Pawn shall return 2 capturing moves `, () => {
+    test.skip(`Pawn shall return 2 capturing moves `, () => {
         // Setup
         const gameEngine = new GameEngine();
         const pawn = gameEngine.board.getPiece({ row: 1, column: 4 });

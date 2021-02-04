@@ -63,13 +63,11 @@ class Pawn extends Piece {
      * Removes move from array if on target square stands the enemy
      */
     private removeMoveIfEnemy(board: Board, pieceMoves: Square[]): void {
-        if (
-            pieceMoves.length > 0 &&
-            board.getPiece(pieceMoves[0]) &&
-            !board.isOccupiedBySameColorPiece(pieceMoves[0], this)
-        ) {
-            pieceMoves.pop();
-        }
+        pieceMoves.forEach((move) => {
+            if (board.getPiece(move) && !board.isOccupiedBySameColorPiece(move, this)) {
+                pieceMoves.pop();
+            }
+        });
     }
 
     private setPawnCaptures(board: Board, pieceMoves: Square[]): void {

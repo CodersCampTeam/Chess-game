@@ -52,8 +52,8 @@ class Board {
     private setupBishop(): void {
         this.addPiece(new Bishop({ row: 7, column: 2 }, Colors.WHITE));
         this.addPiece(new Bishop({ row: 7, column: 5 }, Colors.WHITE));
-        this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.WHITE));
-        this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.WHITE));
+        this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.BLACK));
+        this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.BLACK));
     }
 
     private setupPawns(): void {

@@ -8,7 +8,6 @@ import { Square } from '../../../models/Square';
  */
 class Pawn extends Piece {
     name = PieceNames.PAWN;
-    hasMoved = false;
 
     /**
      * Returs possible moves of Pawn.

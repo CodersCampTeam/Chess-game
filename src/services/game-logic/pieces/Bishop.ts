@@ -4,6 +4,7 @@ import { Piece } from './Piece';
 
 class Bishop extends Piece {
     name = PieceNames.BISHOP;
+
     getPossibleMoves(): Square[] {
         const positions: Square[] = [];
         for (let i = 0; i <= 7; i++) {

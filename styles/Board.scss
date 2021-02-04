@@ -4,6 +4,7 @@
     outline: 5px black solid;
     width: 80vh;
     height: 80vh;
+    position: relative;
 }
 
 .square {
@@ -13,6 +14,52 @@
     text-align: center;
     line-height: 10vh;
     font-size: 7.5vh;
+}
+
+.notation {
+    position: absolute;
+    font-size: 3vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    .notation-element {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.top-notation,
+.bottom-notation {
+    .notation-element {
+        width: 10vh;
+        height: 5vh;
+    }
+}
+
+.left-notation,
+.right-notation {
+    flex-direction: column;
+    .notation-element {
+        width: 5vh;
+        height: 10vh;
+    }
+}
+
+.top-notation {
+    bottom: 100%;
+}
+
+.bottom-notation {
+    top: 100%;
+}
+
+.left-notation {
+    right: 100%;
+}
+
+.right-notation {
+    left: 100%;
 }
 
 .light {

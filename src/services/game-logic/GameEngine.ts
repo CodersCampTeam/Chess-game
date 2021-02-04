@@ -13,16 +13,23 @@ class GameEngine {
     getLegalMoves = (square: Square): Square[] => {
         const piece = this.board.getPiece(square);
         let pieceMoves = piece?.getPossibleMoves() ?? [];
-        return pieceMoves.filter((square) => this.isOccupiedBySameColorPiece(square, piece));
+        return pieceMoves
+            .filter(this.isOnBoard)
+            .filter((square) => !this.isPawnAndBlocked(square, piece))
+            .filter((square) => !this.isOccupiedBySameColor(square, piece));
     };
 
-    private isOccupiedBySameColorPiece = (square: Square, piece: Piece | null): Boolean => {
-        if (piece?.name === PieceNames.PAWN) {
-            return !this.board.getPiece(square);
-        } else {
-            return this.board.getPiece(square)?.color !== piece?.color;
-        }
+    private isOnBoard = (square: Square): Boolean => {
+        // here or in knight.ts (for now knights can get outside the board)
+        return square.row >= 0 && square.row < 8 && square.column >= 0 && square.column < 8;
     };
+
+    private isPawnAndBlocked = (square: Square, piece: Piece | null): Boolean => {
+        return piece?.name === PieceNames.PAWN ? !!this.board.getPiece(square) : false;
+    };
+
+    private isOccupiedBySameColor = (square: Square, piece: Piece | null): Boolean =>
+        this.board.getPiece(square)?.color === piece?.color;
 }
 
 export { GameEngine };

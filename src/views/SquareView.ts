@@ -27,7 +27,7 @@ class SquareView {
 
     addPiece(piece: Piece): void {
         const wrapper = document.createElement('span');
-        const color = Colors[piece.color].toLowerCase();
+        const color = piece.color.toLowerCase();
         wrapper.classList.add(color);
         wrapper.innerHTML = PieceMapper.getIcon(piece.name);
         this.element.appendChild(wrapper);

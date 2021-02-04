@@ -4,7 +4,7 @@ import { Knight } from '../../../../src/services/game-logic/pieces/Knight';
 
 test.each([
     [
-        Colors.White,
+        Colors.WHITE,
         7,
         5,
         [
@@ -19,7 +19,7 @@ test.each([
         ]
     ],
     [
-        Colors.Black,
+        Colors.BLACK,
         3,
         6,
         [

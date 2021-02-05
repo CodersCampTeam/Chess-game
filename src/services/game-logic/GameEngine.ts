@@ -19,7 +19,22 @@ class GameEngine {
         return legalMoves.filter((square) => !this.isOccupiedBySameColor(square, piece));
     };
 
-    isCastlingIllegal = (square: Square, piece: Piece): Boolean => {
+    public movePiece(location: Square, destination: Square): void {
+        //can be useful when saving moves
+        const piece = this.board.getPiece(location);
+        this.board.movePiece(location, destination);
+        if (piece?.name === PieceNames.KING) this.performCastling(location, destination);
+    }
+
+    private performCastling(location: Square, destination: Square): void {
+        if (location.column - destination.column === -2) {
+            this.board.movePiece(new Square(location.row, 7), new Square(location.row, 5));
+        } else if (location.column - destination.column === 2) {
+            this.board.movePiece(new Square(location.row, 0), new Square(location.row, 3));
+        }
+    }
+
+    private isCastlingIllegal = (square: Square, piece: Piece): Boolean => {
         let rook = null;
         let rookTarget = null;
         if (square.column - piece.position.column === 2) {

@@ -26,7 +26,7 @@ class GameController {
             const isLegalMove = legalMoves.some((move) => square?.row === move.row && square?.column === move.column);
 
             if (isLegalMove) {
-                this.gameEngine.board.movePiece(this.activeSquare, square);
+                this.gameEngine.movePiece(this.activeSquare, square);
                 this.boardView.render(this.gameEngine.board);
                 this.changePlayer();
             }

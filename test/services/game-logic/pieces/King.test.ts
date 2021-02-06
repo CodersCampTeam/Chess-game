@@ -7,7 +7,7 @@ describe('A king can move one square in any direction (horizontally, vertically,
         const position: Square = new Square();
         position.row = 5;
         position.column = 3;
-        const king: King = new King(position, Colors.White);
+        const king: King = new King(position, Colors.WHITE);
         king.hasMoved = true;
         const correctMoves = [
             { row: 4, column: 2 },

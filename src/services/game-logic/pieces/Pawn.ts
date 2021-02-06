@@ -1,4 +1,4 @@
-import { PieceNames } from '../../../enums';
+import { PieceNames, SpecialMove } from '../../../enums';
 import { Piece } from '../pieces/Piece';
 import { Colors } from '../../../enums/Colors';
 import { Square } from '../../../models/Square';
@@ -6,14 +6,13 @@ import { Board } from '../Board';
 
 class Pawn extends Piece {
     name = PieceNames.PAWN;
+    hasDoubleMoved = false;
 
     getPossibleMoves(board: Board): Square[] {
         const moves: Square[] = [];
         let specialMove: Square | null = null;
 
-        // Assume that white plays on bottom
-        // row = 0, column = 0 means left upper corner
-        const moveDirection = this.color === Colors.WHITE ? -1 : 1;
+        const moveDirection = this.getMoveDirection();
         const move = this.prepareMove(moveDirection);
 
         if (!this.hasMoved) {
@@ -25,19 +24,28 @@ class Pawn extends Piece {
 
         this.removeMoveIfEnemy(board, moves);
         this.setPawnCaptures(board, moves);
+        this.enPassant(board, moves);
 
         return moves;
+    }
+
+    move(destination: Square): void {
+        if (Math.abs(this.position.row - destination.row) === 2) {
+            this.hasDoubleMoved = true;
+        }
+
+        super.move(destination);
     }
 
     private getCapturingSquares(): Square[] {
         const moves: Square[] = [];
 
-        const moveDirection = this.color === Colors.WHITE ? -1 : 1;
-        const capture1 = this.prepareMove(moveDirection, -1);
-        const capture2 = this.prepareMove(moveDirection, 1);
+        const moveDirection = this.getMoveDirection();
+        const captureLeft = this.prepareMove(moveDirection, -1);
+        const captureRight = this.prepareMove(moveDirection, 1);
 
-        if (capture1) moves.push(capture1);
-        if (capture2) moves.push(capture2);
+        if (captureLeft) moves.push(captureLeft);
+        if (captureRight) moves.push(captureRight);
 
         return moves;
     }
@@ -75,6 +83,30 @@ class Pawn extends Piece {
         capturingSquares.forEach((m) => {
             pieceMoves.push(m);
         });
+    }
+
+    private enPassant(board: Board, pieceMoves: Square[]): void {
+        if (
+            (this.color === Colors.WHITE && this.position.row === 3) ||
+            (this.color === Colors.BLACK && this.position.row === 4)
+        ) {
+            const squareLeft = new Square(this.position.row, this.position.column - 1);
+            const squareRight = new Square(this.position.row, this.position.column + 1);
+
+            [squareLeft, squareRight].forEach((square) => {
+                const piece = board.getPiece(square);
+                if (
+                    piece &&
+                    piece.name === PieceNames.PAWN &&
+                    (piece as Pawn).hasDoubleMoved &&
+                    !board.isOccupiedBySameColorPiece(square, this)
+                ) {
+                    pieceMoves.push(
+                        new Square(this.position.row + this.getMoveDirection(), square.column, SpecialMove.EN_PASSAT)
+                    );
+                }
+            });
+        }
     }
 }
 

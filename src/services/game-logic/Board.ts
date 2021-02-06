@@ -22,8 +22,8 @@ class Board {
         this.setup();
     }
 
-    public getPiece({ row, column }: Square): Piece | null {
-        return this.state[row][column];
+    public getPiece(square: Square): Piece | null {
+        return this.state[square.row][square.column];
     }
 
     public movePiece(location: Square, destination: Square): void {
@@ -35,6 +35,10 @@ class Board {
     public isOccupiedBySameColorPiece = (square: Square, piece: Piece | null): Boolean => {
         return this.getPiece(square)?.color === piece?.color;
     };
+
+    public resetSquare(square: Square): void {
+        this.state[square.row][square.column] = null;
+    }
 
     private setup(): void {
         this.setupPawns();
@@ -50,10 +54,10 @@ class Board {
     }
 
     private setupBishop(): void {
-        this.addPiece(new Bishop({ row: 7, column: 2 }, Colors.WHITE));
-        this.addPiece(new Bishop({ row: 7, column: 5 }, Colors.WHITE));
-        this.addPiece(new Bishop({ row: 0, column: 2 }, Colors.BLACK));
-        this.addPiece(new Bishop({ row: 0, column: 5 }, Colors.BLACK));
+        this.addPiece(new Bishop(new Square(7, 2), Colors.WHITE));
+        this.addPiece(new Bishop(new Square(7, 5), Colors.WHITE));
+        this.addPiece(new Bishop(new Square(0, 2), Colors.BLACK));
+        this.addPiece(new Bishop(new Square(0, 5), Colors.BLACK));
     }
 
     private setupPawns(): void {
@@ -63,34 +67,34 @@ class Board {
             { row: 6, color: Colors.WHITE }
         ].forEach((obj) => {
             for (let column = 0; column < Board.BOARD_SIZE; ++column) {
-                const pawn = new Pawn({ column: column, row: obj.row }, obj.color);
+                const pawn = new Pawn(new Square(obj.row, column), obj.color);
                 this.addPiece(pawn);
             }
         });
     }
 
     private setupKing(): void {
-        this.addPiece(new King({ row: 0, column: 4 }, Colors.BLACK));
-        this.addPiece(new King({ row: 7, column: 4 }, Colors.WHITE));
+        this.addPiece(new King(new Square(0, 4), Colors.BLACK));
+        this.addPiece(new King(new Square(7, 4), Colors.WHITE));
     }
 
     private setupQueens(): void {
-        this.addPiece(new Queen({ row: 7, column: 3 }, Colors.WHITE));
-        this.addPiece(new Queen({ row: 0, column: 3 }, Colors.BLACK));
+        this.addPiece(new Queen(new Square(7, 3), Colors.WHITE));
+        this.addPiece(new Queen(new Square(0, 3), Colors.BLACK));
     }
 
     private setupRooks(): void {
-        this.addPiece(new Rook({ column: 0, row: 0 }, Colors.BLACK));
-        this.addPiece(new Rook({ column: 7, row: 0 }, Colors.BLACK));
-        this.addPiece(new Rook({ column: 0, row: 7 }, Colors.WHITE));
-        this.addPiece(new Rook({ column: 7, row: 7 }, Colors.WHITE));
+        this.addPiece(new Rook(new Square(0, 0), Colors.BLACK));
+        this.addPiece(new Rook(new Square(0, 7), Colors.BLACK));
+        this.addPiece(new Rook(new Square(7, 0), Colors.WHITE));
+        this.addPiece(new Rook(new Square(7, 7), Colors.WHITE));
     }
 
     private setupKnights(): void {
-        this.addPiece(new Knight({ column: 1, row: 0 }, Colors.BLACK));
-        this.addPiece(new Knight({ column: 6, row: 0 }, Colors.BLACK));
-        this.addPiece(new Knight({ column: 1, row: 7 }, Colors.WHITE));
-        this.addPiece(new Knight({ column: 6, row: 7 }, Colors.WHITE));
+        this.addPiece(new Knight(new Square(0, 1), Colors.BLACK));
+        this.addPiece(new Knight(new Square(0, 6), Colors.BLACK));
+        this.addPiece(new Knight(new Square(7, 1), Colors.WHITE));
+        this.addPiece(new Knight(new Square(7, 6), Colors.WHITE));
     }
 }
 

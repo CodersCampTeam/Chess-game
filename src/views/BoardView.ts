@@ -18,20 +18,23 @@ class BoardView {
 
     private generateNotation(board: HTMLElement): void {
         const sides = ['left', 'right', 'bottom', 'top'];
-        const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
         sides.forEach((side, sideIndex) => {
             const notationBox = document.createElement('div');
             notationBox.classList.add('notation', `${side}-notation`);
-
-            for (let i = 8; i >= 1; i--) {
-                const notationElement = document.createElement('div');
-                notationElement.classList.add('notation-element');
-                notationElement.innerText = sideIndex < 2 ? i.toString() : letters[8 - i];
-                notationBox.appendChild(notationElement);
-            }
+            this.getNotationSymbols(notationBox, sideIndex);
             board.appendChild(notationBox);
         });
+    }
+
+    private getNotationSymbols(notationBox: HTMLElement, sideIndex: number) {
+        for (let i = 8; i >= 1; i--) {
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            const notationElement = document.createElement('div');
+            notationElement.classList.add('notation-element');
+            notationElement.innerText = sideIndex < 2 ? i.toString() : letters[8 - i];
+            notationBox.appendChild(notationElement);
+        }
     }
 
     render(state: Board): void {

@@ -14,7 +14,9 @@ class GameEngine {
         const piece = this.board.getPiece(square);
         let legalMoves = piece?.getPossibleMoves(this.board).filter(this.isOnBoard) ?? [];
         if (piece?.name === PieceNames.KING) {
-            legalMoves = legalMoves.filter((move) => !this.isCastlingIllegal(move, piece));
+            legalMoves = legalMoves.filter(
+                (move) => !this.isCastling(move, piece) || this.isCastlingLegal(move, piece)
+            );
         }
         return legalMoves.filter((destination) => !this.isOccupiedBySameColor(destination, piece));
     };
@@ -31,30 +33,36 @@ class GameEngine {
     private performCastling(location: Square, destination: Square): void {
         if (destination.column - location.column === Constants.KINGSIDE_CASTLING) {
             this.board.movePiece(
-                new Square(location.row, Constants.KINGSIDE_ROOK_COLUMN),
-                new Square(location.row, Constants.KINGSIDE_ROOK_DESTINATION_COLUMN)
+                { row: location.row, column: Constants.KINGSIDE_ROOK_COLUMN },
+                { row: location.row, column: Constants.KINGSIDE_ROOK_DESTINATION_COLUMN }
             );
         } else if (destination.column - location.column === Constants.QUEENSIDE_CASTLING) {
             this.board.movePiece(
-                new Square(location.row, Constants.QUEENSIDE_ROOK_COLUMN),
-                new Square(location.row, Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN)
+                { row: location.row, column: Constants.QUEENSIDE_ROOK_COLUMN },
+                { row: location.row, column: Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN }
             );
         }
     }
+    private isCastling = (square: Square, piece: Piece): boolean => {
+        return Math.abs(piece.position.column - square.column) > 1;
+    };
 
-    private isCastlingIllegal = (square: Square, piece: Piece): boolean => {
-        let rook = null;
-        let rookTarget = null;
-        if (square.column - piece.position.column === Constants.KINGSIDE_CASTLING) {
-            rook = this.board.getPiece(new Square(piece.position.row, Constants.KINGSIDE_ROOK_COLUMN));
-            rookTarget = new Square(piece.position.row, Constants.KINGSIDE_ROOK_DESTINATION_COLUMN);
-        } else if (square.column - piece.position.column === Constants.QUEENSIDE_CASTLING) {
-            rook = this.board.getPiece(new Square(piece.position.row, Constants.QUEENSIDE_ROOK_COLUMN));
-            rookTarget = new Square(piece.position.row, Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN);
-        } else {
-            return false;
-        }
-        return rook ? rook.hasMoved || !this.canMoveTo(rook.position, rookTarget) : true;
+    private isCastlingLegal = (square: Square, piece: Piece): boolean => {
+        const rook = this.board.getPiece({
+            row: piece.position.row,
+            column:
+                square.column - piece.position.column === Constants.KINGSIDE_CASTLING
+                    ? Constants.KINGSIDE_ROOK_COLUMN
+                    : Constants.QUEENSIDE_ROOK_COLUMN
+        });
+        const rookTarget = {
+            row: piece.position.row,
+            column:
+                square.column - piece.position.column === Constants.KINGSIDE_CASTLING
+                    ? Constants.KINGSIDE_ROOK_DESTINATION_COLUMN
+                    : Constants.QUEENSIDE_ROOK_COLUMN
+        };
+        return rook ? !rook.hasMoved && this.canMoveTo(rook.position, rookTarget) : false;
     };
 
     private canMoveTo = (from: Square, to: Square): boolean => {

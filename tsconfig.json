@@ -6,6 +6,7 @@
     "preserveConstEnums": true,
     "removeComments": true,
     "target": "es5",
+    "lib": [ "es2019", "DOM", "ES6" ,"DOM.Iterable", "ScriptHost"],
     "strict": true,
     "allowJs": true,
     "sourceMap": true,

@@ -11,7 +11,7 @@ import { Queen } from './pieces/Queen';
 class Board {
     public static BOARD_SIZE = 8;
 
-    private state: Array<Array<Piece | null>>;
+    public state: Array<Array<Piece | null>>;
 
     constructor() {
         this.state = new Array(Board.BOARD_SIZE);

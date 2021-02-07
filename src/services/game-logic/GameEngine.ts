@@ -12,10 +12,9 @@ class GameEngine {
 
     getLegalMoves = (square: Square): Square[] => {
         const piece = this.board.getPiece(square);
-        let legalMoves = piece?.getPossibleMoves().filter(this.isOnBoard) ?? [];
+        let legalMoves = piece?.getPossibleMoves(this.board).filter(this.isOnBoard) ?? [];
         if (piece?.name === PieceNames.KING)
             legalMoves = legalMoves.filter((square) => !this.isCastlingIllegal(square, piece));
-        if (piece?.name === PieceNames.PAWN) legalMoves = legalMoves.filter((square) => !this.board.getPiece(square));
         return legalMoves.filter((square) => !this.isOccupiedBySameColor(square, piece));
     };
 
@@ -34,7 +33,7 @@ class GameEngine {
         }
     }
 
-    private isCastlingIllegal = (square: Square, piece: Piece): Boolean => {
+    private isCastlingIllegal = (square: Square, piece: Piece): boolean => {
         let rook = null;
         let rookTarget = null;
         if (square.column - piece.position.column === 2) {
@@ -49,16 +48,16 @@ class GameEngine {
         return rook ? rook.hasMoved || !this.canMoveTo(rook.position, rookTarget) : true;
     };
 
-    private canMoveTo = (from: Square, to: Square): Boolean => {
+    private canMoveTo = (from: Square, to: Square): boolean => {
         return this.getLegalMoves(from).some(({ row, column }) => row === to.row && column === to.column);
     }; // might be useful for 'check'
 
-    private isOnBoard = (square: Square): Boolean => {
+    private isOnBoard = (square: Square): boolean => {
         // here or in knight.ts (for now knights can get outside the board)
         return square.row >= 0 && square.row < 8 && square.column >= 0 && square.column < 8;
     };
 
-    private isOccupiedBySameColor = (square: Square, piece: Piece | null): Boolean =>
+    private isOccupiedBySameColor = (square: Square, piece: Piece | null): boolean =>
         this.board.getPiece(square)?.color === piece?.color;
 }
 

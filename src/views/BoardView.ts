@@ -11,8 +11,30 @@ class BoardView {
         const board = document.createElement(`div`);
         board.id = 'board';
         this.squareViews.forEach(({ element }) => board.appendChild(element));
+        this.generateNotation(board);
 
         document.querySelector('#app')?.appendChild(board);
+    }
+
+    private generateNotation(board: HTMLElement): void {
+        const sides = ['left', 'right', 'bottom', 'top'];
+
+        sides.forEach((side, sideIndex) => {
+            const notationBox = document.createElement('div');
+            notationBox.classList.add('notation', `${side}-notation`);
+            this.getNotationSymbols(notationBox, sideIndex);
+            board.appendChild(notationBox);
+        });
+    }
+
+    private getNotationSymbols(notationBox: HTMLElement, sideIndex: number) {
+        for (let i = 8; i >= 1; i--) {
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            const notationElement = document.createElement('div');
+            notationElement.classList.add('notation-element');
+            notationElement.innerText = sideIndex < 2 ? i.toString() : letters[8 - i];
+            notationBox.appendChild(notationElement);
+        }
     }
 
     render(state: Board): void {

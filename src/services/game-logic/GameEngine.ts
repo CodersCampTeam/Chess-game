@@ -19,9 +19,132 @@ class GameEngine {
                 (move) => !this.isCastling(move, piece) || this.isCastlingLegal(move, piece)
             );
         }
-        return legalMoves
+        legalMoves
             .filter((destination) => !this.isOccupiedBySameColor(destination, piece))
             .filter((move) => this.moveNotResultWithCheck(move, piece, square));
+
+        const firstCollission = this.getFirstCollission(square);
+
+        if (piece?.name === PieceNames.ROOK || piece?.name === PieceNames.QUEEN) {
+            const rook = legalMoves
+                .filter((square) => !(square.row < firstCollission[0] && square.column === piece.position.column))
+                .filter((square) => !(square.row > firstCollission[1] && square.column === piece.position.column))
+                .filter((square) => !(square.column < firstCollission[2] && square.row === piece.position.row))
+                .filter((square) => !(square.column > firstCollission[3] && square.row === piece.position.row))
+                .filter((square) => !(square.row < firstCollission[4] && square.column < piece.position.column))
+                .filter((square) => !(square.row > firstCollission[5] && square.column < piece.position.column))
+                .filter((square) => !(square.row < firstCollission[6] && square.column > piece.position.column))
+                .filter((square) => !(square.row > firstCollission[7] && square.column > piece.position.column));
+            return rook;
+        } else if (piece?.name === PieceNames.BISHOP) {
+            const bishop = legalMoves
+                .filter((square) => !(square.row < firstCollission[4] && square.column < piece.position.column))
+                .filter((square) => !(square.row > firstCollission[5] && square.column < piece.position.column))
+                .filter((square) => !(square.row < firstCollission[6] && square.column > piece.position.column))
+                .filter((square) => !(square.row > firstCollission[7] && square.column > piece.position.column));
+
+            return bishop;
+        } else return legalMoves;
+    };
+    private detectAllCollisions = (square: Square) => {
+        const possibleMoves = this.board.getPiece(square)?.getPossibleMoves(this.board).flat();
+
+        const piecesPositionsOnBoard = this.board.state
+            .map((e) => Object.entries(e).map(([_, y]) => y?.position))
+            .flat();
+
+        const collisions = piecesPositionsOnBoard.filter(function (obj) {
+            return possibleMoves?.some((obj2) => {
+                return obj?.column == obj2?.column && obj?.row == obj2?.row;
+            });
+        });
+
+        return collisions;
+    };
+
+    private getFirstCollission = (square: Square): number[] => {
+        const directions: number[] = [];
+        const collisions = this.detectAllCollisions(square);
+        const piecePosition = this.board.getPiece(square)?.position;
+        let [
+            up,
+            down,
+            left,
+            rigth,
+            diagonallyUpLeft,
+            diagonallyDownLeft,
+            diagonallyUpRight,
+            diagonallyDownRight
+        ] = directions;
+
+        up = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row < piecePosition!.row) && (obj!.column === piecePosition!.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(up);
+        down = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row > piecePosition!.row) && (obj?.column === piecePosition?.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(down);
+        left = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.column < piecePosition!.column) && (obj?.row === piecePosition?.row);
+                })
+                .map((e) => e!.column)
+        );
+        directions.push(left);
+        rigth = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.column > piecePosition!.column) && (obj?.row === piecePosition?.row);
+                })
+                .map((e) => e!.column)
+        );
+        directions.push(rigth);
+        diagonallyUpLeft = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row < piecePosition!.row) &&
+                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyUpLeft);
+        diagonallyDownLeft = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row > piecePosition!.row) &&
+                        (obj!.row + obj!.column === piecePosition!.row + piecePosition!.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyDownLeft);
+        diagonallyUpRight = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row < piecePosition!.row ) && (obj!.row + obj!.column) === (piecePosition!.row + piecePosition!.column)
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyUpRight);
+        diagonallyDownRight = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row > piecePosition!.row) && 
+                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column)
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyDownRight);
+        return directions;
     };
 
     moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square): boolean {

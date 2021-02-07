@@ -1,4 +1,4 @@
-import { PieceNames } from '../../enums';
+import { PieceNames, Constants } from '../../enums';
 import { Square } from '../../models/Square';
 import { Board } from './Board';
 import { Piece } from './pieces/Piece';
@@ -13,35 +13,44 @@ class GameEngine {
     getLegalMoves = (square: Square): Square[] => {
         const piece = this.board.getPiece(square);
         let legalMoves = piece?.getPossibleMoves(this.board).filter(this.isOnBoard) ?? [];
-        if (piece?.name === PieceNames.KING)
-            legalMoves = legalMoves.filter((square) => !this.isCastlingIllegal(square, piece));
-        return legalMoves.filter((square) => !this.isOccupiedBySameColor(square, piece));
+        if (piece?.name === PieceNames.KING) {
+            legalMoves = legalMoves.filter((move) => !this.isCastlingIllegal(move, piece));
+        }
+        return legalMoves.filter((destination) => !this.isOccupiedBySameColor(destination, piece));
     };
 
     public movePiece(location: Square, destination: Square): void {
         //can be useful when saving moves
         const piece = this.board.getPiece(location);
         this.board.movePiece(location, destination);
-        if (piece?.name === PieceNames.KING) this.performCastling(location, destination);
+        if (piece?.name === PieceNames.KING) {
+            this.performCastling(location, destination);
+        }
     }
 
     private performCastling(location: Square, destination: Square): void {
-        if (location.column - destination.column === -2) {
-            this.board.movePiece(new Square(location.row, 7), new Square(location.row, 5));
-        } else if (location.column - destination.column === 2) {
-            this.board.movePiece(new Square(location.row, 0), new Square(location.row, 3));
+        if (destination.column - location.column === Constants.KINGSIDE_CASTLING) {
+            this.board.movePiece(
+                new Square(location.row, Constants.KINGSIDE_ROOK_COLUMN),
+                new Square(location.row, Constants.KINGSIDE_ROOK_DESTINATION_COLUMN)
+            );
+        } else if (destination.column - location.column === Constants.QUEENSIDE_CASTLING) {
+            this.board.movePiece(
+                new Square(location.row, Constants.QUEENSIDE_ROOK_COLUMN),
+                new Square(location.row, Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN)
+            );
         }
     }
 
     private isCastlingIllegal = (square: Square, piece: Piece): boolean => {
         let rook = null;
         let rookTarget = null;
-        if (square.column - piece.position.column === 2) {
-            rook = this.board.getPiece(new Square(piece.position.row, 7));
-            rookTarget = new Square(piece.position.row, 5);
-        } else if (square.column - piece.position.column === -2) {
-            rook = this.board.getPiece(new Square(piece.position.row, 0));
-            rookTarget = new Square(piece.position.row, 3);
+        if (square.column - piece.position.column === Constants.KINGSIDE_CASTLING) {
+            rook = this.board.getPiece(new Square(piece.position.row, Constants.KINGSIDE_ROOK_COLUMN));
+            rookTarget = new Square(piece.position.row, Constants.KINGSIDE_ROOK_DESTINATION_COLUMN);
+        } else if (square.column - piece.position.column === Constants.QUEENSIDE_CASTLING) {
+            rook = this.board.getPiece(new Square(piece.position.row, Constants.QUEENSIDE_ROOK_COLUMN));
+            rookTarget = new Square(piece.position.row, Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN);
         } else {
             return false;
         }

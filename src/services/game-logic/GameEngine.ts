@@ -294,7 +294,6 @@ class GameEngine {
                   this.moveNotResultWithCheck(passedSquare, piece, piece?.position)
             : false;
     };
-
     private canMoveTo = (from: Square, to: Square): boolean => {
         return this.getLegalMoves(from).some(({ row, column }) => row === to.row && column === to.column);
     };

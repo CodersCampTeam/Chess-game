@@ -12,7 +12,6 @@ import { PieceNames } from '../../enums';
 class Board {
     public static BOARD_SIZE = 8;
 
-    private movesHistory: [Piece, Square][] = [];
     public state: Array<Array<Piece | null>>;
 
     constructor() {

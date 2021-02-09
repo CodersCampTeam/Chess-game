@@ -6,7 +6,6 @@ import { Board } from '../Board';
 
 class Pawn extends Piece {
     name = PieceNames.PAWN;
-    hasMoved = false;
 
     getPossibleMoves(board: Board): Square[] {
         const moves: Square[] = [];

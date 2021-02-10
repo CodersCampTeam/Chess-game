@@ -3,9 +3,11 @@ import { Square } from '../models/Square';
 import { GameEngine } from '../services/game-logic/GameEngine';
 import { Piece } from '../services/game-logic/pieces/Piece';
 import { BoardView } from '../views/BoardView';
+import { SettingsCog } from '../views/SettingsCog';
 
 class GameController {
     boardView: BoardView;
+    settingsView: SettingsCog;
     gameEngine: GameEngine;
     activeSquare: Square | null;
     currentPlayer: Colors;
@@ -14,6 +16,7 @@ class GameController {
         this.activeSquare = null;
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
+        this.settingsView = new SettingsCog();
         this.currentPlayer = Colors.WHITE;
         this.updateBoard();
     }

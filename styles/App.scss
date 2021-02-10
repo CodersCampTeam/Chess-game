@@ -1,5 +1,6 @@
 $base-black: #000000;
 $base-dark-blue: #14213d;
+$base-grey: rgb(43, 43, 43);
 $base-light-orange: #ffb703;
 $base-orange: #fca311;
 $base-light-gray: #e5e5e5;
@@ -27,5 +28,22 @@ body {
     height: 100vh;
     font-family: 'Segoe UI';
     background-image: url('/static/images/gambit_final.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -msie-background-size: cover;
     background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+    body {
+        background-color: #020416;
+        -webkit-background-size: contain;
+        -moz-background-size: contain;
+        -o-background-size: contain;
+        -msie-background-size: contain;
+        background-size: contain;
+        align-items: flex-end;
+    }
 }

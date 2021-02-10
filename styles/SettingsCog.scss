@@ -1,12 +1,14 @@
+@import './App';
+
 .cog {
     display: flex;
     position: absolute;
     z-index: 999;
     padding: 2vh;
-    top: 0;
-    right: 0;
+    top: 2vh;
+    right: 2vh;
     font-size: 6vh;
-    color: white;
+    color: $base-white;
     -webkit-animation: spin 2s linear infinite;
     -moz-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
@@ -26,4 +28,70 @@
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 15vh;
+    right: 2vh;
+    width: 50vh;
+    height: auto;
+    padding: 2vh;
+    background-color: $base-white;
+    margin: auto;
+    padding: 3vh 5vh;
+    text-align: center;
+    justify-content: space-between;
+    &--closed {
+        display: none;
+    }
+    &__header {
+        text-transform: uppercase;
+        font-family: sans-serif;
+        color: $base-light-orange;
+        font-size: 4vh;
+        &--option {
+            font-size: 3vh;
+            font-weight: bold;
+            margin-top: 1vh;
+        }
+    }
+    &__option {
+        margin: 1vh;
+        & input {
+            opacity: 0;
+            width: 0px;
+            height: 0px;
+        }
+    }
+    &__label {
+        font-size: 3vh;
+        color: $base-black;
+        &:hover {
+            color: $base-light-orange;
+        }
+    }
+    &__button {
+        margin-top: 1vh;
+        font-size: 3vh;
+        padding: 1vh;
+        color: $base-light-orange;
+        &:hover {
+            color: $base-black;
+        }
+    }
+}
+
+@media (max-width: 992px) {
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 480px) {
 }

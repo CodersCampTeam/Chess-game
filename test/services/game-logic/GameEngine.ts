@@ -22,7 +22,7 @@ describe('Testing GameEngine.getLegalMoves() while playing Pawn', () => {
         const gameEngine = new GameEngine();
         const pawnBlack = gameEngine.board.getPiece(new Square(1, 4));
         const pawnWhite = gameEngine.board.getPiece(new Square(6, 3));
-        const expected = [new Square(2, 3), new Square(2, 4, SpecialMove.EN_PASSAT)];
+        const expected = [new Square(2, 3), new Square(2, 4)];
 
         // Move white and black pawn to trigger En Passat capture
         pawnWhite.move(new Square(3, 3));
@@ -42,7 +42,7 @@ describe('Testing GameEngine.getLegalMoves() while playing Pawn', () => {
         // Move white and black pawn to trigger En Passat capture
         pawnWhite.move(new Square(3, 3));
         pawnBlack.move(new Square(3, 4));
-        pawnWhite.move(new Square(2, 4, SpecialMove.EN_PASSAT));
+        pawnWhite.move(new Square(2, 4));
 
         const removedPiece = gameEngine.board.getPiece(new Square(3, 4));
 

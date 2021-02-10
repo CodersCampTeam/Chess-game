@@ -1,5 +1,4 @@
 import { PieceNames, Constants } from '../../enums';
-import { SpecialMove } from '../../enums/SpecialMoves';
 import { Square } from '../../models/Square';
 import { Board } from './Board';
 import { Piece } from './pieces/Piece';
@@ -22,21 +21,30 @@ class GameEngine {
         return legalMoves.filter((destination) => !this.isOccupiedBySameColor(destination, piece));
     };
 
-    public runSpecialRoutines(destination: Square): void {
-        const piece = this.board.getPiece(destination);
-        if (piece && destination.isSpecial === SpecialMove.EN_PASSAT) {
-            this.board.resetSquare(new Square(-piece.getMoveDirection() + destination.row, destination.column));
+    public runSpecialRoutines(location: Square, destination: Square): void {
+        const locationPiece = this.board.getPiece(location);
+
+        if (locationPiece?.name === PieceNames.PAWN) {
+            this.performEnPassat(locationPiece, destination);
+        } else if (locationPiece?.name === PieceNames.KING) {
+            this.performCastling(location, destination);
         }
     }
 
     public movePiece(location: Square, destination: Square): void {
-        //can be useful when saving moves
         const piece = this.board.getPiece(location);
-        this.board.movePiece(location, destination);
+        if (piece) {
+            this.runSpecialRoutines(piece?.position, destination);
+            this.board.movePiece(location, destination);
+        }
+    }
 
-        this.runSpecialRoutines(destination);
-        if (piece?.name === PieceNames.KING) {
-            this.performCastling(location, destination);
+    private performEnPassat(locationPiece: Piece, destination: Square) {
+        const enPassatPiece = this.board.getPiece(
+            new Square(-locationPiece.getMoveDirection() + destination.row, destination.column)
+        );
+        if (enPassatPiece?.name === PieceNames.PAWN && this.board.getLastMove()?.[0] === enPassatPiece) {
+            this.board.resetSquare(enPassatPiece.position);
         }
     }
 
@@ -79,7 +87,7 @@ class GameEngine {
         return this.getLegalMoves(from).some(({ row, column }) => row === to.row && column === to.column);
     }; // might be useful for 'check'
 
-    private isOnBoard = (square: Square): Boolean => {
+    private isOnBoard = (square: Square): boolean => {
         // here or in knight.ts (for now knights can get outside the board)
         return square.row >= 0 && square.row < 8 && square.column >= 0 && square.column < 8;
     };

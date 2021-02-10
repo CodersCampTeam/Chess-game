@@ -14,7 +14,10 @@ class Bishop extends Piece {
                     this.position.row !== i &&
                     this.position.column !== j
                 ) {
-                    positions.push(new Square(i, j));
+                    positions.push({
+                        row: i,
+                        column: j
+                    });
                 }
             }
         }

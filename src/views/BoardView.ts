@@ -55,7 +55,7 @@ class BoardView {
 
     private placePieces(state: Board): void {
         this.squareViews.forEach((square) => {
-            const piece = state.getPiece(new Square(square.row, square.column));
+            const piece = state.getPiece({ row: square.row, column: square.column });
             square.update(piece);
         });
     }

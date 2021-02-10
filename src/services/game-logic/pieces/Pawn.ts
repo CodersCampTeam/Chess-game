@@ -1,4 +1,4 @@
-import { PieceNames, SpecialMove } from '../../../enums';
+import { PieceNames } from '../../../enums';
 import { Piece } from '../pieces/Piece';
 import { Colors } from '../../../enums/Colors';
 import { Square } from '../../../models/Square';
@@ -94,16 +94,15 @@ class Pawn extends Piece {
             const squareRight = new Square(this.position.row, this.position.column + 1);
 
             [squareLeft, squareRight].forEach((square) => {
+                const lastMove = board.getLastMove();
                 const piece = board.getPiece(square);
                 if (
-                    piece &&
-                    piece.name === PieceNames.PAWN &&
-                    (piece as Pawn).hasDoubleMoved &&
+                    lastMove &&
+                    lastMove?.[0].name === PieceNames.PAWN &&
+                    (lastMove?.[0] as Pawn).hasDoubleMoved &&
                     !board.isOccupiedBySameColorPiece(square, this)
                 ) {
-                    pieceMoves.push(
-                        new Square(this.position.row + this.getMoveDirection(), square.column, SpecialMove.EN_PASSAT)
-                    );
+                    pieceMoves.push(new Square(this.position.row + this.getMoveDirection(), square.column));
                 }
             });
         }

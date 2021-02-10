@@ -12,6 +12,7 @@ class Board {
     public static BOARD_SIZE = 8;
 
     private state: Array<Array<Piece | null>>;
+    private movesHistory: [Piece, Square][] = [];
 
     constructor() {
         this.state = new Array(Board.BOARD_SIZE);
@@ -27,6 +28,9 @@ class Board {
     }
 
     public movePiece(location: Square, destination: Square): void {
+        const piece = this.getPiece(location);
+        if (piece) this.movesHistory.push([piece, destination]);
+
         this.state[location.row][location.column]?.move(destination);
         this.state[destination.row][destination.column] = this.state[location.row][location.column];
         this.state[location.row][location.column] = null;
@@ -38,6 +42,14 @@ class Board {
 
     public resetSquare(square: Square): void {
         this.state[square.row][square.column] = null;
+    }
+
+    public getLastMove(): [Piece, Square] | undefined {
+        return this.movesHistory[this.movesHistory.length - 1];
+    }
+
+    public popLastMove(): [Piece, Square] | undefined {
+        return this.movesHistory.pop();
     }
 
     private setup(): void {

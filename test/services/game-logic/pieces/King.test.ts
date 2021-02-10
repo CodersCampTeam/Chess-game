@@ -4,9 +4,7 @@ import { Colors } from '../../../../src/enums';
 
 describe('A king can move one square in any direction (horizontally, vertically, or diagonally)', () => {
     test('all possible moves from 5,3', () => {
-        const position: Square = new Square();
-        position.row = 5;
-        position.column = 3;
+        const position: Square = new Square(5, 3);
         const king: King = new King(position, Colors.WHITE);
         king.hasMoved = true;
         const correctMoves = [

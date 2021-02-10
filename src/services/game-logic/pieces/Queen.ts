@@ -13,7 +13,10 @@ class Queen extends Piece {
                     !this.isQueenPosition(x, y) &&
                     (this.isDiagonal(x, y) || this.isHorizonalMove(y) || this.isVerticalMove(x))
                 ) {
-                    possibleMoves.push(new Square(x, y));
+                    possibleMoves.push({
+                        row: x,
+                        column: y
+                    });
                 }
             }
         }

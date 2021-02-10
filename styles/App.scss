@@ -27,23 +27,34 @@ body {
     align-items: center;
     height: 100vh;
     font-family: 'Segoe UI';
-    background-image: url('/static/images/gambit_final.jpg');
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     -msie-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
+    &.body--gambit {
+        background-image: url('/static/images/background_gambit.jpg');
+    }
+    &.body--potter {
+        background-image: url('/static/images/background_potter.jpg');
+    }
 }
 
 @media (max-width: 768px) {
     body {
-        background-color: #020416;
         -webkit-background-size: contain;
         -moz-background-size: contain;
         -o-background-size: contain;
         -msie-background-size: contain;
         background-size: contain;
         align-items: flex-end;
+        &.body--gambit {
+            background-color: #020416;
+        }
+        &.body--potter {
+            background-color: #07002e;
+            background-position: 0 -80px;
+        }
     }
 }

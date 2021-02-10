@@ -14,6 +14,7 @@ class SettingsCog {
         });
         this.element.prepend(cog);
         this.addSettingsForm();
+        document.querySelector('body')?.classList.add('body--gambit');
         document.querySelector('#app')?.prepend(settings);
     }
 
@@ -25,30 +26,36 @@ class SettingsCog {
             <p class = "form__header"> Your preferences </p>
             <p class="form__header--option">Theme</p>                
             <div class="form__option">
-            <label for="gambit" class="form__label">"Queen's Gambit"</label>
-            <input type="radio" id="gambit" name="layout" value="gambit" checked> 
+                <input type="radio" id="gambit" name="layout" value="gambit" checked>
+                <label for="gambit" class="form__label">"Queen's Gambit"</label> 
             </div>
             <div class="form__option">
-            <label for="potter" class="form__label">"Harry Potter"</label>
-            <input type="radio" id="potter"  name="layout" value="potter"></div>  
+                <input type="radio" id="potter" name="layout" value="potter">
+                <label for="potter" class="form__label">"Harry Potter"</label>
+            </div>  
             <p class="form__header--option">Pieces</p>   
+            <div class="form__option">           
+                <input type="radio" id="classic-pieces" name="pieces" value="classic">
+                <label for="classic-pieces" class="form__label">Classic</label></div>  
             <div class="form__option">
-            <label for="classic" class="form__label">Classic</label>
-            <input type="radio" id="classic-pawns"  name="layout" value="potter"></div>  
-            <div class="form__option">
-            <label for="potter" class="form__label">Modern</label>
-            <input type="radio" id="potter"  name="layout" value="potter"></div>`;
+                <input type="radio" id="modern-pieces" name="pieces" value="modern">
+                <label for="modern-pieces" class="form__label">Modern</label>
+            </div>`;
         const submitButton = document.createElement('div');
         submitButton.innerHTML = `<button type="button" class="form__button">Save settings</button>`;
         submitButton.onclick = () => this.saveSettings();
         form.appendChild(submitButton);
         this.element.appendChild(form);
     }
+
     openSettings(): void {
         this.element.querySelector('.form')?.classList.remove('form--closed');
     }
-    //closeSettings
+
     saveSettings(): void {
+        const layout = document.querySelector('input[name="layout"]:checked') as HTMLInputElement;
+        document.querySelector('body')?.classList.remove('body--potter', 'body--gambit');
+        document.querySelector('body')?.classList.add(`body--${layout?.value}`);
         this.element.querySelector('.form')?.classList.add('form--closed');
     }
 }

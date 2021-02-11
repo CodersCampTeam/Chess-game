@@ -1,13 +1,16 @@
-import { PieceNames, Constants } from '../../enums';
+import { PieceNames, Constants, SoundTypes } from '../../enums';
 import { Square } from '../../models/Square';
 import { Board } from './Board';
 import { Piece } from './pieces/Piece';
+import { SoundController } from '../../controllers/SoundController';
 
 class GameEngine {
     board: Board;
+    soundController: SoundController;
 
     constructor() {
         this.board = new Board();
+        this.soundController = new SoundController();
     }
 
     getLegalMoves = (square: Square): Square[] => {
@@ -32,6 +35,7 @@ class GameEngine {
     }
 
     public movePiece(location: Square, destination: Square): void {
+        this.playSound(location, destination);
         const piece = this.board.getPiece(location);
         if (piece) {
             this.runSpecialRoutines(piece?.position, destination);
@@ -45,6 +49,17 @@ class GameEngine {
         );
         if (enPassatPiece?.name === PieceNames.PAWN && this.board.getLastMove()?.[0] === enPassatPiece) {
             this.board.resetSquare(enPassatPiece.position);
+        }
+    }
+
+    private playSound(location: Square, destination: Square): void {
+        const locationPiece = this.board.getPiece(location);
+        const destinationPiece = this.board.getPiece(destination);
+
+        if (locationPiece && destinationPiece) {
+            this.soundController.makeSound(SoundTypes.CAPTURING_MOVE);
+        } else {
+            this.soundController.makeSound(SoundTypes.NORMAL_MOVE);
         }
     }
 

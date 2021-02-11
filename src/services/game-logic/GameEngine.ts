@@ -19,13 +19,13 @@ class GameEngine {
                 (move) => !this.isCastling(move, piece) || this.isCastlingLegal(move, piece)
             );
         }
-        legalMoves
+        legalMoves = legalMoves
             .filter((destination) => !this.isOccupiedBySameColor(destination, piece))
             .filter((move) => this.moveNotResultWithCheck(move, piece, square));
 
         const firstCollission = this.getFirstCollission(square);
 
-        if (piece?.name === PieceNames.ROOK || piece?.name === PieceNames.QUEEN) {
+        if (piece?.name === PieceNames.ROOK || piece?.name === PieceNames.QUEEN || piece?.name === PieceNames.PAWN) {
             const rook = legalMoves
                 .filter((square) => !(square.row < firstCollission[0] && square.column === piece.position.column))
                 .filter((square) => !(square.row > firstCollission[1] && square.column === piece.position.column))
@@ -46,6 +46,7 @@ class GameEngine {
             return bishop;
         } else return legalMoves;
     };
+
     private detectAllCollisions = (square: Square) => {
         const possibleMoves = this.board.getPiece(square)?.getPossibleMoves(this.board).flat();
 

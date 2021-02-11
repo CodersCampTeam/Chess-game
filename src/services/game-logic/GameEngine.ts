@@ -99,6 +99,22 @@ class GameEngine {
         }
     }
 
+    public changePawnAfterPromotion(square: Square, selectedPiece: PieceNames, color: Colors): void {
+        this.board.promotePawn(square, selectedPiece, color);
+    }
+
+    public checkPawnPromotion(destination: Square): Colors | null {
+        const piece = this.board.getPiece(destination);
+
+        if (piece?.name === PieceNames.PAWN && destination.row === 0 && piece?.color === Colors.WHITE) {
+            return Colors.WHITE;
+        }
+        if (piece?.name === PieceNames.PAWN && destination.row === 7 && piece?.color === Colors.BLACK) {
+            return Colors.BLACK;
+        }
+        return null;
+    }
+
     private performCastling(location: Square, destination: Square): void {
         if (destination.column - location.column === Constants.KINGSIDE_CASTLING) {
             this.board.movePiece(

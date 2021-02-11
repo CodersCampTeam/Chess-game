@@ -1,4 +1,4 @@
-import { Colors } from '../enums';
+import { Colors, PieceNames } from '../enums';
 import { Square } from '../models/Square';
 import { GameEngine } from '../services/game-logic/GameEngine';
 import { Piece } from '../services/game-logic/pieces/Piece';
@@ -6,6 +6,8 @@ import { BoardView } from '../views/BoardView';
 import { SettingsControls } from '../views/SettingsControls';
 import { OpeningView } from '../views/OpeningView';
 import { Sound } from '../services/game-logic/Sound';
+import { ModalView } from '../views/ModalView';
+import { PawnPromotionView } from '../views/PawnPromotionView';
 
 class GameController {
     boardView: BoardView;
@@ -15,9 +17,11 @@ class GameController {
     currentPlayer: Colors;
     openingView: OpeningView;
     sound: Sound;
+    modal: ModalView | null;
 
     constructor() {
         this.activeSquare = null;
+        this.modal = null;
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
         this.settingsView = new SettingsControls();
@@ -38,7 +42,13 @@ class GameController {
                 this.playSound(this.activeSquare, square);
                 this.gameEngine.movePiece(this.activeSquare, square, false);
                 this.boardView.render(this.gameEngine.board);
-                this.changePlayer();
+
+                const isPawnPromotion = this.gameEngine.checkPawnPromotion(square);
+                if (isPawnPromotion) {
+                    this.createPawnPromotionModal(isPawnPromotion, square);
+                } else {
+                    this.changePlayer();
+                }
             }
             this.activeSquare = null;
             this.boardView.deselectSquares();
@@ -59,6 +69,18 @@ class GameController {
             this.sound.playNormalMoveSound();
         }
     }
+
+    private createPawnPromotionModal(color: Colors, square: Square) {
+        const pawnPromotionView = new PawnPromotionView(color, this.pickPawnToPromotion, square);
+        this.modal = new ModalView(pawnPromotionView.content);
+    }
+
+    private pickPawnToPromotion = (square: Square, selectedPiece: PieceNames, color: Colors): void => {
+        this.modal?.closeModal();
+        this.gameEngine.changePawnAfterPromotion(square, selectedPiece, color);
+        this.boardView.render(this.gameEngine.board);
+        this.changePlayer();
+    };
 
     private isCurrentPlayer(selectedPiece: Piece | null): boolean {
         return this.currentPlayer === selectedPiece?.color;

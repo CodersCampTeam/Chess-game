@@ -35,7 +35,7 @@ class SettingsCog {
             </div>  
             <p class="form__header--option">Pieces</p>   
             <div class="form__option">           
-                <input type="radio" id="classic-pieces" name="pieces" value="classic">
+                <input type="radio" id="classic-pieces" name="pieces" value="classic" checked>
                 <label for="classic-pieces" class="form__label">Classic</label></div>  
             <div class="form__option">
                 <input type="radio" id="modern-pieces" name="pieces" value="modern">
@@ -54,8 +54,11 @@ class SettingsCog {
 
     saveSettings(): void {
         const layout = document.querySelector('input[name="layout"]:checked') as HTMLInputElement;
-        document.querySelector('body')?.classList.remove('body--potter', 'body--gambit');
-        document.querySelector('body')?.classList.add(`body--${layout?.value}`);
+        const pieces = document.querySelector('input[name="pieces"]:checked') as HTMLInputElement;
+        document
+            .querySelector('body')
+            ?.classList.remove('body--potter', 'body--gambit', 'body--classic', 'body--modern');
+        document.querySelector('body')?.classList.add(`body--${layout?.value}`, `body--${pieces?.value}`);
         this.element.querySelector('.form')?.classList.add('form--closed');
     }
 }

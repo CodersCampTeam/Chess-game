@@ -5,3 +5,27 @@
 .white {
     color: white;
 }
+
+@mixin classic-piece($name) {
+    .body--classic {
+        & .piece__#{$name} {
+            background-size: cover;
+            svg path {
+                display: none;
+            }
+        }
+        & .white .piece__#{$name} {
+            background-image: url('/static/icons/white-#{$name}.svg');
+        }
+        & .black .piece__#{$name} {
+            background-image: url('/static/icons/black-#{$name}.svg');
+        }
+    }
+}
+
+@include classic-piece('pawn');
+@include classic-piece('rook');
+@include classic-piece('king');
+@include classic-piece('queen');
+@include classic-piece('bishop');
+@include classic-piece('knight');

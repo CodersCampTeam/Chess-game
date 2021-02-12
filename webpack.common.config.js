@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -24,10 +25,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|svg|mp3)$/i,
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]'
-                }
+                use: 'file-loader'
             }
         ]
     },
@@ -38,5 +36,11 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
-    plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: './src/index.html', scriptLoading: 'defer' })]
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({ template: './src/index.html', scriptLoading: 'defer' }),
+        new CopyPlugin({
+            patterns: [{ from: 'static', to: 'static' }]
+        })
+    ]
 };

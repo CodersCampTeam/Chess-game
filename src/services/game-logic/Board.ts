@@ -11,8 +11,8 @@ import { Queen } from './pieces/Queen';
 class Board {
     public static BOARD_SIZE = 8;
 
-    private state: Array<Array<Piece | null>>;
     private movesHistory: [Piece, Square][] = [];
+    public state: Array<Array<Piece | null>>;
 
     constructor() {
         this.state = new Array(Board.BOARD_SIZE);
@@ -26,6 +26,14 @@ class Board {
     public getPiece(square: Square): Piece | null {
         return this.state[square.row][square.column];
     }
+
+    public checkAllSquares = (f: any) => {
+        this.state.forEach((row) => {
+            row.forEach((square) => {
+                f(square);
+            });
+        });
+    };
 
     public movePiece(location: Square, destination: Square): void {
         const piece = this.getPiece(location);

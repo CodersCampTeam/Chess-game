@@ -23,7 +23,11 @@ class King extends Piece {
             row: this.position.row + row,
             column: this.position.column + column
         }));
-        return possibleMoves;
+
+        const kingPossibleMovesOnBoard = possibleMoves.filter(
+            (move) => move.row >= 0 && move.row < 8 && move.column >= 0 && move.column < 8
+        );
+        return kingPossibleMovesOnBoard;
     }
 }
 

@@ -50,7 +50,7 @@ class Pawn extends Piece {
         return moves;
     }
 
-    private prepareMove(rowStep: number, colStep: number = 0): Square | null {
+    private prepareMove(rowStep: number, colStep = 0): Square | null {
         const move = new Square(this.position.row + rowStep, this.position.column + colStep);
 
         // Check if out of boundaries
@@ -95,12 +95,12 @@ class Pawn extends Piece {
 
             [squareLeft, squareRight].forEach((square) => {
                 const lastMove = board.getLastMove();
-                const piece = board.getPiece(square);
                 if (
                     lastMove &&
                     lastMove?.[0].name === PieceNames.PAWN &&
                     (lastMove?.[0] as Pawn).hasDoubleMoved &&
-                    !board.isOccupiedBySameColorPiece(square, this)
+                    !board.isOccupiedBySameColorPiece(square, this) &&
+                    JSON.stringify(lastMove?.[1]) === JSON.stringify(square)
                 ) {
                     pieceMoves.push(new Square(this.position.row + this.getMoveDirection(), square.column));
                 }

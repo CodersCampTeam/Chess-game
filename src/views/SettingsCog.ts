@@ -1,5 +1,3 @@
-//import { BoardView } from './BoardView';
-
 class SettingsCog {
     element: HTMLDivElement;
     constructor() {
@@ -26,7 +24,7 @@ class SettingsCog {
             <p class = "form__header"> Your preferences </p>
             <p class="form__header--option">Theme</p>                
             <div class="form__option">
-                <input type="radio" id="gambit" name="layout" value="gambit" checked>
+                <input type="radio" id="gambit" name="layout" value="gambit">
                 <label for="gambit" class="form__label">"Queen's Gambit"</label> 
             </div>
             <div class="form__option">
@@ -35,7 +33,7 @@ class SettingsCog {
             </div>  
             <p class="form__header--option">Pieces</p>   
             <div class="form__option">           
-                <input type="radio" id="classic-pieces" name="pieces" value="classic" checked>
+                <input type="radio" id="classic-pieces" name="pieces" value="classic">
                 <label for="classic-pieces" class="form__label">Classic</label></div>  
             <div class="form__option">
                 <input type="radio" id="modern-pieces" name="pieces" value="modern">

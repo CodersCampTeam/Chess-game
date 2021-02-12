@@ -4,6 +4,7 @@ import { GameEngine } from '../services/game-logic/GameEngine';
 import { Piece } from '../services/game-logic/pieces/Piece';
 import { BoardView } from '../views/BoardView';
 import { SettingsCog } from '../views/SettingsCog';
+import { Modal } from '../views/Modal';
 
 class GameController {
     boardView: BoardView;
@@ -11,12 +12,14 @@ class GameController {
     gameEngine: GameEngine;
     activeSquare: Square | null;
     currentPlayer: Colors;
+    modal: Modal;
 
     constructor() {
         this.activeSquare = null;
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
         this.settingsView = new SettingsCog();
+        this.modal = new Modal(this.handleSaveSettings);
         this.currentPlayer = Colors.WHITE;
         this.updateBoard();
     }
@@ -48,6 +51,10 @@ class GameController {
 
     private changePlayer(): void {
         this.currentPlayer = this.currentPlayer === Colors.WHITE ? Colors.BLACK : Colors.WHITE;
+    }
+
+    private handleSaveSettings(name: string, side: Colors): void {
+        //here handle name and side provided in entry modal
     }
 
     updateBoard(): void {

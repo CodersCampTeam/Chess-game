@@ -38,10 +38,16 @@ class SettingsControls {
             <p class="form__header--option">Pieces</p>   
             <div class="form__option">           
                 <input type="radio" id="classic-pieces" name="pieces" value="classic">
-                <label for="classic-pieces" class="form__label">Classic</label></div>  
-            <div class="form__option">
+                <label for="classic-pieces" class="form__label">Classic</label>
                 <input type="radio" id="modern-pieces" name="pieces" value="modern">
                 <label for="modern-pieces" class="form__label">Modern</label>
+            </div>  
+            <p class="form__header--option">Sounds</p>   
+            <div class="form__option">
+                <input type="radio" id="soundsoff" name="sounds" value="off">
+                <label for="soundsoff" class="form__label">Off</label>
+                <input type="radio" id="soundson" name="sounds" value="on">
+                <label for="soundson" class="form__label">On</label>
             </div>`;
         const submitButton = document.createElement('div');
         submitButton.innerHTML = `<button type="button" class="form__button">Save settings</button>`;

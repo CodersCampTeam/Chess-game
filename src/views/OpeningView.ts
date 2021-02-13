@@ -69,6 +69,17 @@ class OpeningView {
                         <label for="modal__modern" class="modal__label">Modern</label>
                     </div>
                 </div>
+            <div class="modal__unit">
+                <p class="modal__header--option">Sounds</p>  
+                <div class="modal__options">
+                    <div class="modal__option">
+                        <input type="radio" id="modal__nosounds" name="sounds" value="off">
+                        <label for="modal__nosounds" class="modal__label">Off</label></div>  
+                    <div class="modal__option">
+                        <input type="radio" id="modal__sounds" name="sounds" value="on">
+                        <label for="modal__sounds" class="modal__label">On</label>
+                    </div>
+                </div>    
             </div>`;
         const modalButton = document.createElement('div');
         modalButton.innerHTML = `<button type="button" class="modal__button">Play the game</button>`;

@@ -14,11 +14,12 @@
         position: absolute;
         z-index: 3;
         background-image: url('/static/images/background_gambit.jpg');
-        clip-path: polygon(0 0, 100% 0, 100% 75%, 0 40%);
+        clip-path: polygon(0 0, 100% 0, 100% 60%, 0 35%);
         background-size: cover;
         background-repeat: no-repeat;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
+        background-position: right;
         filter: grayscale(80%);
         &--selected {
             filter: grayscale(0%);
@@ -30,6 +31,7 @@
         background-image: url('/static/images/background_potter.jpg');
         background-size: cover;
         background-repeat: no-repeat;
+        background-position: right;
         width: 100vw;
         height: 100vh;
         z-index: 3;
@@ -113,14 +115,38 @@
     }
 }
 
-@media (max-width: 992px) {
-}
-
-@media (max-width: 768px) {
-}
-
-@media (max-width: 576px) {
+@media (max-width: 1024px) {
+    .modal {
+        &__gambit {
+            clip-path: polygon(0 0, 100% 0, 100% 60%, 0 35%);
+            filter: grayscale(0%);
+            &--selected {
+                filter: brightness(130%);
+            }
+        }
+        &__potter {
+            top: 3vh;
+            filter: grayscale(0%);
+            &--selected {
+                filter: brightness(130%);
+            }
+        }
+        &__form {
+            align-self: flex-start;
+        }
+    }
 }
 
 @media (max-width: 480px) {
+    .modal {
+        &__gambit {
+            background-position: -70vh 0;
+        }
+        &__potter {
+            background-position: -90vh 0;
+        }
+        &__form {
+            opacity: 0.5;
+        }
+    }
 }

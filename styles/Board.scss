@@ -5,6 +5,9 @@
     width: 80vh;
     height: 80vh;
     position: relative;
+    .body--black & {
+        flex-wrap: wrap-reverse;
+    }
 }
 
 .square {
@@ -41,6 +44,9 @@
 .left-notation,
 .right-notation {
     flex-direction: column;
+    .body--black & {
+        flex-direction: column-reverse;
+    }
     .notation-element {
         width: 5vh;
         height: 10vh;
@@ -93,6 +99,8 @@
         width: 8vh;
         height: 8vh;
         font-size: 5vh;
+        line-height: 8vh;
+        z-index: 1;
     }
     .notation {
         font-size: 2vh;
@@ -111,6 +119,39 @@
         .notation-element {
             width: 3vh;
             height: 8vh;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    #board {
+        width: 40vh;
+        height: 40vh;
+    }
+
+    .square {
+        width: 5vh;
+        height: 5vh;
+        font-size: 3vh;
+        line-height: 5vh;
+    }
+    .notation {
+        font-size: 2vh;
+    }
+
+    .top-notation,
+    .bottom-notation {
+        .notation-element {
+            width: 5vh;
+            height: 2vh;
+        }
+    }
+
+    .left-notation,
+    .right-notation {
+        .notation-element {
+            width: 2vh;
+            height: 5vh;
         }
     }
 }

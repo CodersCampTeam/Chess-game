@@ -1,8 +1,6 @@
-import { Colors } from '../enums';
-
 class OpeningView {
     element: HTMLDivElement;
-    constructor(private saveSettings: (name: string, side: Colors) => void) {
+    constructor() {
         const modal = document.createElement('div');
         this.element = modal;
         this.setUpOpeningView();
@@ -100,14 +98,16 @@ class OpeningView {
         const layout = document.querySelector('.modal input[name="layout"]:checked') as HTMLInputElement;
         const pieces = document.querySelector('.modal input[name="pieces"]:checked') as HTMLInputElement;
         const side = document.querySelector('.modal input[name="side"]:checked') as HTMLInputElement;
-        const name = document.querySelector('.modal input[name="name"]') as HTMLInputElement;
+        //const name = document.querySelector('.modal input[name="name"]') as HTMLInputElement;
         document
             .querySelector('body')
             ?.classList.remove('body--potter', 'body--gambit', 'body--classic', 'body--modern');
-        document.querySelector('body')?.classList.add(`body--${layout?.value}`, `body--${pieces?.value}`);
+        document
+            .querySelector('body')
+            ?.classList.add(`body--${layout?.value}`, `body--${pieces?.value}`, `body--${side?.value}`);
 
         this.element.classList.add('modal--closed');
-        this.saveSettings(name.value, side.value as Colors);
+        //this.saveSettings(name.value, side.value as Colors);
     }
 
     openModal(): void {

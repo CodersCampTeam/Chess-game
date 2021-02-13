@@ -19,7 +19,7 @@ class GameController {
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
         this.settingsView = new SettingsControls();
-        this.openingView = new OpeningView(this.handleSaveSettings);
+        this.openingView = new OpeningView();
         this.currentPlayer = Colors.WHITE;
         this.updateBoard();
     }
@@ -51,10 +51,6 @@ class GameController {
 
     private changePlayer(): void {
         this.currentPlayer = this.currentPlayer === Colors.WHITE ? Colors.BLACK : Colors.WHITE;
-    }
-
-    private handleSaveSettings(name: string, side: Colors): void {
-        //here handle name and side provided in opening view
     }
 
     updateBoard(): void {

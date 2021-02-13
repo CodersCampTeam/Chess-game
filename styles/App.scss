@@ -58,3 +58,9 @@ body {
         }
     }
 }
+
+@media (max-width: 576px) {
+    body {
+        align-items: center;
+    }
+}

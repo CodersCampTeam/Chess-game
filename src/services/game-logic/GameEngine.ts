@@ -21,12 +21,30 @@ class GameEngine {
         return legalMoves.filter((destination) => !this.isOccupiedBySameColor(destination, piece));
     };
 
-    public movePiece(location: Square, destination: Square): void {
-        //can be useful when saving moves
-        const piece = this.board.getPiece(location);
-        this.board.movePiece(location, destination);
-        if (piece?.name === PieceNames.KING) {
+    public runSpecialRoutines(location: Square, destination: Square): void {
+        const locationPiece = this.board.getPiece(location);
+
+        if (locationPiece?.name === PieceNames.PAWN) {
+            this.performEnPassat(locationPiece, destination);
+        } else if (locationPiece?.name === PieceNames.KING) {
             this.performCastling(location, destination);
+        }
+    }
+
+    public movePiece(location: Square, destination: Square): void {
+        const piece = this.board.getPiece(location);
+        if (piece) {
+            this.runSpecialRoutines(piece?.position, destination);
+            this.board.movePiece(location, destination);
+        }
+    }
+
+    private performEnPassat(locationPiece: Piece, destination: Square) {
+        const enPassatPiece = this.board.getPiece(
+            new Square(-locationPiece.getMoveDirection() + destination.row, destination.column)
+        );
+        if (enPassatPiece?.name === PieceNames.PAWN && this.board.getLastMove()?.[0] === enPassatPiece) {
+            this.board.resetSquare(enPassatPiece.position);
         }
     }
 

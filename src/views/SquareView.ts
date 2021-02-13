@@ -1,5 +1,4 @@
 import { Square } from '../models/Square';
-import { Colors } from '../enums/Colors';
 import { Piece } from '../services/game-logic/pieces/Piece';
 import { PieceMapper } from '../utils/PieceMapper';
 
@@ -16,7 +15,7 @@ class SquareView {
         this.element.dataset.column = String(column);
 
         this.element.addEventListener('click', () => {
-            handleBoardClick({ row: this.row, column: this.column });
+            handleBoardClick(new Square(this.row, this.column));
         });
     }
 

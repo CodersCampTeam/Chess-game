@@ -1,4 +1,3 @@
-import { SpecialMove } from '../../../src/enums';
 import { Square } from '../../../src/models/Square';
 import { GameEngine } from '../../../src/services/game-logic/GameEngine';
 
@@ -11,11 +10,11 @@ describe('Testing GameEngine.getLegalMoves() while playing Pawn', () => {
         const expected = [new Square(6, 3), new Square(6, 5)];
 
         // Move pawn to enemy row and get moves
-        pawn.move(targetSquare);
+        gameEngine.movePiece(pawn.position, targetSquare);
         const legalMoves = gameEngine.getLegalMoves(targetSquare);
 
         // Test
-        expect(legalMoves).toBe(expected);
+        expect(legalMoves).toEqual(expected);
     });
     test(`Extra En Passat move while playing white`, () => {
         // Setup
@@ -25,10 +24,10 @@ describe('Testing GameEngine.getLegalMoves() while playing Pawn', () => {
         const expected = [new Square(2, 3), new Square(2, 4)];
 
         // Move white and black pawn to trigger En Passat capture
-        pawnWhite.move(new Square(3, 3));
-        pawnBlack.move(new Square(3, 4));
+        gameEngine.movePiece(pawnWhite.position, new Square(3, 3));
+        gameEngine.movePiece(pawnBlack.position, new Square(3, 4));
 
-        const legalMoves = gameEngine.getLegalMoves(pawnBlack.position);
+        const legalMoves = gameEngine.getLegalMoves(pawnWhite.position);
 
         // Test
         expect(legalMoves).toEqual(expected);
@@ -40,9 +39,9 @@ describe('Testing GameEngine.getLegalMoves() while playing Pawn', () => {
         const pawnWhite = gameEngine.board.getPiece(new Square(6, 3));
 
         // Move white and black pawn to trigger En Passat capture
-        pawnWhite.move(new Square(3, 3));
-        pawnBlack.move(new Square(3, 4));
-        pawnWhite.move(new Square(2, 4));
+        gameEngine.movePiece(pawnWhite.position, new Square(3, 3));
+        gameEngine.movePiece(pawnBlack.position, new Square(3, 4));
+        gameEngine.movePiece(pawnWhite.position, new Square(2, 4));
 
         const removedPiece = gameEngine.board.getPiece(new Square(3, 4));
 

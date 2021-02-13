@@ -1,19 +1,23 @@
-class SettingsCog {
+class SettingsControls {
     element: HTMLDivElement;
     constructor() {
         const settings = document.createElement('div');
         this.element = settings;
+        this.addSettingsForm();
+        this.setUpSettingsControls();
+        document.querySelector('#app')?.prepend(settings);
+    }
+
+    setUpSettingsControls(): void {
         this.element.classList.add('settings');
-        const cog = document.createElement('div');
-        cog.classList.add('cog');
-        cog.innerHTML = `<i class='fas fa-cog'>`;
-        cog.addEventListener('click', () => {
+        const controls = document.createElement('div');
+        controls.classList.add('controls');
+        controls.innerHTML = `<i class='fas fa-cog'>`;
+        controls.addEventListener('click', () => {
             this.openSettings();
         });
-        this.element.prepend(cog);
-        this.addSettingsForm();
+        this.element.prepend(controls);
         document.querySelector('body')?.classList.add('body--gambit');
-        document.querySelector('#app')?.prepend(settings);
     }
 
     addSettingsForm(): void {
@@ -43,6 +47,10 @@ class SettingsCog {
         submitButton.innerHTML = `<button type="button" class="form__button">Save settings</button>`;
         submitButton.onclick = () => this.saveSettings();
         form.appendChild(submitButton);
+        const exitButton = document.createElement('div');
+        exitButton.innerHTML = `<button type="button" class="form__button">End game</button>`;
+        exitButton.onclick = () => window.location.reload();
+        form.appendChild(exitButton);
         this.element.appendChild(form);
     }
 
@@ -61,4 +69,4 @@ class SettingsCog {
     }
 }
 
-export { SettingsCog };
+export { SettingsControls };

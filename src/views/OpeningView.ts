@@ -1,20 +1,24 @@
 import { Colors } from '../enums';
 
-class Modal {
+class OpeningView {
     element: HTMLDivElement;
     constructor(private saveSettings: (name: string, side: Colors) => void) {
         const modal = document.createElement('div');
         this.element = modal;
+        this.setUpOpeningView();
+        this.addModalForm();
+        this.openModal();
+    }
+
+    setUpOpeningView(): void {
         this.element.classList.add('modal', 'modal--closed');
         const potter = document.createElement('div');
         potter.classList.add('modal__potter');
-        modal.appendChild(potter);
+        this.element.appendChild(potter);
         const gambit = document.createElement('div');
         gambit.classList.add('modal__gambit');
-        modal.appendChild(gambit);
-        this.addModalForm();
-        this.openModal();
-        document.querySelector('#app')?.appendChild(modal);
+        this.element.appendChild(gambit);
+        document.querySelector('#app')?.appendChild(this.element);
     }
 
     addModalForm(): void {
@@ -40,11 +44,11 @@ class Modal {
                 <div>
                     <div class="modal__option">
                         <input type="radio" id="modal__gambit" name="layout" value="gambit">
-                        <label for="modal__gambit" class="modal__label">"Queen's Gambit"</label> 
+                        <label id="modal__label--gambit" for="modal__gambit" class="modal__label">"Queen's Gambit"</label> 
                     </div>
                     <div class="modal__option">
                         <input type="radio" id="modal__potter" name="layout" value="potter">
-                        <label for="modal__potter" class="modal__label">"Harry Potter"</label>
+                        <label id="modal__label--potter" for="modal__potter" class="modal__label">"Harry Potter"</label>
                     </div>
                 </div>
             </div>
@@ -71,6 +75,14 @@ class Modal {
         modalButton.onclick = () => this.handleSettings();
         modalForm.appendChild(modalButton);
         this.element.appendChild(modalForm);
+        document.querySelector('#modal__label--gambit')?.addEventListener('click', () => {
+            document.querySelector('.modal__gambit')?.classList.add('modal__gambit--selected');
+            document.querySelector('.modal__potter')?.classList.remove('modal__potter--selected');
+        });
+        document.querySelector('#modal__label--potter')?.addEventListener('click', () => {
+            document.querySelector('.modal__potter')?.classList.add('modal__potter--selected');
+            document.querySelector('.modal__gambit')?.classList.remove('modal__gambit--selected');
+        });
     }
 
     handleSettings(): void {
@@ -82,6 +94,7 @@ class Modal {
             .querySelector('body')
             ?.classList.remove('body--potter', 'body--gambit', 'body--classic', 'body--modern');
         document.querySelector('body')?.classList.add(`body--${layout?.value}`, `body--${pieces?.value}`);
+
         this.element.classList.add('modal--closed');
         this.saveSettings(name.value, side.value as Colors);
     }
@@ -91,4 +104,4 @@ class Modal {
     }
 }
 
-export { Modal };
+export { OpeningView };

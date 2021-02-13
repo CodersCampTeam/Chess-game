@@ -19,8 +19,9 @@
         background-repeat: no-repeat;
         width: 100vw;
         height: 100vh;
-        &:not(:hover) {
-            filter: grayscale(80%);
+        filter: grayscale(80%);
+        &--selected {
+            filter: grayscale(0%);
         }
     }
     &__potter {
@@ -32,8 +33,9 @@
         width: 100vw;
         height: 100vh;
         z-index: 3;
-        &:not(:hover) {
-            filter: grayscale(80%);
+        filter: grayscale(80%);
+        &--selected {
+            filter: grayscale(0%);
         }
     }
     &__form {

@@ -1,9 +1,9 @@
 @import './App';
 
-.cog {
+.controls {
     display: flex;
     position: absolute;
-    z-index: 999;
+    z-index: 2;
     padding: 2vh;
     top: 2vh;
     right: 2vh;

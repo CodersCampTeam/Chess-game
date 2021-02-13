@@ -106,10 +106,18 @@ class GameEngine {
     public checkPawnPromotion(destination: Square): Colors | null {
         const piece = this.board.getPiece(destination);
 
-        if (piece?.name === PieceNames.PAWN && destination.row === 0 && piece?.color === Colors.WHITE) {
+        if (
+            piece?.name === PieceNames.PAWN &&
+            destination.row === Constants.WHITE_END_ROW &&
+            piece?.color === Colors.WHITE
+        ) {
             return Colors.WHITE;
         }
-        if (piece?.name === PieceNames.PAWN && destination.row === 7 && piece?.color === Colors.BLACK) {
+        if (
+            piece?.name === PieceNames.PAWN &&
+            destination.row === Constants.BLACK_END_ROW &&
+            piece?.color === Colors.BLACK
+        ) {
             return Colors.BLACK;
         }
         return null;

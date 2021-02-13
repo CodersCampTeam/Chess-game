@@ -43,9 +43,9 @@ class GameController {
                 this.gameEngine.movePiece(this.activeSquare, square, false);
                 this.boardView.render(this.gameEngine.board);
 
-                const isPawnPromotion = this.gameEngine.checkPawnPromotion(square);
-                if (isPawnPromotion) {
-                    this.createPawnPromotionModal(isPawnPromotion, square);
+                const isPromotionPossible = this.gameEngine.checkPawnPromotion(square);
+                if (isPromotionPossible) {
+                    this.createPawnPromotionModal(isPromotionPossible, square);
                 } else {
                     this.changePlayer();
                 }

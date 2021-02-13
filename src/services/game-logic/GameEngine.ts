@@ -24,12 +24,11 @@ class GameEngine {
             .filter((move) => this.moveNotResultWithCheck(move, piece, square));
     };
 
-    private moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square) {
+    moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square) {
         const potentialMove: Square = { row: move.row, column: move.column };
         const potentialPiece = this.board.getPiece(potentialMove);
 
         this.movePiece(square, potentialMove);
-        piece!.hasMoved = true;
         const isMovePossible = !this.isCheck(piece);
 
         this.movePiece(potentialMove, square);
@@ -44,11 +43,11 @@ class GameEngine {
     private isCheck(piece: Piece | null): Boolean {
         const color = piece?.color === Colors.BLACK ? Colors.WHITE : Colors.BLACK;
         let currentPlayerKing: Square | undefined = this.getKingForCheck(piece)?.position;
-        const isChecked = this.findOponentLegalMoves(color, currentPlayerKing);
+        const isChecked = this.isKingUnderCheck(color, currentPlayerKing);
         return isChecked;
     }
 
-    findOponentLegalMoves(color: Colors, piecePosition: Square | undefined): boolean {
+    isKingUnderCheck(color: Colors, piecePosition: Square | undefined): boolean {
         let checked = false;
         this.board.checkAllSquares((square: Piece) => {
             if (square && square.color === color) {

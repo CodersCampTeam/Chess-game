@@ -1,0 +1,152 @@
+@import './App';
+
+.modal {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    &__gambit {
+        display: flex;
+        position: absolute;
+        z-index: 3;
+        background-image: url('/static/images/background_gambit.jpg');
+        clip-path: polygon(0 0, 100% 0, 100% 60%, 0 40%);
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+        background-position: right;
+        filter: grayscale(80%);
+        &--selected {
+            filter: grayscale(0%);
+        }
+    }
+    &__potter {
+        display: flex;
+        position: absolute;
+        background-image: url('/static/images/background_potter.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right;
+        width: 100vw;
+        height: 100vh;
+        z-index: 3;
+        filter: grayscale(80%);
+        &--selected {
+            filter: grayscale(0%);
+        }
+    }
+    &__form {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        justify-items: center;
+        align-self: center;
+        z-index: 4;
+        opacity: 0.7;
+        width: 50vh;
+        height: auto;
+        padding: 2vh;
+        background-color: $base-white;
+        text-align: center;
+    }
+    &__unit {
+        display: flex;
+        flex-direction: column;
+    }
+    &__options {
+        display: flex;
+        flex-direction: row;
+        align-self: center;
+    }
+    &__header {
+        flex: 0 0 100%;
+        width: 100%;
+        text-transform: uppercase;
+        justify-items: center;
+        font-family: sans-serif;
+        color: $base-light-orange;
+        font-size: 4vh;
+        &--option {
+            font-size: 3vh;
+            font-weight: bold;
+            margin-top: 1vh;
+        }
+    }
+    &__option {
+        margin: 1vh;
+        & input[type='radio'] {
+            opacity: 0;
+            width: 0px;
+            height: 0px;
+            &:checked + label {
+                background-color: $base-light-orange;
+                color: $base-grey;
+            }
+        }
+        &--name {
+            height: 2rem;
+            width: 16rem;
+            font-size: 1.2rem;
+            padding: 1rem;
+        }
+    }
+    &__label {
+        font-size: 3vh;
+        &:hover {
+            color: $base-light-orange;
+        }
+    }
+    &__button {
+        margin-top: 1vh;
+        font-size: 3vh;
+        padding: 1vh;
+        color: $base-light-orange;
+        &:hover {
+            color: $base-black;
+        }
+    }
+    &--closed {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .modal {
+        &__gambit {
+            clip-path: polygon(0 0, 100% 0, 100% 60%, 0 35%);
+            filter: grayscale(0%);
+            &--selected {
+                filter: brightness(130%);
+            }
+        }
+        &__potter {
+            top: 3vh;
+            filter: grayscale(0%);
+            &--selected {
+                filter: brightness(130%);
+            }
+        }
+        &__form {
+            align-self: flex-start;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        &__gambit {
+            background-position: -70vh 0;
+        }
+        &__potter {
+            background-position: -90vh 0;
+        }
+        &__form {
+            opacity: 0.5;
+        }
+    }
+}

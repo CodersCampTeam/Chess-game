@@ -3,17 +3,23 @@ import { Square } from '../models/Square';
 import { GameEngine } from '../services/game-logic/GameEngine';
 import { Piece } from '../services/game-logic/pieces/Piece';
 import { BoardView } from '../views/BoardView';
+import { SettingsControls } from '../views/SettingsControls';
+import { OpeningView } from '../views/OpeningView';
 
 class GameController {
     boardView: BoardView;
+    settingsView: SettingsControls;
     gameEngine: GameEngine;
     activeSquare: Square | null;
     currentPlayer: Colors;
+    openingView: OpeningView;
 
     constructor() {
         this.activeSquare = null;
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
+        this.settingsView = new SettingsControls();
+        this.openingView = new OpeningView();
         this.currentPlayer = Colors.WHITE;
         this.updateBoard();
     }

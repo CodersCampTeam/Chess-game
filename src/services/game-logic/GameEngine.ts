@@ -32,7 +32,6 @@ class GameEngine {
     }
 
     public movePiece(location: Square, destination: Square): void {
-        this.playSound(location, destination);
         const piece = this.board.getPiece(location);
         if (piece) {
             this.runSpecialRoutines(piece?.position, destination);

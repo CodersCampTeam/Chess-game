@@ -27,13 +27,13 @@ class GameEngine {
     moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square): boolean {
         const potentialMove = new Square(move.row, move.column);
         const potentialPiece = this.board.getPiece(potentialMove);
-
+        const hasMoved = piece?.hasMoved || false;
         this.movePiece(square, potentialMove, true);
         piece!.hasMoved = true;
         const isMovePossible = !this.isCheck(piece);
 
         this.movePiece(potentialMove, square, true);
-        piece!.hasMoved = false;
+        piece!.hasMoved = hasMoved;
 
         if (potentialPiece)
             this.board.state[potentialPiece.position.row][potentialPiece.position.column] = potentialPiece;
@@ -43,7 +43,7 @@ class GameEngine {
 
     private isCheck(piece: Piece | null): boolean {
         const color = piece?.color === Colors.BLACK ? Colors.WHITE : Colors.BLACK;
-        let currentPlayerKing = this.getKingForCheck(piece)?.position;
+        const currentPlayerKing = this.getKingForCheck(piece)?.position;
         const isChecked = this.isKingUnderCheck(color, currentPlayerKing);
         return isChecked;
     }
@@ -52,9 +52,11 @@ class GameEngine {
         let checked = false;
         this.board.checkAllSquares((square: Piece) => {
             if (square && square.color === color) {
-                checked = square
-                    .getPossibleMoves(this.board)
-                    .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
+                checked =
+                    checked ||
+                    square
+                        .getPossibleMoves(this.board)
+                        .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
             }
         });
         return checked;
@@ -63,7 +65,7 @@ class GameEngine {
     getKingForCheck = (piece: Piece | null): King | null => {
         let king = null;
         this.board.checkAllSquares((square: Piece) => {
-            if (square && square?.color === piece?.color && square.name === PieceNames.KING) {
+            if (square && square.color === piece?.color && square.name === PieceNames.KING) {
                 king = square;
             }
         });
@@ -83,7 +85,7 @@ class GameEngine {
     public movePiece(location: Square, destination: Square, potentialMove: boolean): void {
         const piece = this.board.getPiece(location);
         if (piece) {
-            this.runSpecialRoutines(piece?.position, destination);
+            if (!potentialMove) this.runSpecialRoutines(piece?.position, destination);
             this.board.movePiece(location, destination, potentialMove);
         }
     }
@@ -129,14 +131,25 @@ class GameEngine {
             column:
                 square.column - piece.position.column === Constants.KINGSIDE_CASTLING
                     ? Constants.KINGSIDE_ROOK_DESTINATION_COLUMN
-                    : Constants.QUEENSIDE_ROOK_COLUMN
+                    : Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN
         };
-        return rook ? !rook.hasMoved && this.canMoveTo(rook.position, rookTarget) : false;
+        const passedSquare = {
+            row: piece.position.row,
+            column:
+                square.column - piece.position.column === Constants.KINGSIDE_CASTLING
+                    ? Constants.KINGSIDE_PASSED_SQUARE
+                    : Constants.QUEENSIDE_PASSED_SQUARE
+        };
+        return rook
+            ? !rook.hasMoved &&
+                  this.canMoveTo(rook.position, rookTarget) &&
+                  this.moveNotResultWithCheck(passedSquare, piece, piece?.position)
+            : false;
     };
 
     private canMoveTo = (from: Square, to: Square): boolean => {
         return this.getLegalMoves(from).some(({ row, column }) => row === to.row && column === to.column);
-    }; // might be useful for 'check'
+    };
 
     private isOccupiedBySameColor = (square: Square, piece: Piece | null): boolean =>
         this.board.getPiece(square)?.color === piece?.color;

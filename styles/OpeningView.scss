@@ -14,7 +14,7 @@
         position: absolute;
         z-index: 3;
         background-image: url('/static/images/background_gambit.jpg');
-        clip-path: polygon(0 0, 100% 0, 100% 60%, 0 40%);
+        clip-path: polygon(0 0, 100% 0, 100% 60%, 0 45%);
         background-size: cover;
         background-repeat: no-repeat;
         width: 100%;
@@ -41,11 +41,7 @@
         }
     }
     &__form {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        justify-items: center;
-        align-self: center;
+        margin: auto;
         z-index: 4;
         opacity: 0.9;
         width: 50vh;
@@ -93,6 +89,7 @@
             &:checked + label {
                 background-color: $base-light-orange;
                 color: $base-grey;
+                width: min-content;
             }
         }
         &--name {
@@ -107,6 +104,7 @@
     }
     &__label {
         font-size: 3vh;
+        padding: 1vh 2vh;
         &:hover {
             color: $base-light-orange;
         }
@@ -130,6 +128,12 @@
 
 @media (max-width: 1024px) {
     .modal {
+        &__header--option {
+            text-transform: uppercase;
+        }
+        &__label {
+            font-weight: bold;
+        }
         &__gambit {
             clip-path: polygon(0 0, 100% 0, 100% 60%, 0 35%);
             filter: grayscale(0%);
@@ -152,14 +156,11 @@
 
 @media (max-width: 480px) {
     .modal {
-        &__gambit {
-            background-position: -70vh 0;
-        }
-        &__potter {
-            background-position: -90vh 0;
+        &__option--name {
+            width: 14rem;
         }
         &__form {
-            opacity: 0.5;
+            opacity: 0.65;
         }
     }
 }

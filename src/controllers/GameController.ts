@@ -17,6 +17,7 @@ class GameController {
     currentPlayer: Colors;
     openingView: OpeningView;
     sound: Sound;
+    soundOn = false;
     modal: ModalView | null;
 
     constructor() {
@@ -24,8 +25,8 @@ class GameController {
         this.modal = null;
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
-        this.settingsView = new SettingsControls();
-        this.openingView = new OpeningView();
+        this.settingsView = new SettingsControls((soundOn) => (this.soundOn = soundOn));
+        this.openingView = new OpeningView((soundOn) => (this.soundOn = soundOn));
         this.currentPlayer = Colors.WHITE;
         this.sound = new Sound();
         this.updateBoard();
@@ -60,6 +61,7 @@ class GameController {
     };
 
     private playSound(location: Square, destination: Square): void {
+        if (!this.soundOn) return;
         const locationPiece = this.gameEngine.board.getPiece(location);
         const destinationPiece = this.gameEngine.board.getPiece(destination);
 

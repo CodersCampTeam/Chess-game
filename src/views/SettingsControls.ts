@@ -1,6 +1,6 @@
 class SettingsControls {
     element: HTMLDivElement;
-    constructor() {
+    constructor(private handleSounds: (soundsOn: boolean) => void) {
         const settings = document.createElement('div');
         this.element = settings;
         this.addSettingsForm();
@@ -25,7 +25,7 @@ class SettingsControls {
         form.classList.add('form');
         form.classList.add('form--closed');
         form.innerHTML = `
-            <p class = "form__header"> Your preferences </p>
+            <p class = "form__header">Settings</p>
             <p class="form__header--option">Theme</p>                
             <div class="form__option">
                 <input type="radio" id="gambit" name="layout" value="gambit">
@@ -44,19 +44,24 @@ class SettingsControls {
             </div>  
             <p class="form__header--option">Sounds</p>   
             <div class="form__option">
-                <input type="radio" id="soundsoff" name="sounds" value="off">
-                <label for="soundsoff" class="form__label">Off</label>
-                <input type="radio" id="soundson" name="sounds" value="on">
-                <label for="soundson" class="form__label">On</label>
+                <input type="radio" id="noSound" name="sounds" value="off">
+                <label for="noSound" class="form__label">Off</label>
+                <input type="radio" id="soundOn" name="sounds" value="on">
+                <label for="soundOn" class="form__label">On</label>
             </div>`;
         const submitButton = document.createElement('div');
         submitButton.innerHTML = `<button type="button" class="form__button">Save settings</button>`;
         submitButton.onclick = () => this.saveSettings();
         form.appendChild(submitButton);
         const exitButton = document.createElement('div');
-        exitButton.innerHTML = `<button type="button" class="form__button">End game</button>`;
+        exitButton.innerHTML = `<button type="button" class="form__button--exit">End game</button>`;
         exitButton.onclick = () => window.location.reload();
         form.appendChild(exitButton);
+        const closeButton = document.createElement('span');
+        closeButton.classList.add('form__close');
+        closeButton.innerHTML = `&times`;
+        closeButton.onclick = () => form.classList.add('form--closed');
+        form.prepend(closeButton);
         this.element.appendChild(form);
     }
 
@@ -67,11 +72,13 @@ class SettingsControls {
     saveSettings(): void {
         const layout = document.querySelector('input[name="layout"]:checked') as HTMLInputElement;
         const pieces = document.querySelector('input[name="pieces"]:checked') as HTMLInputElement;
+        const sounds = document.querySelector('input[name="sounds"]:checked') as HTMLInputElement;
         document
             .querySelector('body')
             ?.classList.remove('body--potter', 'body--gambit', 'body--classic', 'body--modern');
         document.querySelector('body')?.classList.add(`body--${layout?.value}`, `body--${pieces?.value}`);
         this.element.querySelector('.form')?.classList.add('form--closed');
+        this.handleSounds(sounds.value === 'on');
     }
 }
 

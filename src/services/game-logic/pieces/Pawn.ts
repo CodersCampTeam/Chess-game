@@ -10,19 +10,8 @@ class Pawn extends Piece {
 
     getPossibleMoves(board: Board): Square[] {
         const moves: Square[] = [];
-        let specialMove: Square | null = null;
 
-        const moveDirection = this.getMoveDirection();
-        const move = this.prepareMove(moveDirection);
-
-        if (!this.hasMoved) {
-            specialMove = this.prepareMove(moveDirection * 2);
-        }
-
-        if (move) moves.push(move);
-        if (specialMove) moves.push(specialMove);
-
-        this.removeMoveIfEnemy(board, moves);
+        this.setForwardMoves(board, moves);
         this.setPawnCaptures(board, moves);
         this.enPassant(board, moves);
 
@@ -35,6 +24,20 @@ class Pawn extends Piece {
         }
 
         super.move(destination);
+    }
+
+    private setForwardMoves(board: Board, pieceMoves: Square[]): void {
+        let specialMove: Square | null = null;
+        const moveDirection = this.getMoveDirection();
+        const move = this.prepareMove(moveDirection);
+
+        if (!this.hasMoved && move && !board.getPiece(move)) {
+            specialMove = this.prepareMove(moveDirection * 2);
+        }
+
+        // append moves if square is not occupied
+        if (move && !board.getPiece(move)) pieceMoves.push(move);
+        if (specialMove && !board.getPiece(specialMove)) pieceMoves.push(specialMove);
     }
 
     private getCapturingSquares(): Square[] {
@@ -62,17 +65,6 @@ class Pawn extends Piece {
 
     private isOutOfBoundaries(move: Square): boolean {
         return move.row > 7 || move.column > 7 || move.row < 0 || move.column < 0;
-    }
-
-    /**
-     * Removes move from array if on target square stands the enemy
-     */
-    private removeMoveIfEnemy(board: Board, pieceMoves: Square[]): void {
-        pieceMoves.forEach((move) => {
-            if (board.getPiece(move) && !board.isOccupiedBySameColorPiece(move, this)) {
-                pieceMoves.pop();
-            }
-        });
     }
 
     private setPawnCaptures(board: Board, pieceMoves: Square[]): void {

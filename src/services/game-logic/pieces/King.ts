@@ -17,7 +17,6 @@ class King extends Piece {
             [1, -1]
         ];
         if (!this.hasMoved) positions = [...positions, [0, 2], [0, -2]];
-        const [row, column] = positions;
 
         const possibleMoves = positions.map(([row, column]) => ({
             row: this.position.row + row,

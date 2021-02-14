@@ -24,14 +24,15 @@ class GameEngine {
             .filter((move) => this.moveNotResultWithCheck(move, piece, square));
     };
 
-    moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square) {
-        const potentialMove: Square = { row: move.row, column: move.column };
+    moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square): boolean {
+        const potentialMove = new Square(move.row, move.column);
         const potentialPiece = this.board.getPiece(potentialMove);
 
-        this.movePiece(square, potentialMove);
+        this.movePiece(square, potentialMove, true);
+        piece!.hasMoved = true;
         const isMovePossible = !this.isCheck(piece);
 
-        this.movePiece(potentialMove, square);
+        this.movePiece(potentialMove, square, true);
         piece!.hasMoved = false;
 
         if (potentialPiece)
@@ -40,9 +41,9 @@ class GameEngine {
         return isMovePossible;
     }
 
-    private isCheck(piece: Piece | null): Boolean {
+    private isCheck(piece: Piece | null): boolean {
         const color = piece?.color === Colors.BLACK ? Colors.WHITE : Colors.BLACK;
-        let currentPlayerKing: Square | undefined = this.getKingForCheck(piece)?.position;
+        let currentPlayerKing = this.getKingForCheck(piece)?.position;
         const isChecked = this.isKingUnderCheck(color, currentPlayerKing);
         return isChecked;
     }
@@ -62,7 +63,9 @@ class GameEngine {
     getKingForCheck = (piece: Piece | null): King | null => {
         let king = null;
         this.board.checkAllSquares((square: Piece) => {
-            if (square && square?.color === piece?.color && square.name === PieceNames.KING) king = square;
+            if (square && square?.color === piece?.color && square.name === PieceNames.KING) {
+                king = square;
+            }
         });
         return king;
     };
@@ -77,11 +80,11 @@ class GameEngine {
         }
     }
 
-    public movePiece(location: Square, destination: Square): void {
+    public movePiece(location: Square, destination: Square, potentialMove: boolean): void {
         const piece = this.board.getPiece(location);
         if (piece) {
             this.runSpecialRoutines(piece?.position, destination);
-            this.board.movePiece(location, destination);
+            this.board.movePiece(location, destination, potentialMove);
         }
     }
 
@@ -98,12 +101,14 @@ class GameEngine {
         if (destination.column - location.column === Constants.KINGSIDE_CASTLING) {
             this.board.movePiece(
                 { row: location.row, column: Constants.KINGSIDE_ROOK_COLUMN },
-                { row: location.row, column: Constants.KINGSIDE_ROOK_DESTINATION_COLUMN }
+                { row: location.row, column: Constants.KINGSIDE_ROOK_DESTINATION_COLUMN },
+                false
             );
         } else if (destination.column - location.column === Constants.QUEENSIDE_CASTLING) {
             this.board.movePiece(
                 { row: location.row, column: Constants.QUEENSIDE_ROOK_COLUMN },
-                { row: location.row, column: Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN }
+                { row: location.row, column: Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN },
+                false
             );
         }
     }

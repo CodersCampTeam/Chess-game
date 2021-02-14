@@ -27,17 +27,17 @@ class Board {
         return this.state[square.row][square.column];
     }
 
-    public checkAllSquares = (f: any) => {
+    public checkAllSquares = (callback: any) => {
         this.state.forEach((row) => {
             row.forEach((square) => {
-                f(square);
+                callback(square);
             });
         });
     };
 
-    public movePiece(location: Square, destination: Square): void {
+    public movePiece(location: Square, destination: Square, potentialMove: boolean): void {
         const piece = this.getPiece(location);
-        if (piece) this.movesHistory.push([piece, destination]);
+        if (!potentialMove && piece) this.movesHistory.push([piece, destination]);
 
         this.state[location.row][location.column]?.move(destination);
         this.state[destination.row][destination.column] = this.state[location.row][location.column];

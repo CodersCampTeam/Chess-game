@@ -36,7 +36,7 @@ class GameController {
 
             if (isLegalMove) {
                 this.playSound(this.activeSquare, square);
-                this.gameEngine.movePiece(this.activeSquare, square);
+                this.gameEngine.movePiece(this.activeSquare, square, false);
                 this.boardView.render(this.gameEngine.board);
                 this.changePlayer();
             }

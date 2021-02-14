@@ -23,25 +23,25 @@ class GameEngine {
             .filter((destination) => !this.isOccupiedBySameColor(destination, piece))
             .filter((move) => this.moveNotResultWithCheck(move, piece, square));
 
-        const firstCollission = this.getFirstCollission(square);
+        const firstCollision = this.getFirstCollision(square);
 
         if (piece?.name === PieceNames.ROOK || piece?.name === PieceNames.QUEEN || piece?.name === PieceNames.PAWN) {
             const rook = legalMoves
-                .filter((square) => !(square.row < firstCollission[0] && square.column === piece.position.column))
-                .filter((square) => !(square.row > firstCollission[1] && square.column === piece.position.column))
-                .filter((square) => !(square.column < firstCollission[2] && square.row === piece.position.row))
-                .filter((square) => !(square.column > firstCollission[3] && square.row === piece.position.row))
-                .filter((square) => !(square.row < firstCollission[4] && square.column < piece.position.column))
-                .filter((square) => !(square.row > firstCollission[5] && square.column < piece.position.column))
-                .filter((square) => !(square.row < firstCollission[6] && square.column > piece.position.column))
-                .filter((square) => !(square.row > firstCollission[7] && square.column > piece.position.column));
+                .filter((square) => !(square.row < firstCollision[0] && square.column === piece.position.column))
+                .filter((square) => !(square.row > firstCollision[1] && square.column === piece.position.column))
+                .filter((square) => !(square.column < firstCollision[2] && square.row === piece.position.row))
+                .filter((square) => !(square.column > firstCollision[3] && square.row === piece.position.row))
+                .filter((square) => !(square.row < firstCollision[4] && square.column < piece.position.column))
+                .filter((square) => !(square.row > firstCollision[5] && square.column < piece.position.column))
+                .filter((square) => !(square.row < firstCollision[6] && square.column > piece.position.column))
+                .filter((square) => !(square.row > firstCollision[7] && square.column > piece.position.column));
             return rook;
         } else if (piece?.name === PieceNames.BISHOP) {
             const bishop = legalMoves
-                .filter((square) => !(square.row < firstCollission[4] && square.column < piece.position.column))
-                .filter((square) => !(square.row > firstCollission[5] && square.column < piece.position.column))
-                .filter((square) => !(square.row < firstCollission[6] && square.column > piece.position.column))
-                .filter((square) => !(square.row > firstCollission[7] && square.column > piece.position.column));
+                .filter((square) => !(square.row < firstCollision[4] && square.column < piece.position.column))
+                .filter((square) => !(square.row > firstCollision[5] && square.column < piece.position.column))
+                .filter((square) => !(square.row < firstCollision[6] && square.column > piece.position.column))
+                .filter((square) => !(square.row > firstCollision[7] && square.column > piece.position.column));
 
             return bishop;
         } else return legalMoves;
@@ -63,7 +63,7 @@ class GameEngine {
         return collisions;
     };
 
-    private getFirstCollission = (square: Square): number[] => {
+    private getFirstCollision = (square: Square): number[] => {
         const directions: number[] = [];
         const collisions = this.detectAllCollisions(square);
         const piecePosition = this.board.getPiece(square)?.position;
@@ -71,7 +71,7 @@ class GameEngine {
             up,
             down,
             left,
-            rigth,
+            right,
             diagonallyUpLeft,
             diagonallyDownLeft,
             diagonallyUpRight,
@@ -102,14 +102,14 @@ class GameEngine {
                 .map((e) => e!.column)
         );
         directions.push(left);
-        rigth = Math.min(
+        right = Math.min(
             ...collisions
                 .filter((obj) => {
                     return (obj!.column > piecePosition!.column) && (obj?.row === piecePosition?.row);
                 })
                 .map((e) => e!.column)
         );
-        directions.push(rigth);
+        directions.push(right);
         diagonallyUpLeft = Math.max(
             ...collisions
                 .filter((obj) => {

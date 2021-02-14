@@ -176,11 +176,41 @@ class GameEngine {
         let checked = false;
         this.board.checkAllSquares((square: Piece) => {
             if (square && square.color === color) {
-                checked =
-                    checked ||
-                    square
-                        .getPossibleMoves(this.board)
-                        .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
+                const firstCollision = this.getFirstCollision(square.position);
+                if (
+                    square?.name === PieceNames.ROOK ||
+                    square?.name === PieceNames.QUEEN ||
+                    square?.name === PieceNames.PAWN
+                ) {
+                    checked =
+                        checked ||
+                        square
+                            .getPossibleMoves(this.board)
+                            .filter((move) => !(move.row < firstCollision[0] && move.column === square.position.column))
+                            .filter((move) => !(move.row > firstCollision[1] && move.column === square.position.column))
+                            .filter((move) => !(move.column < firstCollision[2] && move.row === square.position.row))
+                            .filter((move) => !(move.column > firstCollision[3] && move.row === square.position.row))
+                            .filter((move) => !(move.row < firstCollision[4] && move.column < square.position.column))
+                            .filter((move) => !(move.row > firstCollision[5] && move.column < square.position.column))
+                            .filter((move) => !(move.row < firstCollision[6] && move.column > square.position.column))
+                            .filter((move) => !(move.row > firstCollision[7] && move.column > square.position.column))
+                            .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
+                } else if (square?.name === PieceNames.BISHOP) {
+                    checked =
+                        checked ||
+                        square
+                            .getPossibleMoves(this.board)
+                            .filter((move) => !(move.row < firstCollision[4] && move.column < square.position.column))
+                            .filter((move) => !(move.row > firstCollision[5] && move.column < square.position.column))
+                            .filter((move) => !(move.row < firstCollision[6] && move.column > square.position.column))
+                            .filter((move) => !(move.row > firstCollision[7] && move.column > square.position.column))
+                            .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
+                } else
+                    checked =
+                        checked ||
+                        square
+                            .getPossibleMoves(this.board)
+                            .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
             }
         });
         return checked;

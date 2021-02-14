@@ -7,6 +7,7 @@ import { Piece } from './pieces/Piece';
 import { King } from './pieces/King';
 import { Knight } from './pieces/Knight';
 import { Queen } from './pieces/Queen';
+import { PieceNames } from '../../enums';
 
 class Board {
     public static BOARD_SIZE = 8;
@@ -59,6 +60,22 @@ class Board {
     public popLastMove(): [Piece, Square] | undefined {
         return this.movesHistory.pop();
     }
+    public promotePawn = (square: Square, selectedPiece: PieceNames, color: Colors): void => {
+        switch (selectedPiece) {
+            case PieceNames.BISHOP:
+                this.addPiece(new Bishop({ row: square.row, column: square.column }, color));
+                break;
+            case PieceNames.KNIGHT:
+                this.addPiece(new Knight({ row: square.row, column: square.column }, color));
+                break;
+            case PieceNames.QUEEN:
+                this.addPiece(new Queen({ row: square.row, column: square.column }, color));
+                break;
+            case PieceNames.ROOK:
+                this.addPiece(new Rook({ row: square.row, column: square.column }, color));
+                break;
+        }
+    };
 
     private setup(): void {
         this.setupPawns();

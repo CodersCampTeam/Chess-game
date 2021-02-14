@@ -1,7 +1,6 @@
 #board {
     display: flex;
     flex-wrap: wrap;
-    outline: 5px black solid;
     width: 80vh;
     height: 80vh;
     position: relative;
@@ -72,7 +71,7 @@
 .light {
     background: rgb(251, 219, 120, 0.8);
     .body--potter & {
-        background: rgba(230, 219, 188, 0.8);
+        background: rgba(200, 210, 220, 0.8);
     }
 }
 

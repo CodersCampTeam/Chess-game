@@ -15,10 +15,13 @@ $box-shadow-property: var($box-shadow-simple), 4px 4px 40px $base-orange, inset 
     padding: 0;
     box-sizing: border-box;
     outline: none;
+    font-family: 'Halant', serif;
+    font-weight: 300;
 }
 
 h1 {
     color: $base-light-orange;
+    font-weight: 500;
 }
 
 body {

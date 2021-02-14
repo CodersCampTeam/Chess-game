@@ -47,13 +47,17 @@
         justify-items: center;
         align-self: center;
         z-index: 4;
-        opacity: 0.7;
+        opacity: 0.9;
         width: 50vh;
         height: auto;
-        padding: 2vh;
+        padding: 4vh;
         background-color: $base-white;
         text-align: center;
+        outline: dashed 2px $base-orange;
+        outline-offset: -1.7vh;
+        border: solid 4px $base-orange;
     }
+
     &__unit {
         display: flex;
         flex-direction: column;
@@ -76,6 +80,9 @@
             font-weight: bold;
             margin-top: 1vh;
         }
+        & p {
+            font-weight: bold;
+        }
     }
     &__option {
         margin: 1vh;
@@ -92,7 +99,10 @@
             height: 2rem;
             width: 16rem;
             font-size: 1.2rem;
-            padding: 1rem;
+            padding: 1.2rem;
+            border-radius: 4px;
+            border: solid 2px $base-light-orange;
+            text-align: center;
         }
     }
     &__label {
@@ -105,7 +115,10 @@
         margin-top: 1vh;
         font-size: 3vh;
         padding: 1vh;
-        color: $base-light-orange;
+        color: $base-orange;
+        border: solid 3px $base-light-orange;
+        border-radius: $border-radius;
+        font-weight: 500;
         &:hover {
             color: $base-black;
         }

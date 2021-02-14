@@ -26,13 +26,16 @@
     padding: 3vh 5vh;
     text-align: center;
     justify-content: space-between;
+    outline: dashed 2px $base-orange;
+    outline-offset: -1.7vh;
+    border: solid 4px $base-orange;
     &--closed {
         display: none;
     }
     &__header {
         text-transform: uppercase;
-        font-family: sans-serif;
         color: $base-light-orange;
+        font-weight: bold;
         font-size: 4vh;
         &--option {
             font-size: 3vh;
@@ -55,17 +58,41 @@
     &__label {
         font-size: 3vh;
         color: $base-black;
+        padding: 1vh;
         &:hover {
             color: $base-light-orange;
         }
     }
-    &__button {
+    &__button,
+    &__button--exit {
         margin-top: 1vh;
         font-size: 3vh;
         padding: 1vh;
-        color: $base-light-orange;
+        color: $base-orange;
+        border: solid 3px $base-light-orange;
+        border-radius: $border-radius;
+        font-weight: 500;
         &:hover {
             color: $base-black;
         }
+        &--exit {
+            color: red;
+        }
+    }
+    &__close {
+        position: absolute;
+        right: 3vh;
+        top: 1vh;
+        font-size: 4vh;
+        font-weight: bold;
+        border: none;
+        display: inline-block;
+        vertical-align: middle;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        text-align: center;
+        cursor: pointer;
+        white-space: nowrap;
     }
 }

@@ -81,7 +81,7 @@ class GameEngine {
         up = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) && (obj!.column === piecePosition!.column);
+                    return obj!.row < piecePosition!.row && obj!.column === piecePosition!.column;
                 })
                 .map((e) => e!.row)
         );
@@ -89,7 +89,7 @@ class GameEngine {
         down = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && (obj?.column === piecePosition?.column);
+                    return obj!.row > piecePosition!.row && obj?.column === piecePosition?.column;
                 })
                 .map((e) => e!.row)
         );
@@ -97,7 +97,7 @@ class GameEngine {
         left = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column < piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column < piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -105,7 +105,7 @@ class GameEngine {
         right = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column > piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column > piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -113,8 +113,10 @@ class GameEngine {
         diagonallyUpLeft = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) &&
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column);
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -122,8 +124,10 @@ class GameEngine {
         diagonallyDownLeft = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) &&
-                        (obj!.row + obj!.column === piecePosition!.row + piecePosition!.column);
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -131,7 +135,10 @@ class GameEngine {
         diagonallyUpRight = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row ) && (obj!.row + obj!.column) === (piecePosition!.row + piecePosition!.column)
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -139,14 +146,26 @@ class GameEngine {
         diagonallyDownRight = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && 
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column)
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
         directions.push(diagonallyDownRight);
         return directions;
     };
+
+    isCheckMate(selectedPiece: Piece | null): boolean {
+        let checkedMate: boolean[] = [];
+        this.board.checkAllSquares((square: Piece) => {
+            if (square && square.color != selectedPiece?.color) {
+                this.getLegalMoves(square.position).length > 0 ? checkedMate.push(false) : checkedMate.push(true);
+            }
+        });
+        return checkedMate.every((el) => el);
+    }
 
     moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square): boolean {
         const potentialMove = new Square(move.row, move.column);

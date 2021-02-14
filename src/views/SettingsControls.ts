@@ -25,7 +25,6 @@ class SettingsControls {
         form.classList.add('form');
         form.classList.add('form--closed');
         form.innerHTML = `
-        <span class="form__close">&times;</span>
             <p class = "form__header">Settings</p>
             <p class="form__header--option">Theme</p>                
             <div class="form__option">
@@ -58,7 +57,11 @@ class SettingsControls {
         exitButton.innerHTML = `<button type="button" class="form__button--exit">End game</button>`;
         exitButton.onclick = () => window.location.reload();
         form.appendChild(exitButton);
-        form.onclick = () => form.classList.add('form--closed');
+        const closeButton = document.createElement('span');
+        closeButton.classList.add('form__close');
+        closeButton.innerHTML = `&times`;
+        closeButton.onclick = () => form.classList.add('form--closed');
+        form.prepend(closeButton);
         this.element.appendChild(form);
     }
 

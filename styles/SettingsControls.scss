@@ -34,7 +34,6 @@
     }
     &__header {
         text-transform: uppercase;
-        font-family: sans-serif;
         color: $base-light-orange;
         font-weight: bold;
         font-size: 4vh;
@@ -92,7 +91,6 @@
         overflow: hidden;
         text-decoration: none;
         color: inherit;
-        background-color: inherit;
         text-align: center;
         cursor: pointer;
         white-space: nowrap;

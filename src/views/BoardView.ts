@@ -12,7 +12,6 @@ class BoardView {
         board.id = 'board';
         this.squareViews.forEach(({ element }) => board.appendChild(element));
         this.generateNotation(board);
-
         document.querySelector('#app')?.appendChild(board);
     }
 

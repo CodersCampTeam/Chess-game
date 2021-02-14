@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;700&family=Halant:wght@400;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 $base-black: #000000;
 $base-dark-blue: #14213d;
 $base-grey: rgb(43, 43, 43);
@@ -41,6 +42,10 @@ body {
     }
     &.body--potter {
         background-image: url('/static/images/background_potter.jpg');
+
+        .logbox {
+            background-color:  rgba(200, 210, 220, 0.6);
+        }
     }
 }
 

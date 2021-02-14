@@ -87,6 +87,24 @@
     }
 }
 
+.logbox {
+    position: absolute;
+    top: 0;
+    left: -15rem;
+    width: 11rem;
+    height: 24rem;
+    padding: 0.5em;
+    background-color: rgba(240, 230, 140, 0.6);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    font-size: 1.3rem;
+    border-radius: 1rem;
+    font-weight: 400;
+}
+.logbox::-webkit-scrollbar {
+    display: none;
+}
+
 @media (max-width: 768px) {
     #board {
         width: 64vh;
@@ -120,6 +138,12 @@
             height: 8vh;
         }
     }
+    .logbox {
+        top: -22rem;
+        left: 15rem;
+        width: 10rem;
+        height: 18rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -152,5 +176,13 @@
             width: 2vh;
             height: 5vh;
         }
+    }
+    .logbox {
+        top: -15rem;
+        left: 7rem;
+        width: 8rem;
+        height: 10rem;
+        font-size: 1rem;
+      
     }
 }

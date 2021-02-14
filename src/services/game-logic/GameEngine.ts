@@ -81,7 +81,7 @@ class GameEngine {
         up = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) && (obj!.column === piecePosition!.column);
+                    return obj!.row < piecePosition!.row && obj!.column === piecePosition!.column;
                 })
                 .map((e) => e!.row)
         );
@@ -89,7 +89,7 @@ class GameEngine {
         down = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && (obj?.column === piecePosition?.column);
+                    return obj!.row > piecePosition!.row && obj?.column === piecePosition?.column;
                 })
                 .map((e) => e!.row)
         );
@@ -97,7 +97,7 @@ class GameEngine {
         left = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column < piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column < piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -105,7 +105,7 @@ class GameEngine {
         right = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column > piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column > piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -113,8 +113,10 @@ class GameEngine {
         diagonallyUpLeft = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) &&
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column);
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -122,8 +124,10 @@ class GameEngine {
         diagonallyDownLeft = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) &&
-                        (obj!.row + obj!.column === piecePosition!.row + piecePosition!.column);
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -131,7 +135,10 @@ class GameEngine {
         diagonallyUpRight = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row ) && (obj!.row + obj!.column) === (piecePosition!.row + piecePosition!.column)
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -139,8 +146,10 @@ class GameEngine {
         diagonallyDownRight = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && 
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column)
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -174,7 +183,7 @@ class GameEngine {
 
     isKingUnderCheck(color: Colors, piecePosition: Square | undefined): boolean {
         let checked = false;
-        this.board.checkAllSquares((square: Piece) => {
+        this.board.checkAllSquares((square: Piece | null) => {
             if (square && square.color === color) {
                 const firstCollision = this.getFirstCollision(square.position);
                 if (
@@ -218,7 +227,7 @@ class GameEngine {
 
     getKingForCheck = (piece: Piece | null): King | null => {
         let king = null;
-        this.board.checkAllSquares((square: Piece) => {
+        this.board.checkAllSquares((square: Piece | null) => {
             if (square && square.color === piece?.color && square.name === PieceNames.KING) {
                 king = square;
             }

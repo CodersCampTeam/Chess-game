@@ -1,6 +1,7 @@
-import { PieceNames, Constants } from '../../enums';
+import { PieceNames, Constants, Colors } from '../../enums';
 import { Square } from '../../models/Square';
 import { Board } from './Board';
+import { King } from './pieces/King';
 import { Piece } from './pieces/Piece';
 
 class GameEngine {
@@ -12,13 +13,61 @@ class GameEngine {
 
     getLegalMoves = (square: Square): Square[] => {
         const piece = this.board.getPiece(square);
-        let legalMoves = piece?.getPossibleMoves(this.board).filter(this.isOnBoard) ?? [];
+        let legalMoves = piece?.getPossibleMoves(this.board) ?? [];
         if (piece?.name === PieceNames.KING) {
             legalMoves = legalMoves.filter(
                 (move) => !this.isCastling(move, piece) || this.isCastlingLegal(move, piece)
             );
         }
-        return legalMoves.filter((destination) => !this.isOccupiedBySameColor(destination, piece));
+        return legalMoves
+            .filter((destination) => !this.isOccupiedBySameColor(destination, piece))
+            .filter((move) => this.moveNotResultWithCheck(move, piece, square));
+    };
+
+    moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square): boolean {
+        const potentialMove = new Square(move.row, move.column);
+        const potentialPiece = this.board.getPiece(potentialMove);
+
+        this.movePiece(square, potentialMove, true);
+        piece!.hasMoved = true;
+        const isMovePossible = !this.isCheck(piece);
+
+        this.movePiece(potentialMove, square, true);
+        piece!.hasMoved = false;
+
+        if (potentialPiece)
+            this.board.state[potentialPiece.position.row][potentialPiece.position.column] = potentialPiece;
+
+        return isMovePossible;
+    }
+
+    private isCheck(piece: Piece | null): boolean {
+        const color = piece?.color === Colors.BLACK ? Colors.WHITE : Colors.BLACK;
+        let currentPlayerKing = this.getKingForCheck(piece)?.position;
+        const isChecked = this.isKingUnderCheck(color, currentPlayerKing);
+        return isChecked;
+    }
+
+    isKingUnderCheck(color: Colors, piecePosition: Square | undefined): boolean {
+        let checked = false;
+        this.board.checkAllSquares((square: Piece) => {
+            if (square && square.color === color) {
+                checked = square
+                    .getPossibleMoves(this.board)
+                    .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
+            }
+        });
+        return checked;
+    }
+
+    getKingForCheck = (piece: Piece | null): King | null => {
+        let king = null;
+        this.board.checkAllSquares((square: Piece) => {
+            if (square && square?.color === piece?.color && square.name === PieceNames.KING) {
+                king = square;
+            }
+        });
+        return king;
     };
 
     public runSpecialRoutines(location: Square, destination: Square): void {
@@ -31,11 +80,11 @@ class GameEngine {
         }
     }
 
-    public movePiece(location: Square, destination: Square): void {
+    public movePiece(location: Square, destination: Square, potentialMove: boolean): void {
         const piece = this.board.getPiece(location);
         if (piece) {
             this.runSpecialRoutines(piece?.position, destination);
-            this.board.movePiece(location, destination);
+            this.board.movePiece(location, destination, potentialMove);
         }
     }
 
@@ -52,12 +101,14 @@ class GameEngine {
         if (destination.column - location.column === Constants.KINGSIDE_CASTLING) {
             this.board.movePiece(
                 { row: location.row, column: Constants.KINGSIDE_ROOK_COLUMN },
-                { row: location.row, column: Constants.KINGSIDE_ROOK_DESTINATION_COLUMN }
+                { row: location.row, column: Constants.KINGSIDE_ROOK_DESTINATION_COLUMN },
+                false
             );
         } else if (destination.column - location.column === Constants.QUEENSIDE_CASTLING) {
             this.board.movePiece(
                 { row: location.row, column: Constants.QUEENSIDE_ROOK_COLUMN },
-                { row: location.row, column: Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN }
+                { row: location.row, column: Constants.QUEENSIDE_ROOK_DESTINATION_COLUMN },
+                false
             );
         }
     }
@@ -86,11 +137,6 @@ class GameEngine {
     private canMoveTo = (from: Square, to: Square): boolean => {
         return this.getLegalMoves(from).some(({ row, column }) => row === to.row && column === to.column);
     }; // might be useful for 'check'
-
-    private isOnBoard = (square: Square): boolean => {
-        // here or in knight.ts (for now knights can get outside the board)
-        return square.row >= 0 && square.row < 8 && square.column >= 0 && square.column < 8;
-    };
 
     private isOccupiedBySameColor = (square: Square, piece: Piece | null): boolean =>
         this.board.getPiece(square)?.color === piece?.color;

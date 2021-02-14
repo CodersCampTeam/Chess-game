@@ -11,8 +11,8 @@ import { Queen } from './pieces/Queen';
 class Board {
     public static BOARD_SIZE = 8;
 
-    private state: Array<Array<Piece | null>>;
     private movesHistory: [Piece, Square][] = [];
+    public state: Array<Array<Piece | null>>;
 
     constructor() {
         this.state = new Array(Board.BOARD_SIZE);
@@ -27,9 +27,17 @@ class Board {
         return this.state[square.row][square.column];
     }
 
-    public movePiece(location: Square, destination: Square): void {
+    public checkAllSquares = (callback: any) => {
+        this.state.forEach((row) => {
+            row.forEach((square) => {
+                callback(square);
+            });
+        });
+    };
+
+    public movePiece(location: Square, destination: Square, potentialMove: boolean): void {
         const piece = this.getPiece(location);
-        if (piece) this.movesHistory.push([piece, destination]);
+        if (!potentialMove && piece) this.movesHistory.push([piece, destination]);
 
         this.state[location.row][location.column]?.move(destination);
         this.state[destination.row][destination.column] = this.state[location.row][location.column];

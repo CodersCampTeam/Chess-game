@@ -18,3 +18,14 @@ describe('Testing Board.setup()', () => {
         });
     });
 });
+
+test(`should run function on all squares`, () => {
+    let arr = [];
+    const board = new Board();
+
+    board.checkAllSquares((square) => {
+        arr.push(square);
+    });
+
+    expect(arr.length).toBe(32);
+});

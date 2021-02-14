@@ -16,7 +16,8 @@ class Knight extends Piece {
             destination.push(new Square(row + possibleRowMoves[i], column + possibleColumnMoves[i]));
         }
 
-        return destination;
+        const knightPossibleMoves = destination.filter((d) => d.row >= 0 && d.row < 8 && d.column >= 0 && d.column < 8);
+        return knightPossibleMoves;
     }
 }
 

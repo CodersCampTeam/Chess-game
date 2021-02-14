@@ -19,9 +19,133 @@ class GameEngine {
                 (move) => !this.isCastling(move, piece) || this.isCastlingLegal(move, piece)
             );
         }
-        return legalMoves
+        legalMoves = legalMoves
             .filter((destination) => !this.isOccupiedBySameColor(destination, piece))
             .filter((move) => this.moveNotResultWithCheck(move, piece, square));
+
+        const firstCollision = this.getFirstCollision(square);
+
+        if (piece?.name === PieceNames.ROOK || piece?.name === PieceNames.QUEEN || piece?.name === PieceNames.PAWN) {
+            const rook = legalMoves
+                .filter((square) => !(square.row < firstCollision[0] && square.column === piece.position.column))
+                .filter((square) => !(square.row > firstCollision[1] && square.column === piece.position.column))
+                .filter((square) => !(square.column < firstCollision[2] && square.row === piece.position.row))
+                .filter((square) => !(square.column > firstCollision[3] && square.row === piece.position.row))
+                .filter((square) => !(square.row < firstCollision[4] && square.column < piece.position.column))
+                .filter((square) => !(square.row > firstCollision[5] && square.column < piece.position.column))
+                .filter((square) => !(square.row < firstCollision[6] && square.column > piece.position.column))
+                .filter((square) => !(square.row > firstCollision[7] && square.column > piece.position.column));
+            return rook;
+        } else if (piece?.name === PieceNames.BISHOP) {
+            const bishop = legalMoves
+                .filter((square) => !(square.row < firstCollision[4] && square.column < piece.position.column))
+                .filter((square) => !(square.row > firstCollision[5] && square.column < piece.position.column))
+                .filter((square) => !(square.row < firstCollision[6] && square.column > piece.position.column))
+                .filter((square) => !(square.row > firstCollision[7] && square.column > piece.position.column));
+
+            return bishop;
+        } else return legalMoves;
+    };
+
+    private detectAllCollisions = (square: Square) => {
+        const possibleMoves = this.board.getPiece(square)?.getPossibleMoves(this.board).flat();
+
+        const piecesPositionsOnBoard = this.board.state
+            .map((e) => Object.entries(e).map(([_, y]) => y?.position))
+            .flat();
+
+        const collisions = piecesPositionsOnBoard.filter((obj) => {
+            return possibleMoves?.some((obj2) => {
+                return obj?.column == obj2?.column && obj?.row == obj2?.row;
+            });
+        });
+
+        return collisions;
+    };
+
+    private getFirstCollision = (square: Square): number[] => {
+        const directions: number[] = [];
+        const collisions = this.detectAllCollisions(square);
+        const piecePosition = this.board.getPiece(square)?.position;
+        let [
+            up,
+            down,
+            left,
+            right,
+            diagonallyUpLeft,
+            diagonallyDownLeft,
+            diagonallyUpRight,
+            diagonallyDownRight
+        ] = directions;
+
+        up = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row < piecePosition!.row) && (obj!.column === piecePosition!.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(up);
+        down = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row > piecePosition!.row) && (obj?.column === piecePosition?.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(down);
+        left = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.column < piecePosition!.column) && (obj?.row === piecePosition?.row);
+                })
+                .map((e) => e!.column)
+        );
+        directions.push(left);
+        right = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.column > piecePosition!.column) && (obj?.row === piecePosition?.row);
+                })
+                .map((e) => e!.column)
+        );
+        directions.push(right);
+        diagonallyUpLeft = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row < piecePosition!.row) &&
+                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyUpLeft);
+        diagonallyDownLeft = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row > piecePosition!.row) &&
+                        (obj!.row + obj!.column === piecePosition!.row + piecePosition!.column);
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyDownLeft);
+        diagonallyUpRight = Math.max(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row < piecePosition!.row ) && (obj!.row + obj!.column) === (piecePosition!.row + piecePosition!.column)
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyUpRight);
+        diagonallyDownRight = Math.min(
+            ...collisions
+                .filter((obj) => {
+                    return (obj!.row > piecePosition!.row) && 
+                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column)
+                })
+                .map((e) => e!.row)
+        );
+        directions.push(diagonallyDownRight);
+        return directions;
     };
 
     moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square): boolean {
@@ -170,7 +294,6 @@ class GameEngine {
                   this.moveNotResultWithCheck(passedSquare, piece, piece?.position)
             : false;
     };
-
     private canMoveTo = (from: Square, to: Square): boolean => {
         return this.getLegalMoves(from).some(({ row, column }) => row === to.row && column === to.column);
     };

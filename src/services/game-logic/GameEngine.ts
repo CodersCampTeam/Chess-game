@@ -11,7 +11,7 @@ class GameEngine {
         this.board = new Board();
     }
 
-    getLegalMoves = (square: Square): Square[] => {
+    getLegalMoves = (square: Square, skipCheck = false): Square[] => {
         const piece = this.board.getPiece(square);
         let legalMoves = piece?.getPossibleMoves(this.board) ?? [];
         if (piece?.name === PieceNames.KING) {
@@ -19,9 +19,8 @@ class GameEngine {
                 (move) => !this.isCastling(move, piece) || this.isCastlingLegal(move, piece)
             );
         }
-        legalMoves = legalMoves
-            .filter((destination) => !this.isOccupiedBySameColor(destination, piece))
-            .filter((move) => this.moveNotResultWithCheck(move, piece, square));
+        legalMoves = legalMoves.filter((destination) => !this.isOccupiedBySameColor(destination, piece));
+        if (!skipCheck) legalMoves = legalMoves.filter((move) => this.moveNotResultWithCheck(move, piece, square));
 
         const firstCollision = this.getFirstCollision(square);
 
@@ -81,7 +80,7 @@ class GameEngine {
         up = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) && (obj!.column === piecePosition!.column);
+                    return obj!.row < piecePosition!.row && obj!.column === piecePosition!.column;
                 })
                 .map((e) => e!.row)
         );
@@ -89,7 +88,7 @@ class GameEngine {
         down = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && (obj?.column === piecePosition?.column);
+                    return obj!.row > piecePosition!.row && obj?.column === piecePosition?.column;
                 })
                 .map((e) => e!.row)
         );
@@ -97,7 +96,7 @@ class GameEngine {
         left = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column < piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column < piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -105,7 +104,7 @@ class GameEngine {
         right = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column > piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column > piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -113,8 +112,10 @@ class GameEngine {
         diagonallyUpLeft = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) &&
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column);
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -122,8 +123,10 @@ class GameEngine {
         diagonallyDownLeft = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) &&
-                        (obj!.row + obj!.column === piecePosition!.row + piecePosition!.column);
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -131,7 +134,10 @@ class GameEngine {
         diagonallyUpRight = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row ) && (obj!.row + obj!.column) === (piecePosition!.row + piecePosition!.column)
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -139,8 +145,10 @@ class GameEngine {
         diagonallyDownRight = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && 
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column)
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -178,9 +186,9 @@ class GameEngine {
             if (square && square.color === color) {
                 checked =
                     checked ||
-                    square
-                        .getPossibleMoves(this.board)
-                        .some((move) => move.row === piecePosition?.row && move.column === piecePosition.column);
+                    this.getLegalMoves(square.position, true).some(
+                        (move) => move.row === piecePosition?.row && move.column === piecePosition.column
+                    );
             }
         });
         return checked;
@@ -290,12 +298,12 @@ class GameEngine {
         };
         return rook
             ? !rook.hasMoved &&
-                  this.canMoveTo(rook.position, rookTarget) &&
+                  this.canMoveTo(rook.position, rookTarget, true) &&
                   this.moveNotResultWithCheck(passedSquare, piece, piece?.position)
             : false;
     };
-    private canMoveTo = (from: Square, to: Square): boolean => {
-        return this.getLegalMoves(from).some(({ row, column }) => row === to.row && column === to.column);
+    private canMoveTo = (from: Square, to: Square, skipCheck = false): boolean => {
+        return this.getLegalMoves(from, skipCheck).some(({ row, column }) => row === to.row && column === to.column);
     };
 
     private isOccupiedBySameColor = (square: Square, piece: Piece | null): boolean =>

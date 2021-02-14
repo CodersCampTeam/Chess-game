@@ -160,7 +160,7 @@ class GameEngine {
     };
 
     isCheckMate(selectedPiece: Piece | null): boolean {
-        let checkedMate: boolean[] = [];
+        const checkedMate: boolean[] = [];
         this.board.checkAllSquares((square: Piece) => {
             if (square && square.color != selectedPiece?.color) {
                 this.getLegalMoves(square.position).length > 0 ? checkedMate.push(false) : checkedMate.push(true);

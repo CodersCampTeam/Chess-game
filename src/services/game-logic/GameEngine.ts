@@ -54,7 +54,7 @@ class GameEngine {
             .map((e) => Object.entries(e).map(([_, y]) => y?.position))
             .flat();
 
-        const collisions = piecesPositionsOnBoard.filter(function (obj) {
+        const collisions = piecesPositionsOnBoard.filter((obj) => {
             return possibleMoves?.some((obj2) => {
                 return obj?.column == obj2?.column && obj?.row == obj2?.row;
             });

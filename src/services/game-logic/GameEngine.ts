@@ -3,7 +3,7 @@ import { Square } from '../../models/Square';
 import { Board } from './Board';
 import { King } from './pieces/King';
 import { Piece } from './pieces/Piece';
-import _ = require('lodash');
+import * as _ from 'lodash';
 
 class GameEngine {
     board: Board;

@@ -50,12 +50,6 @@ class OpeningView {
                     </div>
                 </div>
             </div>
-            <div class="modal__unit">              
-                <p class="modal__header--option">Name</p>               
-                <div class="modal__option">
-                    <input type="modal__input" id="name" name="name" value="" class="modal__option--name"  placeholder="Insert your name">                    
-                </div>
-            </div>
             <div class="modal__unit">
                 <p class="modal__header--option">Pieces</p>  
                 <div class="modal__options">

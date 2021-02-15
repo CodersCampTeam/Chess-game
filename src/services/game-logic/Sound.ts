@@ -5,10 +5,10 @@ class Sound {
     private normalMoveSound: HTMLAudioElement[] = [];
 
     constructor() {
-        this.capturingMoveSound = new Audio('/static/sounds/capture.mp3');
+        this.capturingMoveSound = new Audio('./static/sounds/capture.mp3');
 
         for (let soundIdx = 0; soundIdx < this.AMOUNT_OF_NORMAL_MOVE_SOUNDS; ++soundIdx) {
-            this.normalMoveSound.push(new Audio(`/static/sounds/${soundIdx}.mp3`));
+            this.normalMoveSound.push(new Audio(`./static/sounds/${soundIdx}.mp3`));
         }
     }
 

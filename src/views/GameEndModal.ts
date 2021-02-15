@@ -9,13 +9,15 @@ class GameEndModal {
         this.setRevengeButton(start);
     }
 
-    setGameEndModal(color: Colors | undefined) {
+    setGameEndModal(color: Colors | undefined): void {
         const modal = document.createElement('div');
         modal.innerHTML = `<div class="modal-content-end">
             <h1>gameover</h1>
             <p>${color} win</p>
-            <button type="button" class="form__button start">Revenge</button>
-            <button type="button" class="form__button settings">Back to Settings</button>
+            <div class="modal-content-end__buttons-container">
+                <button type="button" class="form__button start">Revenge</button>
+                <button type="button" class="form__button settings">Back to Settings</button>
+            </div>
         </div>`;
         document.querySelector('#gameEndModal')?.classList.add('displayed');
         document.querySelector('#gameEndModal')?.appendChild(modal);

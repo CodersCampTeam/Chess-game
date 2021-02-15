@@ -8,11 +8,13 @@ import { King } from './pieces/King';
 import { Knight } from './pieces/Knight';
 import { Queen } from './pieces/Queen';
 import { PieceNames } from '../../enums';
+import { MoveLog } from '../../models/MoveLog';
 
 class Board {
     public static BOARD_SIZE = 8;
 
     private movesHistory: [Piece, Square][] = [];
+    public movesLog: MoveLog[] = [];
     public state: Array<Array<Piece | null>>;
 
     constructor() {
@@ -38,7 +40,10 @@ class Board {
 
     public movePiece(location: Square, destination: Square, potentialMove: boolean): void {
         const piece = this.getPiece(location);
-        if (!potentialMove && piece) this.movesHistory.push([piece, destination]);
+        if (!potentialMove && piece) {
+            this.movesHistory.push([piece, destination]);
+            this.movesLog.push(new MoveLog(piece.color, piece.position, { ...destination }));
+        }
 
         this.state[location.row][location.column]?.move(destination);
         this.state[destination.row][destination.column] = this.state[location.row][location.column];

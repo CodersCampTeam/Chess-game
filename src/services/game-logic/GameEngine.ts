@@ -3,6 +3,7 @@ import { Square } from '../../models/Square';
 import { Board } from './Board';
 import { King } from './pieces/King';
 import { Piece } from './pieces/Piece';
+import _ = require('lodash');
 
 class GameEngine {
     board: Board;
@@ -19,6 +20,7 @@ class GameEngine {
                 (move) => !this.isCastling(move, piece) || this.isCastlingLegal(move, piece)
             );
         }
+
         legalMoves = legalMoves
             .filter((destination) => !this.isOccupiedBySameColor(destination, piece))
             .filter((move) => this.moveNotResultWithCheck(move, piece, square));
@@ -81,7 +83,7 @@ class GameEngine {
         up = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) && (obj!.column === piecePosition!.column);
+                    return obj!.row < piecePosition!.row && obj!.column === piecePosition!.column;
                 })
                 .map((e) => e!.row)
         );
@@ -89,7 +91,7 @@ class GameEngine {
         down = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && (obj?.column === piecePosition?.column);
+                    return obj!.row > piecePosition!.row && obj?.column === piecePosition?.column;
                 })
                 .map((e) => e!.row)
         );
@@ -97,7 +99,7 @@ class GameEngine {
         left = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column < piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column < piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -105,7 +107,7 @@ class GameEngine {
         right = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.column > piecePosition!.column) && (obj?.row === piecePosition?.row);
+                    return obj!.column > piecePosition!.column && obj?.row === piecePosition?.row;
                 })
                 .map((e) => e!.column)
         );
@@ -113,8 +115,10 @@ class GameEngine {
         diagonallyUpLeft = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row) &&
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column);
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -122,8 +126,10 @@ class GameEngine {
         diagonallyDownLeft = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) &&
-                        (obj!.row + obj!.column === piecePosition!.row + piecePosition!.column);
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -131,7 +137,10 @@ class GameEngine {
         diagonallyUpRight = Math.max(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row < piecePosition!.row ) && (obj!.row + obj!.column) === (piecePosition!.row + piecePosition!.column)
+                    return (
+                        obj!.row < piecePosition!.row &&
+                        obj!.row + obj!.column === piecePosition!.row + piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -139,8 +148,10 @@ class GameEngine {
         diagonallyDownRight = Math.min(
             ...collisions
                 .filter((obj) => {
-                    return (obj!.row > piecePosition!.row) && 
-                        (obj!.row - obj!.column === piecePosition!.row - piecePosition!.column)
+                    return (
+                        obj!.row > piecePosition!.row &&
+                        obj!.row - obj!.column === piecePosition!.row - piecePosition!.column
+                    );
                 })
                 .map((e) => e!.row)
         );
@@ -149,6 +160,7 @@ class GameEngine {
     };
 
     moveNotResultWithCheck(move: Square, piece: Piece | null, square: Square): boolean {
+        const boardCopy = _.cloneDeep(this.board.state);
         const potentialMove = new Square(move.row, move.column);
         const potentialPiece = this.board.getPiece(potentialMove);
         const hasMoved = piece?.hasMoved || false;
@@ -159,9 +171,10 @@ class GameEngine {
         this.movePiece(potentialMove, square, true);
         piece!.hasMoved = hasMoved;
 
-        if (potentialPiece)
+        if (potentialPiece) {
             this.board.state[potentialPiece.position.row][potentialPiece.position.column] = potentialPiece;
-
+        }
+        this.board.state = boardCopy;
         return isMovePossible;
     }
 
@@ -248,7 +261,14 @@ class GameEngine {
         const enPassatPiece = this.board.getPiece(
             new Square(-locationPiece.getMoveDirection() + destination.row, destination.column)
         );
-        if (enPassatPiece?.name === PieceNames.PAWN && this.board.getLastMove()?.[0] === enPassatPiece) {
+
+        const destinationPiece = this.board.getPiece(destination);
+
+        if (
+            !destinationPiece &&
+            enPassatPiece?.name === PieceNames.PAWN &&
+            JSON.stringify(this.board.getLastMove()?.[0]) === JSON.stringify(enPassatPiece)
+        ) {
             this.board.resetSquare(enPassatPiece.position);
         }
     }

@@ -13,7 +13,10 @@ class Sound {
     }
 
     public playCapturingMoveSound(): void {
-        this.capturingMoveSound.play();
+        const playPromise = this.capturingMoveSound.play();
+        if (playPromise !== undefined) {
+            playPromise.then().catch();
+        }
     }
 
     public playNormalMoveSound(): void {
@@ -24,7 +27,10 @@ class Sound {
         while (this.lastPlayedMoveSound === randomNumber) {
             randomNumber = generateRandomNumber();
         }
-        this.normalMoveSound[randomNumber].play();
+        const playPromise = this.normalMoveSound[randomNumber].play();
+        if (playPromise !== undefined) {
+            playPromise.then().catch();
+        }
         this.lastPlayedMoveSound = randomNumber;
     }
 }

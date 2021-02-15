@@ -1,3 +1,5 @@
+import { settings } from '../services/game-logic/Settings';
+
 class OpeningView {
     element: HTMLDivElement;
     constructor(private saveSettings: (soundOn: boolean) => void) {
@@ -102,6 +104,10 @@ class OpeningView {
 
         this.element.classList.add('modal--closed');
         this.saveSettings(sounds.value === 'on');
+
+        settings.layout = layout?.value;
+        settings.pieces = pieces?.value;
+        settings.sounds = sounds.value;
     }
 
     openModal(): void {

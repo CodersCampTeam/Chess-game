@@ -8,6 +8,7 @@ import { OpeningView } from '../views/OpeningView';
 import { Sound } from '../services/game-logic/Sound';
 import { ModalView } from '../views/ModalView';
 import { PawnPromotionView } from '../views/PawnPromotionView';
+import { GameEndModal } from '../views/GameEndModal';
 
 class GameController {
     boardView: BoardView;
@@ -19,6 +20,7 @@ class GameController {
     sound: Sound;
     soundOn = false;
     modal: ModalView | null;
+    gameEndModal: GameEndModal;
 
     constructor() {
         this.activeSquare = null;
@@ -30,6 +32,7 @@ class GameController {
         this.currentPlayer = Colors.WHITE;
         this.sound = new Sound();
         this.updateBoard();
+        this.gameEndModal = new GameEndModal();
     }
 
     handleUserClick = (square: Square): void => {
@@ -48,6 +51,10 @@ class GameController {
                 if (isPromotionPossible) {
                     this.createPawnPromotionModal(isPromotionPossible, square);
                 } else {
+                    const pieceUpdated = this.gameEngine.board.getPiece(square);
+                    if (this.gameEngine.isCheckMate(pieceUpdated)) {
+                        this.gameEndModal.render(pieceUpdated?.color, this.setNewGame);
+                    }
                     this.changePlayer();
                 }
             }
@@ -58,6 +65,13 @@ class GameController {
             this.boardView.selectSquares(legalMoves);
             this.activeSquare = square;
         }
+    };
+
+    setNewGame = (): void => {
+        this.gameEngine = new GameEngine();
+        this.boardView = new BoardView(this.handleUserClick);
+        this.updateBoard();
+        this.currentPlayer = Colors.WHITE;
     };
 
     private playSound(location: Square, destination: Square): void {

@@ -74,6 +74,8 @@ class GameController {
     setNewGame = (): void => {
         this.gameEngine = new GameEngine();
         this.boardView = new BoardView(this.handleUserClick);
+        this.gameLogView = new GameLogView(this.gameEngine.board.movesLog);
+        this.settingsView = new SettingsControls((soundOn) => (this.soundOn = soundOn));
         this.updateBoard();
         this.currentPlayer = Colors.WHITE;
     };

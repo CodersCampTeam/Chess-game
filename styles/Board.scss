@@ -111,6 +111,12 @@
     display: none;
 }
 
+@media (max-width: 1024px) {
+    .logbox {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     #board {
         width: 64vh;
@@ -145,10 +151,7 @@
         }
     }
     .logbox {
-        top: -22rem;
-        left: 15rem;
-        width: 10rem;
-        height: 18rem;
+        display: none;
     }
 }
 
@@ -184,10 +187,6 @@
         }
     }
     .logbox {
-        top: -15rem;
-        left: 7rem;
-        width: 8rem;
-        height: 10rem;
-        font-size: 1rem;
+      display: none;
     }
 }
